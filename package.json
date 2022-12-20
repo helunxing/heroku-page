@@ -1,0 +1,23 @@
+{
+  "name": "heroku-page",
+  "version": "1.0.0",
+  "description": "",
+  "engines": {
+    "node": "16.x"
+  },
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/helunxing/heroku-page.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/helunxing/heroku-page/issues"
+  },
+  "homepage": "https://github.com/helunxing/heroku-page#readme"
+}
