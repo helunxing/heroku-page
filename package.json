@@ -7,17 +7,11 @@
   },
   "main": "index.js",
   "scripts": {
-    "start": "node server/app.js",
+    "start": "cd server && npm install && node app.js",
+    "local build & start": "cd client && npm install && npm run build && cd ../server && npm install && node app.js",
     "test": "node test.js",
     "build": "cd client && npm install && npm run build",
     "local_start": "cd client && npm install && npm run build && cd ../server && npm install && node app.js"
-  },
-  "dependencies": {
-    "express": "^4.15.2"
-  },
-  "devDependencies": {
-    "got": "^11.3.0",
-    "tape": "^4.7.0"
   },
   "license": "MIT"
 }
