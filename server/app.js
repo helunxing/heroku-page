@@ -2,6 +2,8 @@ const express = require('express')
 const path = require('path')
 const PORT = process.env.PORT || 5001
 
+console.log(process.env.test_value)
+
 app = express()
 
 app.use(express.static(path.resolve(__dirname, '../client/build')));
