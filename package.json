@@ -8,15 +8,9 @@
   "main": "index.js",
   "scripts": {
     "start": "node server/app.js",
+    "local build & start": "cd client && npm install && npm run build && node ../server/app.js",
     "test": "node test.js",
     "build": "cd client && npm install && npm run build"
-  },
-  "dependencies": {
-    "express": "^4.15.2"
-  },
-  "devDependencies": {
-    "got": "^11.3.0",
-    "tape": "^4.7.0"
   },
   "license": "MIT"
 }
