@@ -2,8 +2,6 @@ const express = require('express')
 const path = require('path')
 const PORT = process.env.PORT || 5001
 
-console.log(process.env.test_value)
-
 app = express()
 
 app.use(express.static(path.resolve(__dirname, '../client/build')));
@@ -17,3 +15,6 @@ app.get('*', (req, res) => {
 });
 
 app.listen(PORT, () => console.log(`Listening on ${PORT}`))
+
+console.log(`test_value is ${process.env.test_value}`)
+console.log(`${process.env}`)
