@@ -8,7 +8,7 @@
   "main": "index.js",
   "scripts": {
     "start": "cd server && npm install && node app.js",
-    "deploy": "cd client && npm install && npm run build && cd ../server && npm install && node app.js",
+    "local build & start": "cd client && npm install && npm run build && cd ../server && npm install && node app.js",
     "test": "node test.js",
     "build": "cd client && npm install && npm run build"
   },
