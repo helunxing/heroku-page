@@ -1,20 +1,43 @@
 const express = require('express')
+const request = require("request")
 const path = require('path')
-const request = require("request");
+
 const PORT = process.env.PORT || 5001
+const POSTCODE_URL = process.env.POSTCODE_URL || 'http://localhost:8002/'
+const SECRET_KEY = process.env.SECRET_KEY || 'default_key'
+
+const {auth} = require('express-openid-connect');
+
+const config = {
+    authRequired: false,
+    auth0Logout: true,
+    secret: 'a long, randomly-generated string stored in env',
+    baseURL: 'http://localhost:5001',
+    clientID: 'lRg2odM7Fy0gndvGM4nVELslbfnqyEw1',
+    issuerBaseURL: 'https://hlx.uk.auth0.com'
+};
 
 app = express()
 
-app.use(express.static(path.resolve(__dirname, '../client/build')));
+// auth router attaches /login, /logout, and /callback routes to the baseURL
+app.use(auth(config));
 
-app.get("/api", async (req, response) => {
+// req.isAuthenticated is provided from the auth router
+app.get('/status', (req, res) => {
+    res.send(req.oidc.isAuthenticated() ? 'Logged in' : 'Logged out');
+    console.log(req.oidc)
+});
 
-    const HELLO_WORLD_URL = 'http://34.88.110.168:8080/hello-world-bean';
+const {requiresAuth} = require('express-openid-connect');
+app.get('/profile', requiresAuth(), (req, res) => {
+    res.send(JSON.stringify(req.oidc.user));
+});
 
-    let res_data = {message: "empty"};
+app.get("/postcode/:queryCode", async (req, response) => {
 
+    // console.log(POSTCODE_URL + req.params.queryCode)
     await request.get({
-        url: HELLO_WORLD_URL,
+        url: POSTCODE_URL + req.params.queryCode,
         json: true,
         // headers: {'User-Agent': 'request'}
     }, (err, res, data) => {
@@ -23,19 +46,18 @@ app.get("/api", async (req, response) => {
         } else if (res.statusCode !== 200) {
             console.log('Status:', res.statusCode);
         } else {
-            res_data = data;
-            response.json(res_data);
+            response.json(data);
         }
-        // console.log(res_data);
     });
-    // console.log(res_data);
+
 });
+
+app.use(express.static(path.resolve(__dirname, '../client/build')));
 
 app.get('*', (req, res) => {
     res.sendFile(path.resolve(__dirname, '../client/build', 'index.html'));
 });
 
-app.listen(PORT, () => console.log(`Listening on ${PORT}`))
-
-// console.log(`test_value is ${process.env.test_value}`)
-
+app.listen(PORT, () => {
+    console.log(`Listening on ${PORT}, secret key is ${SECRET_KEY}`)
+})

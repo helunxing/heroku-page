@@ -1,16 +1,21 @@
 import {useState, useEffect} from "react";
 import CheckboxWithLabel from "./components/CheckboxWithLabel";
+import Choice from "./components/Choice";
 
 function App() {
     const [data, setDate] = useState(null);
+
     useEffect(() => {
-        fetch('/api')
+        fetch('/postcode/gxpoigeeg')
             .then((res) => res.json())
-            .then((data) => setDate(data.message));
+            .then((data) => setDate(data));
     }, [])
+
     return (
         <>
-            <h1> {!data ? "Loading" : data} </h1>
+            <div>
+                {/*<Choice dataList={data}/>*/}
+            </div>
         </>
     );
 }
