@@ -5,6 +5,7 @@ const path = require('path')
 const PORT = process.env.PORT || 5001
 const POSTCODE_URL = process.env.POSTCODE_URL || 'http://localhost:8002/'
 const SECRET_KEY = process.env.SECRET_KEY || 'default_key'
+const BASE_URL = process.env.BASE_URL || 'http://localhost:5001'
 
 const {auth} = require('express-openid-connect');
 
@@ -12,7 +13,7 @@ const config = {
     authRequired: false,
     auth0Logout: true,
     secret: 'a long, randomly-generated string stored in env',
-    baseURL: 'http://localhost:5001',
+    baseURL: BASE_URL,
     clientID: 'lRg2odM7Fy0gndvGM4nVELslbfnqyEw1',
     issuerBaseURL: 'https://hlx.uk.auth0.com'
 };
