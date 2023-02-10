@@ -5,6 +5,7 @@ import {FaBars} from 'react-icons/fa';
 import {links} from "../utils/constants";
 // import UserButton from "./UserButton";
 import {useEventsContext} from "../contexts/events_context";
+import Logo from "./Logo";
 
 const NavBar = () => {
     const {openSidebar}=useEventsContext();
@@ -22,13 +23,12 @@ const NavBar = () => {
     //         });
     // }, []);
 
-
     return <NavContainer>
         <div>
             <div className='nav-center'>
                 <div className={"nav-header"}>
                     <Link to={'/'}>
-                        logo image
+                        <Logo/>
                     </Link>
 
                     <button type={'button'} className='nav-toggle' onClick={openSidebar}>

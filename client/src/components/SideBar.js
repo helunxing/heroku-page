@@ -5,6 +5,7 @@ import {FaTimes} from "react-icons/fa";
 
 import {links} from "../utils/constants";
 import {useEventsContext} from "../contexts/events_context";
+import Logo from "./Logo";
 
 const SideBar = () => {
     const {isSideBarOpen, closeSidebar} = useEventsContext();
@@ -12,6 +13,7 @@ const SideBar = () => {
         <aside
             className={`${isSideBarOpen ? 'sidebar show-sidebar' : 'sidebar'}`}>
             <div className='sidebar-header'>
+                <Logo/>
                 {/*<img src={logo} className='logo' alt='logo img' />*/}
                 <button className='close-btn' onClick={closeSidebar}>
                     <FaTimes/>

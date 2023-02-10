@@ -1,6 +1,14 @@
 import React, {useState} from 'react';
 
-const Choice = ({dataList}) => {
+const PostcodeChoice = ({dataList}) => {
+
+    // fetch('/postcode/gxpoigeeg')
+    //     .then((res) => res.json())
+    //     .then((data) => setDate(data));
+
+    // const res = await fetch('/status');
+    // const status_json = await res.json();
+
     const [choice, setChoice] = useState('');
 
     if (dataList === null) {
@@ -13,7 +21,7 @@ const Choice = ({dataList}) => {
         return
     }
 
-    const choiceList = allChoice(dataList).sort()
+    const choiceList = Object.keys(dataList).sort()
 
     return (<>
         {/*<label>address select</label>*/}
@@ -25,13 +33,8 @@ const Choice = ({dataList}) => {
                 return <option value={choice}>{choice}</option>
             })}
         </select>
-        {!choice || <Choice dataList={dataList[choice]}/>}
+        {!choice || <PostcodeChoice dataList={dataList[choice]}/>}
     </>);
 };
 
-const allChoice = (curr) => {
-    return Object.keys(curr)
-    // .map((key) => console.log(curr[key]))
-}
-
-export default Choice;
+export default PostcodeChoice;
