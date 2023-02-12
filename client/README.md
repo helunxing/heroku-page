@@ -2,6 +2,33 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## page explanation
+
+### common parts
+
+link to home page,
+login&signup/ dashboard/ logout(choose 1 in 3) page,
+
+### /
+
+home page, explanation of this website function.
+links for create events.
+events page.
+
+### /user/{id} or /u/{id}
+
+dashboard page, search or host the event
+
+### /events
+
+create events, list of events
+
+### /event/{id} or /e/{id}
+
+join event
+
+user profile
+
 ## Available Scripts
 
 In the project directory, you can run:

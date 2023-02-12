@@ -1,30 +1,11 @@
-# _Project Name_ front end and Backend for Frontend
+# Time Agreement: Backend for Frontend
 
-deploy location: <https://hlx.codes>
+This page is for the Time Agreement web app, 
+specifically its Backend for Frontend part 
+and project overall structure. 
 
-## page explanation
+Other parts introduction for this app:
 
-### common parts
+[front end](./client/README.md)
 
-link to home page,
-login&signup/ dashboard/ logout(choose 1 in 3) page,
-
-### /
-
-home page, explanation of this website function.
-links for create events.
-events page.
-
-### /user/{id} or /u/{id}
-
-dashboard page, search or host the event
-
-### /events
-
-list of events
-
-### /event/{id} or /e/{id}
-
-join event
-
-user profile
+[microservices backend](https://github.com/helunxing/microservices-backend)
