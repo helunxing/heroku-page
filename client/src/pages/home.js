@@ -1,11 +1,10 @@
 import React from 'react';
-import IntroPage from '../components/IntroPage'
+import IntroContent from '../components/IntroContent'
 
 const Home = () => {
 
     return <main>
-        <IntroPage/>
-
+        <IntroContent/>
     </main>;
 
 }
