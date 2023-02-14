@@ -1,35 +1,75 @@
 # Time Agreement: Backend for Frontend
 
 This page is for the Time Agreement web app project, 
-specifically its Backend for Frontend (or called BBF) part 
+specifically its Backend for Frontend (or called BFF) part 
 and project overall structure.
 
 This project is deployed at: <https://hlx.codes>
 
 Other parts introduction for this project:
 
-[front end](./client/README.md)
+[Frontend](./client/README.md)
 
-[microservices backend](https://github.com/helunxing/microservices-backend)
+[Microservices Backend](https://github.com/helunxing/microservices-backend)
 
 ## overall structure
 
 图片
 
-frontend访问BBF提供的restful api, 由BBF访问Microservices，并返回数据给frontend。
+The Frontend directly accesses the restful API provided by the Backend for Frontend (BFF), 
+which in turn interacts with Microservices and returns the required data to the Frontend.
 
-我选择此种结构的原因：
+I chose this structure for several reasons. 
+First, changes made to the Frontend often require corresponding changes to the API. 
+For example, if function A on the Frontend relies on the API of microservice X, 
+and function B on the Frontend relies on the API of microservice Y, 
+a chang to A, require data from Y 
+If there is no BFF layer, then the Frontend API would have to be changed, 
+either by Y providing a new interface to A 
+or by X accessing data from Y and changing its own API.
+With the BFF layer in place, X and Y can simply provide a fixed interface, 
+leaving the integrates data from different sources task of satisfying A's changes to the BFF layer.
 
-有BBF使Microservices API更简洁，不易与前端的功能更改互相影响，且安全。frontend的更改时常是需要联动对API做更改： 
-假设前端功能A依赖于微服务X的API，前端功能B依赖于微服务Y的API。如果对A进行更改，使得其需要一些来自于微服务Y的数据。
-如果没有BBF层存在，那么有两个方案：Y提供一个新接口给A，或者X从Y获得数据，并更改自己的API以满足A的更改。
-当BBF的存在，X和Y可以只需要提供固定的接口，将不同来源的数据整合在一起，满足A的更改的任务放在BBF层进行。
+The benefits of this structure are two-fold. 
+First, it allows microservices to focus on their own functionality and provide clean, basic APIs 
+that are not affected by small modifications on the Frontend. 
+Second, it ensures system security by reducing the need for the Frontend to access redundant data 
+and by keeping BFF complete data and processing logic separate from Frontend, which may be seen or edited by user.
 
-这样做的好处是：
-Microservices可以专注于自己的功能，只提供简洁的基本API，不会被前端的小修改影响。
-保证了系统安全性。减少frontend获得其完成其功能所不必要的多余数据。BBF的数据和处理逻辑不会被用户编辑，安全性较前端直接访问微服务更高。
+Why isn't the BFF treated as a new microservice? 
 
-为什么BBF不是以一个新的微服务的形式存在的？如果在团队中，责任的边界（在这里是Microservices的API交互）越清晰越好。
-对一个人负责所有功能也是一样的。
-将BBF独立于Microservices的意义是将其纳入开发前端时的视角思考，更改前端功能时，在保证API不变的前提下，不需要考虑前端。
-反之亦然。
+It is important to have clear boundaries of responsibility within a team, 
+to minimize unneeded coordination efforts.
+And the same applies to individual responsibilities. 
+The purpose of making the BFF independent of microservices is to consider it in the context of Frontend development 
+and to make changes to the Frontend functionality without affecting the API.
+
+## API provide by BFF introduce
+
+### GET `/status`, `/profile`, `/login`, `/logout`
+
+user third part logging function provide by <https://auth0.com/>
+
+### GET `/api/events`
+
+return all public events
+
+### POST `/api/event`
+
+create new event, return the redirect of its page.
+
+### GET, PUT, DELETE  `/api/event/{eventId}`
+
+return, update, delete event by id.
+
+### GET, POST, PUT, DELETE `/api/join/{eventId}`
+
+create time selection.
+
+### POST `/api/user`
+
+### GET, PUT, DELETE `/api/user/{userSub}`
+
+### GET `/api/postcode/{queryCode}`
+
+return addresses under the given zip code
