@@ -1,46 +1,25 @@
-import React, {useEffect, useState} from 'react';
-import styled from 'styled-components';
+import React from 'react';
+import styled from "styled-components";
 import {Link} from "react-router-dom";
-import {FaBars} from 'react-icons/fa';
-import {links} from "../utils/constants";
-import NavBar from "./NavBar";
+// import { useNavigate } from "react-router-dom";
 
 function UserButton() {
-    return (<>
-    </>);
+    const refreshPage = () => {
+        setTimeout(
+            ()=>{window.location.reload(false);},400
+        )
+    }
+
+    return (<Wrapper className='user-btn-wrapper'>
+        <Link to='/login' className='user-btn' onClick={refreshPage}>
+            Log in
+        </Link>
+        <Link to='/logout' className='logout-btn' onClick={refreshPage}>
+            Log out
+        </Link>
+
+    </Wrapper>);
 }
-
-// <Wrapper className='cart-btn-wrapper'>
-//     <Link to='/cart' className='cart-btn' onClick={closeSidebar}>
-//         Cart
-//         <span className='cart-container'>
-//   <FaShoppingCart />
-//   <span className='cart-value'>{total_items}</span>
-// </span>
-//     </Link>
-//     {myUser ? (
-//         <button
-//             type='button'
-//             className='auth-btn'
-//             onClick={() => {
-//                 clearCart()
-//                 localStorage.removeItem('user')
-//                 logout({ returnTo: window.location.origin })
-//             }}
-//         >
-//             Logout <FaUserMinus />
-//         </button>
-//     ) : (
-//         <button type='button' className='auth-btn' onClick={loginWithRedirect}>
-// {/*            Login <FaUserPlus />*/
-// }
-// {/*        </button>*/
-// }
-// {/*    )}*/
-// }
-// {/*</Wrapper>*/
-// }
-
 
 const Wrapper = styled.div`
   display: grid;
@@ -48,27 +27,28 @@ const Wrapper = styled.div`
   align-items: center;
   width: 225px;
 
-  .cart-btn {
+  .user-btn {
+    border-radius: 25px;
+    border: 2px solid var(--clr-grey-1);
+    padding: 20px;
+    width: 100px;
+    height: 15px;
     color: var(--clr-grey-1);
-    font-size: 1.5rem;
     letter-spacing: var(--spacing);
-    color: var(--clr-grey-1);
     display: flex;
-
+    //overflow: auto;
+    //font-size: 1.5rem;
     align-items: center;
   }
-
   .cart-container {
     display: flex;
     align-items: center;
     position: relative;
-
     svg {
       height: 1.6rem;
       margin-left: 5px;
     }
   }
-
   .cart-value {
     position: absolute;
     top: -10px;
@@ -84,21 +64,44 @@ const Wrapper = styled.div`
     color: var(--clr-white);
     padding: 12px;
   }
+  .logout-btn {
+    
+    border-radius: 25px;
+    border: 2px solid var(--clr-grey-1);
 
-  .auth-btn {
+    padding: 20px;
+    width: 115px;
+    height: 15px;
+    
     display: flex;
     align-items: center;
     background: transparent;
-    border-color: transparent;
-    font-size: 1.5rem;
+    //border-color: transparent;
     cursor: pointer;
     color: var(--clr-grey-1);
     letter-spacing: var(--spacing);
-
     svg {
       margin-left: 5px;
     }
   }
 `
 
-export default NavBar;
+export default UserButton
+
+{/*{myUser ? (*/}
+{/*    <button*/}
+{/*        type='button'*/}
+{/*        className='auth-btn'*/}
+{/*        onClick={() => {*/}
+{/*            clearCart()*/}
+{/*            localStorage.removeItem('user')*/}
+{/*            logout({ returnTo: window.location.origin })*/}
+{/*        }}*/}
+{/*    >*/}
+{/*        Logout <FaUserMinus />*/}
+{/*    </button>*/}
+{/*) : (*/}
+{/*    <button type='button' className='auth-btn' onClick={loginWithRedirect}>*/}
+{/*        Login <FaUserPlus />*/}
+{/*    </button>*/}
+{/*)}*/}

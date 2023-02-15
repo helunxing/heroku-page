@@ -6,6 +6,7 @@ import {FaTimes} from "react-icons/fa";
 import {links} from "../utils/constants";
 import {useEventsContext} from "../contexts/events_context";
 import Logo from "./Logo";
+import UserButton from "./UserButton";
 
 const SideBar = () => {
     const {isSideBarOpen, closeSidebar} = useEventsContext();
@@ -27,6 +28,8 @@ const SideBar = () => {
                     )
                 })}
             </ul>
+
+            <UserButton/>
         </aside>
     </SidebarContainer>);
 };
@@ -101,7 +104,7 @@ const SidebarContainer = styled.div`
     z-index: 999;
   }
 
-  .cart-btn-wrapper {
+  .user-btn-wrapper {
     margin: 2rem auto;
   }
 

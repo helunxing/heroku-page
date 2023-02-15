@@ -6,6 +6,7 @@ import {links} from "../utils/constants";
 // import UserButton from "./UserButton";
 import {useEventsContext} from "../contexts/events_context";
 import Logo from "./Logo";
+import UserButton from "./UserButton";
 
 const NavBar = () => {
     const {openSidebar}=useEventsContext();
@@ -27,7 +28,7 @@ const NavBar = () => {
         <div>
             <div className='nav-center'>
                 <div className={"nav-header"}>
-                    <Link to={'/'}>
+                    <Link to={'/status'}>
                         <Logo/>
                     </Link>
 
@@ -46,16 +47,22 @@ const NavBar = () => {
                     {/*{true && (<UserButton/>)}*/}
                 </ul>
 
+                <UserButton/>
+
             </div>
         </div>
     </NavContainer>;
 };
 
 const NavContainer = styled.nav`
+  
   height: 5rem;
   display: flex;
   align-items: center;
   justify-content: center;
+  
+  border-bottom-style: solid;
+  border-bottom-color: var(--clr-grey-10);
 
   .nav-center {
     width: 90vw;
@@ -89,7 +96,7 @@ const NavContainer = styled.nav`
     display: none;
   }
 
-  .cart-btn-wrapper {
+  .user-btn-wrapper {
     display: none;
   }
 
@@ -125,7 +132,7 @@ const NavContainer = styled.nav`
       }
     }
 
-    .cart-btn-wrapper {
+    .user-btn-wrapper {
       display: grid;
     }
   }
