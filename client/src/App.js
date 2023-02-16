@@ -30,7 +30,7 @@ function App() {
 
                 <Route path={'/e'} element={
                     <h2>events page</h2>}/>))}
-                <Route path={'/event'} element={
+                <Route path={'/events'} element={
                     <h2>events page</h2>}/>))}
 
                 <Route path="*" element={

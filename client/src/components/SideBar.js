@@ -4,12 +4,12 @@ import {Link} from "react-router-dom";
 import {FaTimes} from "react-icons/fa";
 
 import {links} from "../utils/constants";
-import {useEventsContext} from "../contexts/events_context";
+import {useUtilContext} from "../contexts/util_context";
 import Logo from "./Logo";
 import UserButton from "./UserButton";
 
 const SideBar = () => {
-    const {isSideBarOpen, closeSidebar} = useEventsContext();
+    const {isSideBarOpen, closeSidebar} = useUtilContext();
     return (<SidebarContainer>
         <aside
             className={`${isSideBarOpen ? 'sidebar show-sidebar' : 'sidebar'}`}>
@@ -52,7 +52,7 @@ const SidebarContainer = styled.div`
     color: var(--clr-primary-5);
     transition: var(--transition);
     cursor: pointer;
-    color: var(--clr-red-dark);
+    //color: var(--clr-red-dark);
     margin-top: 0.2rem;
   }
 

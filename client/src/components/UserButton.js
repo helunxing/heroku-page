@@ -5,19 +5,37 @@ import {Link} from "react-router-dom";
 
 function UserButton() {
     const refreshPage = () => {
+        // Hope one day I have the ability to replace this solution with a more elegant solution.
         setTimeout(
             ()=>{window.location.reload(false);},400
         )
     }
 
     return (<Wrapper className='user-btn-wrapper'>
-        <Link to='/login' className='user-btn' onClick={refreshPage}>
-            Log in
+        <Link to='/login' className='btn user-btn' onClick={refreshPage}>
+            DashBoard
         </Link>
-        <Link to='/logout' className='logout-btn' onClick={refreshPage}>
+        <></>
+        <Link to='/logout' className='btn logout-btn' onClick={refreshPage}>
             Log out
         </Link>
-
+        {/*{myUser ? (*/}
+        {/*    <button*/}
+        {/*        type='button'*/}
+        {/*        className='auth-btn'*/}
+        {/*        onClick={() => {*/}
+        {/*            clearCart()*/}
+        {/*            localStorage.removeItem('user')*/}
+        {/*            logout({ returnTo: window.location.origin })*/}
+        {/*        }}*/}
+        {/*    >*/}
+        {/*        Logout <FaUserMinus />*/}
+        {/*    </button>*/}
+        {/*) : (*/}
+        {/*    <button type='button' className='auth-btn' onClick={loginWithRedirect}>*/}
+        {/*        Login <FaUserPlus />*/}
+        {/*    </button>*/}
+        {/*)}*/}
     </Wrapper>);
 }
 
@@ -29,13 +47,14 @@ const Wrapper = styled.div`
 
   .user-btn {
     border-radius: 25px;
-    border: 2px solid var(--clr-grey-1);
+    //border: 2px solid var(--clr-grey-1);
     padding: 20px;
-    width: 100px;
+    width: 135px;
     height: 15px;
-    color: var(--clr-grey-1);
+    //color: var(--clr-grey-1);
     letter-spacing: var(--spacing);
     display: flex;
+    background: var(--clr-primary-5);
     //overflow: auto;
     //font-size: 1.5rem;
     align-items: center;
@@ -70,8 +89,10 @@ const Wrapper = styled.div`
     border: 2px solid var(--clr-grey-1);
 
     padding: 20px;
-    width: 115px;
+    width: 120px;
     height: 15px;
+
+    margin-left: 11px;
     
     display: flex;
     align-items: center;
@@ -88,20 +109,3 @@ const Wrapper = styled.div`
 
 export default UserButton
 
-{/*{myUser ? (*/}
-{/*    <button*/}
-{/*        type='button'*/}
-{/*        className='auth-btn'*/}
-{/*        onClick={() => {*/}
-{/*            clearCart()*/}
-{/*            localStorage.removeItem('user')*/}
-{/*            logout({ returnTo: window.location.origin })*/}
-{/*        }}*/}
-{/*    >*/}
-{/*        Logout <FaUserMinus />*/}
-{/*    </button>*/}
-{/*) : (*/}
-{/*    <button type='button' className='auth-btn' onClick={loginWithRedirect}>*/}
-{/*        Login <FaUserPlus />*/}
-{/*    </button>*/}
-{/*)}*/}

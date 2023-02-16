@@ -44,7 +44,7 @@ const Home = () => {
                     Want to keep track of all your events and never miss one again?
                     Time Agreement can help you manage them all.
                 </p>
-                <Link to='/about' className='btn hero-btn'>
+                <Link to='/join' className='btn hero-btn'>
                     join event
                 </Link>
             </article>

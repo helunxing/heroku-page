@@ -12,9 +12,9 @@ Other parts introduction for this project:
 
 [Microservices Backend](https://github.com/helunxing/microservices-backend)
 
-## overall structure
+## Overall Structure
 
-图片
+架构图片
 
 The Frontend directly accesses the restful API provided by the Backend for Frontend (BFF), 
 which in turn interacts with Microservices and returns the required data to the Frontend.
@@ -37,7 +37,6 @@ Second, it ensures system security by reducing the need for the Frontend to acce
 and by keeping BFF complete data and processing logic separate from Frontend, which may be seen or edited by user.
 
 Why isn't the BFF treated as a new microservice? 
-
 It is important to have clear boundaries of responsibility within a team, 
 to minimize unneeded coordination efforts.
 And the same applies to individual responsibilities. 
@@ -64,11 +63,11 @@ return, update, delete event by id.
 
 ### GET, POST, PUT, DELETE `/api/join/{eventId}`
 
-create time selection.
+return, create, update, delete time selection.
 
-### POST `/api/user`
+### GET `/api/user/{userSub}` or `/api/user/{userId}`
 
-### GET, PUT, DELETE `/api/user/{userSub}`
+return the user info, if is not in the database, create one
 
 ### GET `/api/postcode/{queryCode}`
 
