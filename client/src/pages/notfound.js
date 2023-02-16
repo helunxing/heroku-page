@@ -9,7 +9,7 @@ const Notfound = () => {
         setTimeout(
             () => {
                 setInfo('404 Not Found')
-            }, 400)
+            }, 1000)
     }, [])
 
     return (<Wrapper>
