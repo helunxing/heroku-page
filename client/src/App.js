@@ -22,9 +22,6 @@ function App() {
                 <Route path={'/'} element={
                     <Home/>}/>
 
-                <Route path={'/join'} element={
-                    <h2>join page</h2>}/>
-
                 <Route path={'/me'} element={
                     <h2>Dashboard page</h2>}/>))}
 
@@ -32,6 +29,9 @@ function App() {
                     <h2>events page</h2>}/>))}
                 <Route path={'/events'} element={
                     <h2>events page</h2>}/>))}
+
+                <Route path={'/join'} element={
+                    <h2>join page</h2>}/>
 
                 <Route path="*" element={
                     <Notfound/>}/>

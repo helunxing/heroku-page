@@ -1,9 +1,19 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 import styled from "styled-components";
 
 const Notfound = () => {
+
+    const [info, setInfo] = useState('Loading...');
+
+    useEffect(() => {
+        setTimeout(
+            () => {
+                setInfo('404 Not Found')
+            }, 400)
+    }, [])
+
     return (<Wrapper>
-        <div className={'title'}><h2>404 Not Found</h2></div>
+        <div className={'title'}><h2>{info}</h2></div>
     </Wrapper>);
 }
 

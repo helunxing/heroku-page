@@ -1,41 +1,39 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import styled from "styled-components";
 import {Link} from "react-router-dom";
+import {useUtilContext} from "../contexts/util_context";
+
 // import { useNavigate } from "react-router-dom";
 
 function UserButton() {
+
+    const {isLogged, closeSidebar,getUserStatus} = useUtilContext()
     const refreshPage = () => {
+        closeSidebar()
         // Hope one day I have the ability to replace this solution with a more elegant solution.
+        // Ask this problem in stack overflow
         setTimeout(
-            ()=>{window.location.reload(false);},400
+            () => {
+                window.location.reload(false);
+            }, 200
         )
     }
 
+    useEffect(() => {
+        getUserStatus();
+    }, [])
+
     return (<Wrapper className='user-btn-wrapper'>
-        <Link to='/login' className='btn user-btn' onClick={refreshPage}>
-            DashBoard
-        </Link>
-        <></>
-        <Link to='/logout' className='btn logout-btn' onClick={refreshPage}>
-            Log out
-        </Link>
-        {/*{myUser ? (*/}
-        {/*    <button*/}
-        {/*        type='button'*/}
-        {/*        className='auth-btn'*/}
-        {/*        onClick={() => {*/}
-        {/*            clearCart()*/}
-        {/*            localStorage.removeItem('user')*/}
-        {/*            logout({ returnTo: window.location.origin })*/}
-        {/*        }}*/}
-        {/*    >*/}
-        {/*        Logout <FaUserMinus />*/}
-        {/*    </button>*/}
-        {/*) : (*/}
-        {/*    <button type='button' className='auth-btn' onClick={loginWithRedirect}>*/}
-        {/*        Login <FaUserPlus />*/}
-        {/*    </button>*/}
-        {/*)}*/}
+        {isLogged ? (
+            <>
+                <Link to='/me' className='btn user-btn' onClick={refreshPage}>
+                    DashBoard</Link>
+                <Link to='/logout' className='btn logout-btn' onClick={refreshPage}>
+                    Log out </Link></>) : (
+            <Link to='/login' className='btn log-btn' onClick={refreshPage}>
+                Login</Link>
+        )}
+
     </Wrapper>);
 }
 
@@ -59,15 +57,29 @@ const Wrapper = styled.div`
     //font-size: 1.5rem;
     align-items: center;
   }
+
+  .log-btn {
+    border-radius: 25px;
+    padding: 20px;
+    width: 90px;
+    height: 15px;
+    letter-spacing: var(--spacing);
+    display: flex;
+    background: var(--clr-primary-5);
+    align-items: center;
+  }
+
   .cart-container {
     display: flex;
     align-items: center;
     position: relative;
+
     svg {
       height: 1.6rem;
       margin-left: 5px;
     }
   }
+
   .cart-value {
     position: absolute;
     top: -10px;
@@ -83,8 +95,9 @@ const Wrapper = styled.div`
     color: var(--clr-white);
     padding: 12px;
   }
+
   .logout-btn {
-    
+
     border-radius: 25px;
     border: 2px solid var(--clr-grey-1);
 
@@ -93,7 +106,7 @@ const Wrapper = styled.div`
     height: 15px;
 
     margin-left: 11px;
-    
+
     display: flex;
     align-items: center;
     background: transparent;
@@ -101,6 +114,7 @@ const Wrapper = styled.div`
     cursor: pointer;
     color: var(--clr-grey-1);
     letter-spacing: var(--spacing);
+
     svg {
       margin-left: 5px;
     }
