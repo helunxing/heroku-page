@@ -8,7 +8,7 @@
   "scripts": {
     "start": "node server.js",
     "test": "node test.js",
-    "build": "cd ../client && npm install && npm run build && cd ../server"
+    "build": "npm install && cd ../client && npm install && npm run build"
   },
   "dependencies": {
     "express": "^4.18.2",

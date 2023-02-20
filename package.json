@@ -7,7 +7,7 @@
   },
   "scripts": {
     "start": "cd server && node server.js",
-    "build": "npm install && cd server && npm run build"
+    "build": "cd server && npm run build"
   },
   "license": "MIT"
 }
