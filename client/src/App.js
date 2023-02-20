@@ -6,14 +6,9 @@ import SideBar from "./components/SideBar";
 import Footer from "./components/Footer";
 
 import Home from "./pages/home"
+import Notfound from "./pages/notfound";
 
 function App() {
-    const [data, setDate] = useState(null);
-    const [isLoading, setIsLoading] = useState(true);
-
-    useEffect(() => {
-
-    }, [])
 
     return (
         <Router>
@@ -23,15 +18,24 @@ function App() {
             <SideBar/>
 
             <Routes>
+
                 <Route path={'/'} element={
-                    <Home/>
-                }/>
-                <Route path={'/about'} element={
-                    <h2>about page</h2>
-                }/>
+                    <Home/>}/>
+
+                <Route path={'/me'} element={
+                    <h2>Dashboard page</h2>}/>))}
+
+                <Route path={'/e'} element={
+                    <h2>events page</h2>}/>))}
                 <Route path={'/events'} element={
-                    <h2>events page</h2>
-                }/>
+                    <h2>events page</h2>}/>))}
+
+                <Route path={'/join'} element={
+                    <h2>join page</h2>}/>
+
+                <Route path="*" element={
+                    <Notfound/>}/>
+
             </Routes>
 
             <Footer/>
@@ -40,4 +44,4 @@ function App() {
     );
 }
 
-export default App;
+export default App

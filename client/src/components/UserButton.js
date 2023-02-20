@@ -1,46 +1,31 @@
-import React, {useEffect, useState} from 'react';
-import styled from 'styled-components';
+import React, {useEffect} from 'react';
+import styled from "styled-components";
 import {Link} from "react-router-dom";
-import {FaBars} from 'react-icons/fa';
-import {links} from "../utils/constants";
-import NavBar from "./NavBar";
+import {useUtilContext} from "../contexts/util_context";
+
+// import { useNavigate } from "react-router-dom";
 
 function UserButton() {
-    return (<>
-    </>);
+
+    const {isLogged, closeSidebar, getUserStatus} = useUtilContext()
+
+    useEffect(() => {
+        getUserStatus();
+    }, [])
+
+    return (<Wrapper className='user-btn-wrapper'>
+        {isLogged ? (
+            <>
+                <Link to='/me' className='btn user-btn' onClick={closeSidebar}>
+                    DashBoard</Link>
+                <Link to='/logout' className='btn logout-btn' onClick={closeSidebar}>
+                    Log out </Link></>) : (
+            <Link to='/login' className='btn log-btn' onClick={closeSidebar}>
+                Login</Link>
+        )}
+
+    </Wrapper>);
 }
-
-// <Wrapper className='cart-btn-wrapper'>
-//     <Link to='/cart' className='cart-btn' onClick={closeSidebar}>
-//         Cart
-//         <span className='cart-container'>
-//   <FaShoppingCart />
-//   <span className='cart-value'>{total_items}</span>
-// </span>
-//     </Link>
-//     {myUser ? (
-//         <button
-//             type='button'
-//             className='auth-btn'
-//             onClick={() => {
-//                 clearCart()
-//                 localStorage.removeItem('user')
-//                 logout({ returnTo: window.location.origin })
-//             }}
-//         >
-//             Logout <FaUserMinus />
-//         </button>
-//     ) : (
-//         <button type='button' className='auth-btn' onClick={loginWithRedirect}>
-// {/*            Login <FaUserPlus />*/
-// }
-// {/*        </button>*/
-// }
-// {/*    )}*/
-// }
-// {/*</Wrapper>*/
-// }
-
 
 const Wrapper = styled.div`
   display: grid;
@@ -48,13 +33,29 @@ const Wrapper = styled.div`
   align-items: center;
   width: 225px;
 
-  .cart-btn {
-    color: var(--clr-grey-1);
-    font-size: 1.5rem;
+  .user-btn {
+    border-radius: 25px;
+    //border: 2px solid var(--clr-grey-1);
+    padding: 20px;
+    width: 135px;
+    height: 15px;
+    //color: var(--clr-grey-1);
     letter-spacing: var(--spacing);
-    color: var(--clr-grey-1);
     display: flex;
+    background: var(--clr-primary-5);
+    //overflow: auto;
+    //font-size: 1.5rem;
+    align-items: center;
+  }
 
+  .log-btn {
+    border-radius: 25px;
+    padding: 20px;
+    width: 90px;
+    height: 15px;
+    letter-spacing: var(--spacing);
+    display: flex;
+    background: var(--clr-primary-5);
     align-items: center;
   }
 
@@ -85,12 +86,21 @@ const Wrapper = styled.div`
     padding: 12px;
   }
 
-  .auth-btn {
+  .logout-btn {
+
+    border-radius: 25px;
+    border: 2px solid var(--clr-grey-1);
+
+    padding: 20px;
+    width: 120px;
+    height: 15px;
+
+    margin-left: 11px;
+
     display: flex;
     align-items: center;
     background: transparent;
-    border-color: transparent;
-    font-size: 1.5rem;
+    //border-color: transparent;
     cursor: pointer;
     color: var(--clr-grey-1);
     letter-spacing: var(--spacing);
@@ -101,4 +111,5 @@ const Wrapper = styled.div`
   }
 `
 
-export default NavBar;
+export default UserButton
+

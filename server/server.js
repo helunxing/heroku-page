@@ -2,10 +2,11 @@ const express = require('express')
 const request = require("request")
 const path = require('path')
 
-const PORT = process.env.PORT || 5001
-const POSTCODE_URL = process.env.POSTCODE_URL || 'http://localhost:8002/'
-const SECRET_KEY = process.env.SECRET_KEY || 'default_key'
-const BASE_URL = process.env.BASE_URL || 'http://localhost:5001'
+const PORT = process.env.PORT || 5001;
+const SECRET_KEY = process.env.SECRET_KEY || 'default_key';
+const BASE_URL = process.env.BASE_URL || 'http://localhost';
+const AUTH_BASE_URL = process.env.BASE_URL || (BASE_URL + ':5001');
+const POSTCODE_URL = process.env.POSTCODE_URL || (BASE_URL + ':8002');
 
 const {auth} = require('express-openid-connect');
 
@@ -13,7 +14,7 @@ const config = {
     authRequired: false,
     auth0Logout: true,
     secret: 'a long, randomly-generated string stored in env',
-    baseURL: BASE_URL,
+    baseURL: AUTH_BASE_URL,
     clientID: 'lRg2odM7Fy0gndvGM4nVELslbfnqyEw1',
     issuerBaseURL: 'https://hlx.uk.auth0.com'
 };
@@ -25,16 +26,47 @@ app.use(auth(config));
 
 // req.isAuthenticated is provided from the auth router
 app.get('/status', (req, res) => {
-    res.send(req.oidc.isAuthenticated() ? 'Logged in' : 'Logged out');
-    console.log(req.oidc)
+    // res.send(req.oidc.isAuthenticated() ? 'Logged in' : 'Logged out');
+    res.send(JSON.stringify({'logged': `${req.oidc.isAuthenticated() ? 'in' : 'out'}`}));
 });
 
 const {requiresAuth} = require('express-openid-connect');
+// const {response} = require("express");
 app.get('/profile', requiresAuth(), (req, res) => {
     res.send(JSON.stringify(req.oidc.user));
 });
 
-app.get("/postcode/:queryCode", async (req, response) => {
+app.get("/dontwantshow", (req, res) => {
+    res.redirect('/notfound')
+    // return
+});
+
+app.get("/api/events", (req, res) => {
+    const data = [
+        {id: 1, date: 'today'},
+        {id: 2, date: 'tomorrow'}]
+
+    res.json(data);
+
+});
+
+app.post("/api/event", (req, res) => {
+    res.redirect('/notfound')
+});
+
+app.get("/api/events/:eventsId", async (req, res) => {
+    res.redirect('/notfound')
+});
+
+app.put("/api/events/:eventsId", async (req, res) => {
+    res.redirect('/notfound')
+});
+
+app.delete("/api/events/:eventsId", async (req, res) => {
+    res.redirect('/notfound')
+});
+
+app.get("/api/postcode/:queryCode", async (req, res) => {
 
     // console.log(POSTCODE_URL + req.params.queryCode)
     await request.get({
@@ -47,7 +79,7 @@ app.get("/postcode/:queryCode", async (req, response) => {
         } else if (res.statusCode !== 200) {
             console.log('Status:', res.statusCode);
         } else {
-            response.json(data);
+            res.json(data);
         }
     });
 

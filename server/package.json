@@ -1,0 +1,23 @@
+{
+  "name": "node-js-getting-started",
+  "version": "0.3.0",
+  "description": "A sample Node.js app using Express 4",
+  "engines": {
+    "node": "16.x"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "test": "node test.js",
+    "build": "npm install && cd ../client && npm install && npm run build"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "express-openid-connect": "^2.12.0",
+    "request": "^2.88.2"
+  },
+  "devDependencies": {
+    "got": "^11.3.0",
+    "tape": "^4.7.0"
+  },
+  "license": "MIT"
+}
