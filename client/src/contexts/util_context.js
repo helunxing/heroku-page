@@ -19,8 +19,8 @@ const initialState = {
 }
 
 // user_nickname: '',
-//     user_sub: '',
-//     user_id: '',
+// user_sub: '',
+// user_id: '',
 
 const UtilContext = React.createContext()
 export const UserProvider = ({children}) => {
@@ -37,7 +37,7 @@ export const UserProvider = ({children}) => {
 
     const getUserStatus = async () => {
         dispatch({type: GET_USER_BEGIN})
-        try {
+        try  {
             const response = await axios.get(status_url)
             const isLogged = response.data['logged'] === 'in'
             if (!isLogged) {
@@ -46,11 +46,8 @@ export const UserProvider = ({children}) => {
             }
             const profile_res = await axios.get(profile_url)
             const {sub, nickname} = profile_res.data;
-            console.log(profile_res.data)
             const userinfo = {user_nickname: nickname, user_sub: sub}
             dispatch({type: GET_USER_SUCCESS, payload: {isLogged, userinfo}})
-            console.log(state)
-
         } catch
             (error) {
             dispatch({type: GET_USER_ERROR})

@@ -9,7 +9,7 @@ export const links = [
     {
         id: 2,
         text: 'Host',
-        url: '/events',
+        url: '/event',
     },
     {
         id: 3,
@@ -24,4 +24,4 @@ export const events_url = '/api/events'
 
 export const status_url = '/status'
 
-export const profile_url='/profile'
+export const profile_url = '/profile'

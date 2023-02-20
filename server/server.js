@@ -5,7 +5,7 @@ const path = require('path')
 const PORT = process.env.PORT || 5001;
 const SECRET_KEY = process.env.SECRET_KEY || 'default_key';
 const BASE_URL = process.env.BASE_URL || 'http://localhost';
-const AUTH_BASE_URL = process.env.AUTH_BASE_URL || (BASE_URL + ':5001');
+const AUTH_BASE_URL = process.env.BASE_URL || (BASE_URL + ':5001');
 const POSTCODE_URL = process.env.POSTCODE_URL || (BASE_URL + ':8002');
 
 const {auth} = require('express-openid-connect');
@@ -50,7 +50,7 @@ app.get("/api/events", (req, res) => {
 
 });
 
-app.post("/api/event",(req, res) => {
+app.post("/api/event", (req, res) => {
     res.redirect('/notfound')
 });
 

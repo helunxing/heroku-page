@@ -8,6 +8,7 @@ home page, explanation of this website function.
 links for host and join events.
 
 [//]: # (### /user/{id} or /u/{id})
+
 ### /me
 
 dashboard page, list events that host by the user
@@ -16,7 +17,7 @@ dashboard page, list events that host by the user
 
 host new events
 
-### /event/{id} or /e/{id}
+### /event/{id}
 
 event detail page. and join it.
 

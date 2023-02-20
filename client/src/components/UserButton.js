@@ -7,17 +7,7 @@ import {useUtilContext} from "../contexts/util_context";
 
 function UserButton() {
 
-    const {isLogged, closeSidebar,getUserStatus} = useUtilContext()
-    const refreshPage = () => {
-        closeSidebar()
-        // Hope one day I have the ability to replace this solution with a more elegant solution.
-        // Ask this problem in stack overflow
-        setTimeout(
-            () => {
-                window.location.reload(false);
-            }, 200
-        )
-    }
+    const {isLogged, closeSidebar, getUserStatus} = useUtilContext()
 
     useEffect(() => {
         getUserStatus();
@@ -26,11 +16,11 @@ function UserButton() {
     return (<Wrapper className='user-btn-wrapper'>
         {isLogged ? (
             <>
-                <Link to='/me' className='btn user-btn' onClick={refreshPage}>
+                <Link to='/me' className='btn user-btn' onClick={closeSidebar}>
                     DashBoard</Link>
-                <Link to='/logout' className='btn logout-btn' onClick={refreshPage}>
+                <Link to='/logout' className='btn logout-btn' onClick={closeSidebar}>
                     Log out </Link></>) : (
-            <Link to='/login' className='btn log-btn' onClick={refreshPage}>
+            <Link to='/login' className='btn log-btn' onClick={closeSidebar}>
                 Login</Link>
         )}
 

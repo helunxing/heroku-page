@@ -20,7 +20,7 @@ const events_reducer = (state, action) => {
             return {
                 ...state,
                 events_loading: false,
-                single_product_error: true
+                events_error: true
             }
         default:
             throw new Error(`no matching "${action.type}" action type`)
