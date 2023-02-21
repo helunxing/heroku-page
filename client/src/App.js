@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React from "react";
 import {BrowserRouter as Router, Routes, Route} from 'react-router-dom';
 
 import NavBar from "./components/NavBar";
@@ -7,8 +7,12 @@ import Footer from "./components/Footer";
 
 import Home from "./pages/home"
 import Notfound from "./pages/notfound";
+import Event from "./pages/event";
+import Join from "./pages/join";
 
 function App() {
+
+
 
     return (
         <Router>
@@ -20,21 +24,28 @@ function App() {
             <Routes>
 
                 <Route path={'/'} element={
-                    <Home/>}/>
+                    <Home/>
+                }/>
 
                 <Route path={'/me'} element={
-                    <h2>Dashboard page</h2>}/>))}
+                    <h2>Dashboard page</h2>
+                }/>
 
-                <Route path={'/e'} element={
-                    <h2>events page</h2>}/>))}
-                <Route path={'/events'} element={
-                    <h2>events page</h2>}/>))}
+                <Route path={'/event'} element={
+                    <Event/>
+                }/>
+
+                <Route path={'/event/:id'} element={
+                    <h2>hello</h2>
+                }/>
 
                 <Route path={'/join'} element={
-                    <h2>join page</h2>}/>
+                    <Join/>
+                }/>
 
                 <Route path="*" element={
-                    <Notfound/>}/>
+                    <Notfound/>
+                }/>
 
             </Routes>
 

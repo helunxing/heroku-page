@@ -12,11 +12,31 @@ import {
 const initialState = {
     events_loading: false,
     events_error: false,
-    events: [],
+    events: [{
+        id: 1,
+        title: 'meeting',
+        date: 'today'
+    }, {
+        id: 2,
+        title: 'eating',
+        date: 'tomorrow'
+    },{
+        id: 3,
+        title: 'ran',
+        date: 'jan 23'
+    }, {
+        id: 4,
+        title: 'boeng',
+        date: 'todgeoghay'
+    }, {
+        id: 5,
+        title: 'meetingwpoi3tng',
+        date: 'todaybpoiwej'
+    }, ],
     featured_events: [],
-    single_product_loading: false,
-    single_product_error: false,
-    single_product: {}
+    single_event_loading: false,
+    single_event_error: false,
+    single_event: {}
 }
 
 const EventsContext = React.createContext()
@@ -40,6 +60,7 @@ export const EventsProvider = ({children}) => {
 
     return (<EventsContext.Provider value={{
         ...state,
+        fetchEvents,
     }}>
         {children}
     </EventsContext.Provider>);

@@ -2,8 +2,7 @@ import React, {useEffect} from 'react';
 import styled from "styled-components";
 import {Link} from "react-router-dom";
 import {useUtilContext} from "../contexts/util_context";
-
-// import { useNavigate } from "react-router-dom";
+import {BASE_URL} from "../utils/constants";
 
 function UserButton() {
 
@@ -13,15 +12,28 @@ function UserButton() {
         getUserStatus();
     }, [])
 
+    const jumpToLogin = () => {
+        closeSidebar()
+        window.location.href = BASE_URL + '/login';
+    }
+
+    const jumpToLogout = () => {
+        closeSidebar()
+        window.location.href = BASE_URL + '/logout';
+    }
+
     return (<Wrapper className='user-btn-wrapper'>
         {isLogged ? (
             <>
                 <Link to='/me' className='btn user-btn' onClick={closeSidebar}>
-                    DashBoard</Link>
-                <Link to='/logout' className='btn logout-btn' onClick={closeSidebar}>
-                    Log out </Link></>) : (
-            <Link to='/login' className='btn log-btn' onClick={closeSidebar}>
-                Login</Link>
+                    DashBoard
+                </Link>
+                <button className='btn logout-btn' onClick={jumpToLogout}>
+                    Log out
+                </button>
+            </>) : (
+            <button className='btn log-btn' onClick={jumpToLogin}>
+                Login</button>
         )}
 
     </Wrapper>);

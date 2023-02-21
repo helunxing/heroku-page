@@ -54,6 +54,16 @@ export const UserProvider = ({children}) => {
         }
     }
 
+    // fetch('/login', {redirect: 'manual'})
+    //     .then((res) => res.json())
+    //     .then((status_json) => {
+    //         if (status_json['logged'] === 'out') {
+    //             setLogged(true);
+    //         } else {
+    //             setLogged(false);
+    //         }
+    //     });
+
     return (
         <UtilContext.Provider
             value={{

@@ -3,8 +3,11 @@ import styled from "styled-components";
 import {Link} from "react-router-dom";
 import pic1 from "../assets/meeting1.jpg"
 import pic2 from "../assets/meeting2.jpg"
+import {useUtilContext} from "../contexts/util_context";
 
 const Home = () => {
+
+    const {getUserStatus} = useUtilContext();
 
     useEffect(() => {
         document.title = 'Time Agreement';
@@ -22,7 +25,7 @@ const Home = () => {
                     Not sure when your friends are available for a meeting?
                     Let Time Agreement help you find the best time to get together.
                 </p>
-                <Link to='/events' className='btn hero-btn'>
+                <Link to='/event' className='btn hero-btn' onClick={getUserStatus}>
                     host event
                 </Link>
             </article>
@@ -74,8 +77,7 @@ const Wrapper = styled.section`
   }
 
   @media (min-width: 992px) {
-
-
+    
     height: calc(100vh - 5rem);
     grid-template-columns: 1fr 1fr;
     gap: 8rem;
