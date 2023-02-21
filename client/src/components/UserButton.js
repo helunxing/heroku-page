@@ -25,6 +25,7 @@ function UserButton() {
     return (<Wrapper className='user-btn-wrapper'>
         {isLogged ? (
             <>
+                <h2>{process.env.BASE_URL}</h2>
                 <Link to='/me' className='btn user-btn' onClick={closeSidebar}>
                     DashBoard
                 </Link>
