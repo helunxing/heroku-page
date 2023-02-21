@@ -14,18 +14,17 @@ function UserButton() {
 
     const jumpToLogin = () => {
         closeSidebar()
-        window.location.href = BASE_URL + '/login';
+        window.location.href = '/login';
     }
 
     const jumpToLogout = () => {
         closeSidebar()
-        window.location.href = BASE_URL + '/logout';
+        window.location.href = '/logout';
     }
 
     return (<Wrapper className='user-btn-wrapper'>
         {isLogged ? (
             <>
-                <h2>{process.env.BASE_URL}</h2>
                 <Link to='/me' className='btn user-btn' onClick={closeSidebar}>
                     DashBoard
                 </Link>
