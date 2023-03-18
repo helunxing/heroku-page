@@ -1,85 +1,116 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
+import moment from "moment/moment";
 import styled from "styled-components";
-import {Link} from "react-router-dom";
+import {AiOutlinePlus, AiOutlineDelete} from 'react-icons/ai';
+import {MobileDatePicker} from '@mui/x-date-pickers';
+import TextField from "@mui/material/TextField";
+import {Button} from "@mui/material";
 
-import {useEventsContext} from "../contexts/events_context";
 import PageHero from "../components/PageHero";
+import {useEventsContext} from "../contexts/events_context";
+import CreateTimeChoice from "../components/CreateTimeChoice";
+
 
 const Event = () => {
 
-    const {events} = useEventsContext();
+    const {
+        handleDetailChange,
+        resetEvent,
+        new_event,
+        showAll
+    } = useEventsContext()
+
+    const {
+        title,
+        chosenDate,
+        postcode,
+        options,
+    } = new_event;
+
 
     useEffect(() => {
         document.title = 'Events';
+        resetEvent();
     }, []);
 
-    if (events.length < 1) {
-        return (<>
-                <PageHero title={'event'}/>
-                <h2>
-                    There is no event now.
-                </h2>
-            </>
-        )
-    }
-
-    return <main>
+    return <Wrapper>
         <PageHero title={'event'}/>
-        <h1>Create Event</h1>
-    </main>;
+
+        <div className={'eventInput'}>
+            <div className={"eventInfo"}>
+                <TextField id="title" label="Event title" variant="outlined"
+                           value={title}
+                           onChange={handleDetailChange}
+                           error={false}
+                           helperText={true ? '' : {/*"please enter the title"*/}}
+                />
+            </div>
+
+            <div className={"eventInfo"}>
+                <MobileDatePicker
+                    value={chosenDate}
+                    onChange={handleDetailChange}
+                    label="Date"
+                    inputFormat="DD/MM/YYYY"
+                    renderInput={(params) => <TextField {...params} />}
+                />
+            </div>
+
+            <div className={"eventInfo"}>
+                <TextField id="postcode"
+                           value={postcode}
+                           className={"postcode"}
+                           label="Postcode"
+                           variant="outlined"
+                           onChange={handleDetailChange}/>
+                <Button>
+                    search</Button>
+            </div>
+
+            {options.map((option, index) => {
+                return <CreateTimeChoice key={index}
+                                         idx={index}
+                                         option={option}
+                                         createNew={index !== 0}/>
+            })}
+
+            <div className={"buttons"}>
+                <Button variant="contained" onClick={showAll}>Submit</Button>
+                <Button variant="outlined" onClick={resetEvent}>Reset</Button>
+            </div>
+
+        </div>
+
+    </Wrapper>;
 
 }
 
 const Wrapper = styled.section`
-  display: grid;
-  row-gap: 1rem;
-  justify-content: center;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
-  //grid-auto-columns: 3 max-content;
 
-  h4 {
-    margin-bottom: 0.5rem;
+  button {
+    margin-left: 0.5rem;
   }
 
-  p {
-    max-width: 45em;
-    margin-bottom: 1rem;
+  .buttons {
+    padding-right: 0.6rem;
+    padding-top: 1rem;
+    justify-content: center;
+    display: flex;
   }
 
-  .price {
-    color: var(--clr-primary-6);
-    margin-bottom: 0.75rem;
+  .eventInput {
+    padding-bottom: 1.5rem;
   }
 
-  .btn {
-    font-size: 0.5rem;
-    padding: 0.25rem 0.5rem;
-    margin-right: auto;
+  .postcode {
+    margin-left: 5.3rem;
   }
 
-  article {
-    display: grid;
-    grid-template-columns: auto 1fr;
-    column-gap: 1rem;
-    align-items: center;
-    margin-bottom: 1rem;
-    margin-left: 1rem;
+  .eventInfo {
+    padding-top: 1rem;
+    justify-content: center;
+    display: flex;
   }
-  
-  article::before{
-    padding-left: 2rem;
-  }
-  
-  @media(max-width: 1100px){
-    grid-template-columns: 1fr 1fr 1fr;
-  }
-
-  @media(max-width: 720px){
-    grid-template-columns: 1fr 1fr;
-  }
-
-  //@media (min-width: 992px) {
-  //}
 `
 
-export default Event
+export default Event;

@@ -1,14 +1,17 @@
 import React from 'react'
 import styled from 'styled-components'
-import {Link} from 'react-router-dom'
+import {Link, useParams} from 'react-router-dom'
 
-const PageHero = ({title, product}) => {
+const PageHero = ({title, isEvent}) => {
+
+    const {id} = useParams();
+
     return (
         <Wrapper>
             <div className='section-center'>
                 <h3>
-                    <Link to='/'>Home </Link>
-                    {product && <Link to='/products'>/ Products</Link>}/ {title}
+                    <Link to='/'>Home</Link>
+                    {isEvent &&<Link to='/join'>/ Join</Link>}/ {title}
                 </h3>
             </div>
         </Wrapper>

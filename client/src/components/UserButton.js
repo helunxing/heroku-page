@@ -2,7 +2,6 @@ import React, {useEffect} from 'react';
 import styled from "styled-components";
 import {Link} from "react-router-dom";
 import {useUtilContext} from "../contexts/util_context";
-import {BASE_URL} from "../utils/constants";
 
 function UserButton() {
 

@@ -33,6 +33,7 @@ app.get('/status', (req, res) => {
 const {requiresAuth} = require('express-openid-connect');
 // const {response} = require("express");
 app.get('/profile', requiresAuth(), (req, res) => {
+    // console.log(req.oidc.user['sub']);
     res.send(JSON.stringify(req.oidc.user));
 });
 

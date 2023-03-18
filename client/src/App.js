@@ -9,9 +9,9 @@ import Home from "./pages/home"
 import Notfound from "./pages/notfound";
 import Event from "./pages/event";
 import Join from "./pages/join";
+import PageHero from "./components/PageHero";
 
 function App() {
-
 
 
     return (
@@ -28,19 +28,25 @@ function App() {
                 }/>
 
                 <Route path={'/me'} element={
-                    <h2>Dashboard page</h2>
+                    <>
+                        <PageHero title={'me'}/>
+                        <h2>Dashboard page</h2>
+                    </>
                 }/>
 
                 <Route path={'/event'} element={
                     <Event/>
                 }/>
 
-                <Route path={'/event/:id'} element={
-                    <h2>hello</h2>
-                }/>
-
                 <Route path={'/join'} element={
                     <Join/>
+                }/>
+
+                <Route path={'/join/:id'} element={
+                    <>
+                        <PageHero title={'pore'} isEvent/>
+                        <h2>detail page</h2>
+                    </>
                 }/>
 
                 <Route path="*" element={

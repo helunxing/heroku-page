@@ -22,23 +22,21 @@ const EventsList = () => {
         )
     }
 
-    return <main>
-        <Wrapper>
-            {events.map((event) => {
-                const {id, title, date} = event
-                return <article key={id}>
-                    <div>
-                        <h4>{title}</h4>
-                        <h5>{date}</h5>
-                        <h5>your choice: 15</h5>
-                        <Link to={`/event/${id}`} className='btn'>
-                            join
-                        </Link>
-                    </div>
-                </article>;
-            })}
-        </Wrapper>
-    </main>;
+    return <Wrapper>
+        {events.map((event) => {
+            const {id, title, date} = event
+            return <article key={id}>
+                <div>
+                    <h4>{title}</h4>
+                    <h5>{date}</h5>
+                    <h5>your choice: 15</h5>
+                    <Link to={`/join/${id}`} className='btn'>
+                        join
+                    </Link>
+                </div>
+            </article>;
+        })}
+    </Wrapper>
 
 }
 
@@ -72,16 +70,16 @@ const Wrapper = styled.section`
     padding-bottom: 1rem;
     padding-left: 1rem;
   }
-  
-  article::before{
+
+  article::before {
     padding-left: 2rem;
   }
-  
-  @media(max-width: 1100px){
+
+  @media (max-width: 1100px) {
     grid-template-columns: 1fr 1fr 1fr;
   }
 
-  @media(max-width: 720px){
+  @media (max-width: 720px) {
     grid-template-columns: 1fr 1fr;
   }
 `

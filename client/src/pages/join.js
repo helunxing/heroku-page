@@ -8,11 +8,21 @@ import PageHero from "../components/PageHero";
 
 const Join = () => {
 
-    const {events} = useEventsContext();
+    const {events, fetchEvents} = useEventsContext();
 
     useEffect(() => {
         document.title = 'Join';
+        fetchEvents();
     }, []);
+
+    if (events.length < 1) {
+        return (<>
+            <PageHero title={'event'}/>
+            <h2>
+                There is no public event now.
+            </h2>
+        </>)
+    }
 
     return <main>
         <PageHero title={'join'}/>
