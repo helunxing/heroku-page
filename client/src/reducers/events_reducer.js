@@ -31,7 +31,6 @@ const events_reducer = (state, action) => {
             }
 
         case EVENT_DETAIL_CHANGE:
-            console.log(action.payload)
             if (Object.keys(action.payload).length !== 0) {
                 return {
                     ...state,

@@ -1,40 +1,55 @@
 import React, {useState} from 'react';
+import {FormControl, InputLabel, MenuItem, Select} from "@mui/material";
+import styled from "styled-components";
 
-const PostcodeChoice = ({dataList}) => {
-
-    // fetch('/postcode/gxpoigeeg')
-    //     .then((res) => res.json())
-    //     .then((data) => setDate(data));
-
-    // const res = await fetch('/status');
-    // const status_json = await res.json();
+const PostcodeChoice = ({dataList, level}) => {
 
     const [choice, setChoice] = useState('');
 
     if (dataList === null) {
-        return <>
-            <h2>Loading</h2>
-        </>
+        return
     }
 
-    if (dataList === '') {
-        return
+    if (dataList === "loading...") {
+        return <div className={"eventInfo"}>
+            <h3>Loading</h3>
+        </div>
     }
 
     const choiceList = Object.keys(dataList).sort()
 
-    return (<>
-        {/*<label>address select</label>*/}
-        <select onChange={(e) => {
-            setChoice(e.target.value)
-        }}>
-            {choiceList.length < 2 || <option value={''}>[empty]</option>}
-            {choiceList.map((choice, index) => {
-                return <option value={choice}>{choice}</option>
-            })}
-        </select>
-        {!choice || <PostcodeChoice dataList={dataList[choice]}/>}
-    </>);
+    return <Wrapper>
+        <div className={"eventInfo"}>
+            <FormControl>
+                {/*sx={{m: 1, minWidth: 120}}*/}
+                <Select
+                    displayEmpty
+                    inputProps={{'aria-label': 'Without label'}}
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    value={choice}
+                    onChange={(e) => {
+                        setChoice(e.target.value)
+                    }}
+                >
+                    {choiceList.length < 1 || <MenuItem value="">[empty]</MenuItem>}
+                    {choiceList.map((choice, index) => {
+                        return <MenuItem value={choice}>{choice}</MenuItem>
+                    })}
+                </Select>
+            </FormControl>
+        </div>
+        {choice === '' || <PostcodeChoice dataList={dataList[choice]}/>}
+    </Wrapper>
 };
+
+const Wrapper = styled.section`
+  .eventInfo {
+    padding-top: 1rem;
+    justify-content: center;
+    display: flex;
+  }
+`
+
 
 export default PostcodeChoice;

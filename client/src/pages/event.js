@@ -9,6 +9,9 @@ import {Button} from "@mui/material";
 import PageHero from "../components/PageHero";
 import {useEventsContext} from "../contexts/events_context";
 import CreateTimeChoice from "../components/CreateTimeChoice";
+import PostcodeChoice from "../components/PostcodeChoice";
+import axios from "axios";
+import {type} from "@testing-library/user-event/dist/type";
 
 
 const Event = () => {
@@ -27,6 +30,7 @@ const Event = () => {
         options,
     } = new_event;
 
+    const [dataList, setDataList] = useState(null);
 
     useEffect(() => {
         document.title = 'Events';
@@ -42,7 +46,7 @@ const Event = () => {
                            value={title}
                            onChange={handleDetailChange}
                            error={false}
-                           helperText={true ? '' : {/*"please enter the title"*/}}
+                    // helperText={title ? '' : {/*"please enter the title"*/}}
                 />
             </div>
 
@@ -63,9 +67,18 @@ const Event = () => {
                            label="Postcode"
                            variant="outlined"
                            onChange={handleDetailChange}/>
-                <Button>
-                    search</Button>
+                <Button onClick={() => {
+                    setDataList("loading...")
+                    axios.get('/api/postcode/gxpoigeeg')
+                        .then((res) => {
+                            setDataList(res.data)
+                        })
+                }}>
+                    search
+                </Button>
             </div>
+
+            <PostcodeChoice dataList={dataList} key={1}/>
 
             {options.map((option, index) => {
                 return <CreateTimeChoice key={index}

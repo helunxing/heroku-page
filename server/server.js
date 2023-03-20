@@ -46,9 +46,7 @@ app.get("/api/events", (req, res) => {
     const data = [
         {id: 1, date: 'today'},
         {id: 2, date: 'tomorrow'}]
-
     res.json(data);
-
 });
 
 app.post("/api/event", (req, res) => {
@@ -69,16 +67,15 @@ app.delete("/api/events/:eventsId", async (req, res) => {
 
 app.get("/api/postcode/:queryCode", async (req, res) => {
 
-    // console.log(POSTCODE_URL + req.params.queryCode)
     await request.get({
-        url: POSTCODE_URL + req.params.queryCode,
+        url: POSTCODE_URL + '/' + req.params.queryCode,
         json: true,
         // headers: {'User-Agent': 'request'}
-    }, (err, res, data) => {
+    }, (err, backendRes, data) => {
         if (err) {
             console.log('Error:', err);
-        } else if (res.statusCode !== 200) {
-            console.log('Status:', res.statusCode);
+        } else if (backendRes.statusCode !== 200) {
+            console.log('Status:', backendRes.statusCode);
         } else {
             res.json(data);
         }

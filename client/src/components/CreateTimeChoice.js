@@ -8,17 +8,16 @@ import styled from "styled-components";
 
 const CreateTimeChoice = ({idx, option, createNew}) => {
 
-    const {handleTimeChange,} = useEventsContext();
+    const {handleTimeChange} = useEventsContext();
 
     return (
         <Wrapper>
-            <div className={"timeChoice"}>
+            <div className={"timeChoice"} >
                 <TextField
                     id="startTime"
                     label="Start time"
                     type="time"
                     value={option.startTime}
-                    // defaultValue={option.startTime}
                     InputLabelProps={{
                         shrink: true,
                     }}
@@ -37,7 +36,6 @@ const CreateTimeChoice = ({idx, option, createNew}) => {
                     className={'endTime'}
                     type="time"
                     value={option.endTime}
-                    // defaultValue={option.endTime}
                     InputLabelProps={{
                         shrink: true,
                     }}
