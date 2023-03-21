@@ -20,6 +20,8 @@ export const links = [
 
 export const events_url = '/api/events'
 
+export const postcode_url = '/api/postcode'
+
 export const status_url = '/status'
 
 export const profile_url = '/profile'

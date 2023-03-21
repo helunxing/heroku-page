@@ -13,7 +13,6 @@ import PostcodeChoice from "../components/PostcodeChoice";
 import axios from "axios";
 import {type} from "@testing-library/user-event/dist/type";
 
-
 const Event = () => {
 
     const {
@@ -30,8 +29,6 @@ const Event = () => {
         timeOptions,
         postcodeData,
     } = new_event;
-
-    const [dataList, setDataList] = useState(null);
 
     useEffect(() => {
         document.title = 'Events';

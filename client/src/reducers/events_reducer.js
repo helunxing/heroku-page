@@ -3,15 +3,16 @@ import {
     GET_EVENTS_SUCCESS,
     GET_EVENTS_ERROR,
 
-    GET_POSTDATA_BEGIN,
-    GET_POSTDATA_SUCCESS,
-    GET_POSTDATA_ERROR,
+    GET_POST_DATA_BEGIN,
+    GET_POST_DATA_SUCCESS,
+    GET_POST_DATA_ERROR,
 
     EVENT_RESET,
     EVENT_DETAIL_CHANGE,
     EVENT_OPTION_ADD,
     EVENT_OPTION_DELETE,
     EVENT_TIME_CHANGE,
+    ADDRESS_LIST_CHANGE,
 } from '../utils/actions'
 import moment from "moment"
 import {options} from "axios"
@@ -35,13 +36,13 @@ const events_reducer = (state, action) => {
                 events_error: true
             }
 
-        case GET_POSTDATA_BEGIN:
+        case GET_POST_DATA_BEGIN:
             return {
                 ...state,
                 new_event_loading: true
             }
 
-        case GET_POSTDATA_SUCCESS:
+        case GET_POST_DATA_SUCCESS:
             return {
                 ...state,
                 new_event_loading: false,
@@ -51,7 +52,7 @@ const events_reducer = (state, action) => {
                 }
             }
 
-        case GET_POSTDATA_ERROR:
+        case GET_POST_DATA_ERROR:
             return {
                 ...state,
                 new_event_loading: false,
@@ -87,6 +88,15 @@ const events_reducer = (state, action) => {
                 },
             }
 
+        case ADDRESS_LIST_CHANGE:
+            return {
+                ...state,
+                new_event: {
+                    ...state.new_event,
+                    addressList: action.payload
+                }
+            }
+
         case EVENT_OPTION_ADD:
             return {
                 ...state,
@@ -117,6 +127,7 @@ const events_reducer = (state, action) => {
                     title: '',
                     postcode: '',
                     postcodeData: null,
+                    addressList: [''],
                     chosenDate: moment(new Date()),
                     timeOptions: [
                         {

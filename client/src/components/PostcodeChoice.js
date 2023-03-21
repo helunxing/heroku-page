@@ -1,12 +1,20 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {FormControl, InputLabel, MenuItem, Select} from "@mui/material";
 import styled from "styled-components";
+import {useEventsContext} from "../contexts/events_context";
+import userButton from "./UserButton";
 
 const PostcodeChoice = ({dataList, level}) => {
 
-    const [choice, setChoice] = useState('');
+    const [choice, setChoice] = useState("");
 
-    // TODO: add reset next level data and build the whole address
+    const {
+        setPostcodeData,
+    } = useEventsContext()
+
+    useEffect(() => {
+        setChoice("");
+    }, [dataList])
 
     if (dataList === undefined || dataList === null) {
         return
@@ -21,7 +29,6 @@ const PostcodeChoice = ({dataList, level}) => {
     const choiceList = Object.keys(dataList).sort()
     const nextLevel = level + 1
 
-
     return <Wrapper>
         <div className={"eventInfo"}>
             <FormControl>
@@ -33,6 +40,7 @@ const PostcodeChoice = ({dataList, level}) => {
                     id="demo-simple-select"
                     value={choice}
                     onChange={(e) => {
+                        setPostcodeData(level, e.target.value)
                         setChoice(e.target.value)
                     }}
                 >
@@ -54,6 +62,5 @@ const Wrapper = styled.section`
     display: flex;
   }
 `
-
 
 export default PostcodeChoice;

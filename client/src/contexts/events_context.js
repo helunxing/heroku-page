@@ -2,21 +2,22 @@ import React, {useContext, useEffect, useReducer, useState} from 'react';
 import axios from 'axios';
 
 import events_reducer from '../reducers/events_reducer';
-import {events_url as url} from '../utils/constants';
+import {events_url, postcode_url} from '../utils/constants';
 import {
     GET_EVENTS_BEGIN,
     GET_EVENTS_SUCCESS,
     GET_EVENTS_ERROR,
 
-    GET_POSTDATA_BEGIN,
-    GET_POSTDATA_SUCCESS,
-    GET_POSTDATA_ERROR,
+    GET_POST_DATA_BEGIN,
+    GET_POST_DATA_SUCCESS,
+    GET_POST_DATA_ERROR,
 
     EVENT_RESET,
     EVENT_DETAIL_CHANGE,
     EVENT_OPTION_ADD,
     EVENT_OPTION_DELETE,
     EVENT_TIME_CHANGE,
+    ADDRESS_LIST_CHANGE,
 
 } from '../utils/actions'
 import moment from "moment/moment";
@@ -32,6 +33,7 @@ const initialState = {
         title: '',
         postcode: '',
         postcodeData: null,
+        addressList: [''],
         chosenDate: moment(new Date()),
         timeOptions: []
     },
@@ -48,7 +50,7 @@ export const EventsProvider = ({children}) => {
     const fetchEvents = async () => {
         dispatch({type: GET_EVENTS_BEGIN})
         try {
-            const response = await axios.get(url)
+            const response = await axios.get(events_url)
             const events = Array.from(response.data)
             dispatch({type: GET_EVENTS_SUCCESS, payload: events})
         } catch (error) {
@@ -81,13 +83,29 @@ export const EventsProvider = ({children}) => {
     }
 
     const fetchPostcodeData = async () => {
-        dispatch({type: GET_POSTDATA_BEGIN})
+        dispatch({type: GET_POST_DATA_BEGIN})
         try {
-            const res = await axios.get(`/api/postcode/${state.new_event.postcode}`)
-            dispatch({type: GET_POSTDATA_SUCCESS, payload: res.data})
+            const res = await axios.get(`${postcode_url}/${state.new_event.postcode}`)
+            dispatch({type: GET_POST_DATA_SUCCESS, payload: res.data})
         } catch (error) {
-            dispatch({type: GET_POSTDATA_ERROR})
+            dispatch({type: GET_POST_DATA_ERROR})
         }
+    }
+
+    const setPostcodeData = (level, data) => {
+        let newAddressList = state.new_event.addressList
+
+        if (level < newAddressList.length) {
+            newAddressList = newAddressList.slice(0, level)
+        }
+
+        while (level >= newAddressList.length) {
+            newAddressList.push('')
+        }
+
+        newAddressList[level] = data
+
+        dispatch({type: ADDRESS_LIST_CHANGE, payload: newAddressList})
     }
 
     return (<EventsContext.Provider value={{
@@ -99,6 +117,7 @@ export const EventsProvider = ({children}) => {
         handleTimeChange: handleEventTimeChange,
 
         fetchPostcodeData,
+        setPostcodeData
     }}>
         {children}
     </EventsContext.Provider>);
