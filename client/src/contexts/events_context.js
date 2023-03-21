@@ -6,38 +6,36 @@ import {events_url as url} from '../utils/constants';
 import {
     GET_EVENTS_BEGIN,
     GET_EVENTS_SUCCESS,
-    GET_EVENTS_ERROR, EVENT_DETAIL_CHANGE, EVENT_RESET, EVENT_OPTION_ADD, EVENT_TIME_CHANGE, EVENT_OPTION_DELETE,
+    GET_EVENTS_ERROR,
+
+    GET_POSTDATA_BEGIN,
+    GET_POSTDATA_SUCCESS,
+    GET_POSTDATA_ERROR,
+
+    EVENT_RESET,
+    EVENT_DETAIL_CHANGE,
+    EVENT_OPTION_ADD,
+    EVENT_OPTION_DELETE,
+    EVENT_TIME_CHANGE,
+
 } from '../utils/actions'
 import moment from "moment/moment";
 
 const initialState = {
     events_loading: false,
     events_error: false,
-    events:
-        [{
-            id: 1,
-            title: 'meeting',
-            date: 'today',
-            duration: '2hours',
-            option: [
-                '14',
-            ]
-        }, {
-            id: 2,
-            title: 'eating',
-            date: 'tomorrow'
-        }, {
-            id: 3,
-            title: 'ran',
-            date: 'jan 23'
-        },
-        ],
+    events: [],
+
+    new_event_loading: false,
+    new_event_error: false,
     new_event: {
         title: '',
-        chosenDate: moment(new Date()),
         postcode: '',
-        options: []
+        postcodeData: null,
+        chosenDate: moment(new Date()),
+        timeOptions: []
     },
+
     single_event_loading: false,
     single_event_error: false,
     single_event: {}
@@ -52,7 +50,6 @@ export const EventsProvider = ({children}) => {
         try {
             const response = await axios.get(url)
             const events = Array.from(response.data)
-            console.log(events)
             dispatch({type: GET_EVENTS_SUCCESS, payload: events})
         } catch (error) {
             dispatch({type: GET_EVENTS_ERROR})
@@ -63,7 +60,7 @@ export const EventsProvider = ({children}) => {
         dispatch({type: EVENT_RESET})
     }
 
-    const handleDetailChange = (e) => {
+    const handleEventDetailChange = (e) => {
         if (e._isAMomentObject) {
             dispatch({type: EVENT_DETAIL_CHANGE, payload: {target: {id: 'chosenDate', value: e}}})
             return
@@ -71,7 +68,7 @@ export const EventsProvider = ({children}) => {
         dispatch({type: EVENT_DETAIL_CHANGE, payload: e})
     }
 
-    const handleTimeChange = (e, idx, timeKind) => {
+    const handleEventTimeChange = (e, idx, timeKind) => {
         e['idx'] = idx
         e['timeKind'] = timeKind
         if (timeKind === 'delete') {
@@ -83,18 +80,25 @@ export const EventsProvider = ({children}) => {
         }
     }
 
-    const showAll = () => {
-        console.log(state)
+    const fetchPostcodeData = async () => {
+        dispatch({type: GET_POSTDATA_BEGIN})
+        try {
+            const res = await axios.get(`/api/postcode/${state.new_event.postcode}`)
+            dispatch({type: GET_POSTDATA_SUCCESS, payload: res.data})
+        } catch (error) {
+            dispatch({type: GET_POSTDATA_ERROR})
+        }
     }
 
     return (<EventsContext.Provider value={{
         ...state,
         fetchEvents,
-        resetEvent,
-        handleDetailChange,
-        handleTimeChange,
 
-        showAll
+        resetEvent,
+        handleDetailChange: handleEventDetailChange,
+        handleTimeChange: handleEventTimeChange,
+
+        fetchPostcodeData,
     }}>
         {children}
     </EventsContext.Provider>);

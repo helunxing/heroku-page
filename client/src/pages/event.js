@@ -20,14 +20,15 @@ const Event = () => {
         handleDetailChange,
         resetEvent,
         new_event,
-        showAll
+        fetchPostcodeData,
     } = useEventsContext()
 
     const {
         title,
         chosenDate,
         postcode,
-        options,
+        timeOptions,
+        postcodeData,
     } = new_event;
 
     const [dataList, setDataList] = useState(null);
@@ -66,29 +67,26 @@ const Event = () => {
                            className={"postcode"}
                            label="Postcode"
                            variant="outlined"
-                           onChange={handleDetailChange}/>
-                <Button onClick={() => {
-                    setDataList("loading...")
-                    axios.get('/api/postcode/gxpoigeeg')
-                        .then((res) => {
-                            setDataList(res.data)
-                        })
-                }}>
-                    search
-                </Button>
+                           onChange={handleDetailChange}
+                           onKeyDown={(event) => {
+                               if (event.key === 'Enter')
+                                   fetchPostcodeData();
+                           }}
+                />
+                <Button onClick={fetchPostcodeData}>Search</Button>
             </div>
 
-            <PostcodeChoice dataList={dataList} key={1}/>
+            <PostcodeChoice dataList={postcodeData} key={0} level={0}/>
 
-            {options.map((option, index) => {
+            {timeOptions.map((timeOptions, index) => {
                 return <CreateTimeChoice key={index}
                                          idx={index}
-                                         option={option}
+                                         option={timeOptions}
                                          createNew={index !== 0}/>
             })}
 
             <div className={"buttons"}>
-                <Button variant="contained" onClick={showAll}>Submit</Button>
+                <Button variant="contained">Submit</Button>
                 <Button variant="outlined" onClick={resetEvent}>Reset</Button>
             </div>
 

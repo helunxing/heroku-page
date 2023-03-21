@@ -6,7 +6,9 @@ const PostcodeChoice = ({dataList, level}) => {
 
     const [choice, setChoice] = useState('');
 
-    if (dataList === null) {
+    // TODO: add reset next level data and build the whole address
+
+    if (dataList === undefined || dataList === null) {
         return
     }
 
@@ -17,6 +19,8 @@ const PostcodeChoice = ({dataList, level}) => {
     }
 
     const choiceList = Object.keys(dataList).sort()
+    const nextLevel = level + 1
+
 
     return <Wrapper>
         <div className={"eventInfo"}>
@@ -32,14 +36,14 @@ const PostcodeChoice = ({dataList, level}) => {
                         setChoice(e.target.value)
                     }}
                 >
-                    {choiceList.length < 1 || <MenuItem value="">[empty]</MenuItem>}
+                    {choiceList.length < 1 || <MenuItem key={-1} value="">[empty]</MenuItem>}
                     {choiceList.map((choice, index) => {
-                        return <MenuItem value={choice}>{choice}</MenuItem>
+                        return <MenuItem key={index} value={choice}>{choice}</MenuItem>
                     })}
                 </Select>
             </FormControl>
         </div>
-        {choice === '' || <PostcodeChoice dataList={dataList[choice]}/>}
+        {choice === '' || <PostcodeChoice dataList={dataList[choice]} key={nextLevel} level={nextLevel}/>}
     </Wrapper>
 };
 

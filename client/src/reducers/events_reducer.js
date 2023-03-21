@@ -2,32 +2,60 @@ import {
     GET_EVENTS_BEGIN,
     GET_EVENTS_SUCCESS,
     GET_EVENTS_ERROR,
+
+    GET_POSTDATA_BEGIN,
+    GET_POSTDATA_SUCCESS,
+    GET_POSTDATA_ERROR,
+
+    EVENT_RESET,
     EVENT_DETAIL_CHANGE,
     EVENT_OPTION_ADD,
     EVENT_OPTION_DELETE,
-    EVENT_RESET,
-    EVENT_TIME_CHANGE
+    EVENT_TIME_CHANGE,
 } from '../utils/actions'
-import moment from "moment";
-import {options} from "axios";
+import moment from "moment"
+import {options} from "axios"
 
 const events_reducer = (state, action) => {
     switch (action.type) {
         case GET_EVENTS_BEGIN:
             return {...state, events_loading: true}
+
         case GET_EVENTS_SUCCESS:
-            // const featured_products=action.payload;
-            // .filter((event)=>product.)
             return {
                 ...state,
                 events_loading: false,
                 events: action.payload
             };
+
         case GET_EVENTS_ERROR:
             return {
                 ...state,
                 events_loading: false,
                 events_error: true
+            }
+
+        case GET_POSTDATA_BEGIN:
+            return {
+                ...state,
+                new_event_loading: true
+            }
+
+        case GET_POSTDATA_SUCCESS:
+            return {
+                ...state,
+                new_event_loading: false,
+                new_event: {
+                    ...state.new_event,
+                    postcodeData: action.payload
+                }
+            }
+
+        case GET_POSTDATA_ERROR:
+            return {
+                ...state,
+                new_event_loading: false,
+                new_event_error: true
             }
 
         case EVENT_DETAIL_CHANGE:
@@ -41,8 +69,8 @@ const events_reducer = (state, action) => {
                 }
             }
             return {...state}
+
         case EVENT_TIME_CHANGE:
-            // console.log(action.payload)
             return {
                 ...state,
                 new_event: {
@@ -58,6 +86,7 @@ const events_reducer = (state, action) => {
                     })
                 },
             }
+
         case EVENT_OPTION_ADD:
             return {
                 ...state,
@@ -69,6 +98,7 @@ const events_reducer = (state, action) => {
                     }],
                 }
             }
+
         case EVENT_OPTION_DELETE:
             return {
                 ...state,
@@ -79,21 +109,25 @@ const events_reducer = (state, action) => {
                     }),
                 }
             }
+
         case EVENT_RESET:
             return {
                 ...state,
                 new_event: {
                     title: '',
-                    chosenDate: moment(new Date()),
                     postcode: '',
-                    options: [
+                    postcodeData: null,
+                    chosenDate: moment(new Date()),
+                    timeOptions: [
                         {
                             'startTime': moment().format('HH:mm'),
                             'endTime': moment().add(30, 'minutes').format('HH:mm'),
                         }
                     ]
+
                 }
             }
+
         default:
             throw new Error(`no matching "${action.type}" action type`)
     }
