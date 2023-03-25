@@ -24,17 +24,12 @@ app = express()
 // auth router attaches /login, /logout, and /callback routes to the baseURL
 app.use(auth(config));
 
-// req.isAuthenticated is provided from the auth router
-app.get('/status', (req, res) => {
+app.get('/api/status', (req, res) => {
     // res.send(req.oidc.isAuthenticated() ? 'Logged in' : 'Logged out');
-    res.send(JSON.stringify({'logged': `${req.oidc.isAuthenticated() ? 'in' : 'out'}`}));
-});
-
-const {requiresAuth} = require('express-openid-connect');
-// const {response} = require("express");
-app.get('/profile', requiresAuth(), (req, res) => {
-    // console.log(req.oidc.user['sub']);
-    res.send(JSON.stringify(req.oidc.user));
+    res.send(JSON.stringify({
+        'logged': req.oidc.isAuthenticated(),
+        'name': `${req.oidc.isAuthenticated() ? req.oidc.user['nickname'] : ''}`
+    }));
 });
 
 app.get("/dontwantshow", (req, res) => {
