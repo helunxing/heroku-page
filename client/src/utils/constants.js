@@ -22,6 +22,6 @@ export const events_url = '/api/events'
 
 export const postcode_url = '/api/postcode'
 
-export const status_url = '/status'
+export const status_url = '/api/status'
 
 export const profile_url = '/profile'

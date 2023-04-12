@@ -20,6 +20,8 @@ const Event = () => {
         resetEvent,
         new_event,
         fetchPostcodeData,
+        fetchLoginStatus,
+        postEventInfo
     } = useEventsContext()
 
     const {
@@ -83,7 +85,7 @@ const Event = () => {
             })}
 
             <div className={"buttons"}>
-                <Button variant="contained">Submit</Button>
+                <Button variant="contained" onClick={postEventInfo}>Submit</Button>
                 <Button variant="outlined" onClick={resetEvent}>Reset</Button>
             </div>
 

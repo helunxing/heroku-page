@@ -31,7 +31,6 @@ const NavBar = () => {
                             <Link to={url}>{text}</Link>
                         </li>);
                     })}
-                    {/*{true && (<UserButton/>)}*/}
                 </ul>
 
                 <UserButton/>

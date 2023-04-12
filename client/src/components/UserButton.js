@@ -5,10 +5,10 @@ import {useUtilContext} from "../contexts/util_context";
 
 function UserButton() {
 
-    const {isLogged, closeSidebar, getUserStatus} = useUtilContext()
+    const {logged, closeSidebar, getLoginStatus} = useUtilContext()
 
     useEffect(() => {
-        getUserStatus();
+        getLoginStatus();
     }, [])
 
     const jumpToLogin = () => {
@@ -22,7 +22,7 @@ function UserButton() {
     }
 
     return (<Wrapper className='user-btn-wrapper'>
-        {isLogged ? (
+        {logged ? (
             <>
                 <Link to='/me' className='btn user-btn' onClick={closeSidebar}>
                     DashBoard

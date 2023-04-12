@@ -1,21 +1,21 @@
 import {
-    GET_EVENTS_BEGIN,
-    GET_EVENTS_SUCCESS,
-    GET_EVENTS_ERROR,
-
-    GET_POST_DATA_BEGIN,
-    GET_POST_DATA_SUCCESS,
-    GET_POST_DATA_ERROR,
-
-    EVENT_RESET,
+    ADDRESS_LIST_CHANGE,
     EVENT_DETAIL_CHANGE,
     EVENT_OPTION_ADD,
     EVENT_OPTION_DELETE,
+    EVENT_RESET,
     EVENT_TIME_CHANGE,
-    ADDRESS_LIST_CHANGE,
+    GET_EVENTS_BEGIN,
+    GET_EVENTS_ERROR,
+    GET_EVENTS_SUCCESS,
+    GET_LOGIN_BEGIN,
+    GET_LOGIN_ERROR,
+    GET_LOGIN_SUCCESS,
+    GET_POST_DATA_BEGIN,
+    GET_POST_DATA_ERROR,
+    GET_POST_DATA_SUCCESS,
 } from '../utils/actions'
 import moment from "moment"
-import {options} from "axios"
 
 const events_reducer = (state, action) => {
     switch (action.type) {
@@ -27,7 +27,7 @@ const events_reducer = (state, action) => {
                 ...state,
                 events_loading: false,
                 events: action.payload
-            };
+            }
 
         case GET_EVENTS_ERROR:
             return {
@@ -76,7 +76,7 @@ const events_reducer = (state, action) => {
                 ...state,
                 new_event: {
                     ...state.new_event,
-                    options: state.new_event.options.map((option, index) => {
+                    timeOptions: state.new_event.timeOptions.map((option, index) => {
                         if (index === action.payload['idx']) {
                             return {
                                 ...option,
@@ -102,7 +102,7 @@ const events_reducer = (state, action) => {
                 ...state,
                 new_event: {
                     ...state.new_event,
-                    options: [...state.new_event.options, {
+                    timeOptions: [...state.new_event.timeOptions, {
                         'startTime': moment().format('HH:mm'),
                         'endTime': moment().add(30, 'minutes').format('HH:mm'),
                     }],
@@ -114,7 +114,7 @@ const events_reducer = (state, action) => {
                 ...state,
                 new_event: {
                     ...state.new_event,
-                    options: state.new_event.options.filter((option, index) => {
+                    timeOptions: state.new_event.timeOptions.filter((option, index) => {
                         return index !== action.payload['idx']
                     }),
                 }

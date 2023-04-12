@@ -1,26 +1,26 @@
-import React, {useContext, useEffect, useReducer, useState} from 'react'
+import React, {useContext, useReducer} from 'react'
 import axios from "axios";
 
 import util_reducer from "../reducers/util_reducer";
-import {status_url, profile_url} from "../utils/constants"
+import {status_url} from "../utils/constants"
 import {
+    GET_LOGIN_BEGIN,
+    GET_LOGIN_ERROR,
+    GET_LOGIN_SUCCESS,
+
     SIDEBAR_CLOSE,
-    SIDEBAR_OPEN,
-    GET_USER_STATUS, GET_USER_BEGIN, GET_EVENTS_SUCCESS, GET_USER_ERROR, GET_USER_SUCCESS
+    SIDEBAR_OPEN
 } from "../utils/actions";
 
 
 const initialState = {
     isSideBarOpen: false,
-    isLogged: false,
-    logged_loading: false,
-    logged_error: false,
-    userinfo: {}
-}
 
-// user_nickname: '',
-// user_sub: '',
-// user_id: '',
+    login_loading: false,
+    login_error: false,
+    logged: false,
+    name: '',
+}
 
 const UtilContext = React.createContext()
 export const UserProvider = ({children}) => {
@@ -35,34 +35,15 @@ export const UserProvider = ({children}) => {
         dispatch({type: SIDEBAR_CLOSE})
     }
 
-    const getUserStatus = async () => {
-        dispatch({type: GET_USER_BEGIN})
-        try  {
-            const response = await axios.get(status_url)
-            const isLogged = response.data['logged'] === 'in'
-            if (!isLogged) {
-                dispatch({type: GET_USER_SUCCESS, payload: {isLogged}})
-                return
-            }
-            const profile_res = await axios.get(profile_url)
-            const {sub, nickname} = profile_res.data;
-            const userinfo = {user_nickname: nickname, user_sub: sub}
-            dispatch({type: GET_USER_SUCCESS, payload: {isLogged, userinfo}})
-        } catch
-            (error) {
-            dispatch({type: GET_USER_ERROR})
+    const getLoginStatus = async () => {
+        dispatch({type: GET_LOGIN_BEGIN})
+        try {
+            const res = await axios.get(status_url)
+            dispatch({type: GET_LOGIN_SUCCESS, payload: res.data})
+        } catch (error) {
+            dispatch({type: GET_LOGIN_ERROR})
         }
     }
-
-    // fetch('/login', {redirect: 'manual'})
-    //     .then((res) => res.json())
-    //     .then((status_json) => {
-    //         if (status_json['logged'] === 'out') {
-    //             setLogged(true);
-    //         } else {
-    //             setLogged(false);
-    //         }
-    //     });
 
     return (
         <UtilContext.Provider
@@ -70,14 +51,14 @@ export const UserProvider = ({children}) => {
                 ...state,
                 openSidebar,
                 closeSidebar,
-                getUserStatus
+                getLoginStatus
             }}
         >
             {children}
         </UtilContext.Provider>
     )
 }
-// make sure use
+
 export const useUtilContext = () => {
     return useContext(UtilContext)
 }

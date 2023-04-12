@@ -22,9 +22,7 @@ const config = {
 app = express()
 
 // auth router attaches /login, /logout, and /callback routes to the baseURL
-app.use(auth(config));
-
-app.get('/api/status', (req, res) => {
+app.get('/api/status', auth(config), (req, res) => {
     // res.send(req.oidc.isAuthenticated() ? 'Logged in' : 'Logged out');
     res.send(JSON.stringify({
         'logged': req.oidc.isAuthenticated(),
@@ -44,8 +42,27 @@ app.get("/api/events", (req, res) => {
     res.json(data);
 });
 
-app.post("/api/event", (req, res) => {
-    res.redirect('/notfound')
+app.post("/api/event", express.json(), async (req, res) => {
+
+    req.body['timeOptions'] = req.body['timeOptions'].map((option) => {
+        return option['startTime'] + '_' + option['endTime']
+    }).join(',')
+
+    // console.log(Object.keys(req.body))
+
+    await request.post({
+        url: 'http://localhost:8000/rows',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(req.body)
+    }, (err, backendRes, data) => {
+        if (err) {
+            console.log('Error:', err);
+        } else if (backendRes.statusCode !== 200) {
+            console.log('Status:', backendRes.statusCode);
+        } else {
+            console.log(backendRes);
+        }
+    })
 });
 
 app.get("/api/events/:eventsId", async (req, res) => {

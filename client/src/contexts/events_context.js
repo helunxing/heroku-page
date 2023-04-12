@@ -1,24 +1,24 @@
-import React, {useContext, useEffect, useReducer, useState} from 'react';
+import React, {useContext, useReducer} from 'react';
 import axios from 'axios';
 
 import events_reducer from '../reducers/events_reducer';
-import {events_url, postcode_url} from '../utils/constants';
+import {events_url, postcode_url, status_url} from '../utils/constants';
 import {
-    GET_EVENTS_BEGIN,
-    GET_EVENTS_SUCCESS,
-    GET_EVENTS_ERROR,
-
-    GET_POST_DATA_BEGIN,
-    GET_POST_DATA_SUCCESS,
-    GET_POST_DATA_ERROR,
-
-    EVENT_RESET,
+    ADDRESS_LIST_CHANGE,
     EVENT_DETAIL_CHANGE,
     EVENT_OPTION_ADD,
     EVENT_OPTION_DELETE,
+    EVENT_RESET,
     EVENT_TIME_CHANGE,
-    ADDRESS_LIST_CHANGE,
-
+    GET_EVENTS_BEGIN,
+    GET_EVENTS_ERROR,
+    GET_EVENTS_SUCCESS,
+    GET_LOGIN_BEGIN,
+    GET_LOGIN_ERROR,
+    GET_LOGIN_SUCCESS,
+    GET_POST_DATA_BEGIN,
+    GET_POST_DATA_ERROR,
+    GET_POST_DATA_SUCCESS,
 } from '../utils/actions'
 import moment from "moment/moment";
 
@@ -56,6 +56,11 @@ export const EventsProvider = ({children}) => {
         } catch (error) {
             dispatch({type: GET_EVENTS_ERROR})
         }
+    }
+
+    const postEventInfo= async () => {
+        const response = await axios.post('/api/event', state.new_event)
+        console.log(response)
     }
 
     const resetEvent = () => {
@@ -108,6 +113,8 @@ export const EventsProvider = ({children}) => {
         dispatch({type: ADDRESS_LIST_CHANGE, payload: newAddressList})
     }
 
+    // TODO: full fill log_info object and write a reducer for it
+
     return (<EventsContext.Provider value={{
         ...state,
         fetchEvents,
@@ -117,7 +124,8 @@ export const EventsProvider = ({children}) => {
         handleTimeChange: handleEventTimeChange,
 
         fetchPostcodeData,
-        setPostcodeData
+        setPostcodeData,
+        postEventInfo
     }}>
         {children}
     </EventsContext.Provider>);
