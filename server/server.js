@@ -22,7 +22,9 @@ const config = {
 app = express()
 
 // auth router attaches /login, /logout, and /callback routes to the baseURL
-app.get('/api/status', auth(config), (req, res) => {
+app.use(auth(config));
+
+app.get('/api/status', (req, res) => {
     // res.send(req.oidc.isAuthenticated() ? 'Logged in' : 'Logged out');
     res.send(JSON.stringify({
         'logged': req.oidc.isAuthenticated(),
