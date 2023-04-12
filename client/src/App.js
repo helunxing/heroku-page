@@ -1,5 +1,5 @@
 import React from "react";
-import {BrowserRouter as Router, Routes, Route} from 'react-router-dom';
+import {BrowserRouter as Router, Route, Routes} from 'react-router-dom';
 
 import NavBar from "./components/NavBar";
 import SideBar from "./components/SideBar";
@@ -10,6 +10,7 @@ import Notfound from "./pages/notfound";
 import Event from "./pages/event";
 import Join from "./pages/join";
 import PageHero from "./components/PageHero";
+import Me from "./pages/me";
 
 function App() {
 
@@ -28,10 +29,7 @@ function App() {
                 }/>
 
                 <Route path={'/me'} element={
-                    <>
-                        <PageHero title={'me'}/>
-                        <h2>Dashboard page</h2>
-                    </>
+                    <Me/>
                 }/>
 
                 <Route path={'/event'} element={
