@@ -11,12 +11,15 @@ import Event from "./pages/event";
 import Join from "./pages/join";
 import PageHero from "./components/PageHero";
 import Me from "./pages/me";
+import NotifyPart from "./components/NotifyPart";
 
 function App() {
 
 
     return (
         <Router>
+
+            <NotifyPart/>
 
             <NavBar/>
 
