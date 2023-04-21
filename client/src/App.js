@@ -1,4 +1,6 @@
 import React from "react";
+import "react-toastify/dist/ReactToastify.css";
+import {ToastContainer} from "react-toastify";
 import {BrowserRouter as Router, Route, Routes} from 'react-router-dom';
 
 import NavBar from "./components/NavBar";
@@ -11,7 +13,6 @@ import Event from "./pages/event";
 import Join from "./pages/join";
 import PageHero from "./components/PageHero";
 import Me from "./pages/me";
-import NotifyPart from "./components/NotifyPart";
 
 function App() {
 
@@ -19,7 +20,7 @@ function App() {
     return (
         <Router>
 
-            <NotifyPart/>
+            <ToastContainer/>
 
             <NavBar/>
 

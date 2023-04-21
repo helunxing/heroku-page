@@ -5,6 +5,7 @@ import {
     SIDEBAR_CLOSE,
     SIDEBAR_OPEN
 } from '../utils/actions'
+import {notifyInfo} from "../utils/functions";
 
 const util_reducer = (state, action) => {
     switch (action.type) {
@@ -18,6 +19,7 @@ const util_reducer = (state, action) => {
             return {...state, login_loading: true}
 
         case GET_LOGIN_SUCCESS:
+            notifyInfo('login success')
             return {
                 ...state,
                 ...action.payload,
