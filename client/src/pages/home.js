@@ -3,11 +3,8 @@ import styled from "styled-components";
 import {Link} from "react-router-dom";
 import pic1 from "../assets/meeting1.jpg"
 import pic2 from "../assets/meeting2.jpg"
-import {useUtilContext} from "../contexts/util_context";
 
 const Home = () => {
-
-    const {getUserStatus} = useUtilContext();
 
     useEffect(() => {
         document.title = 'Time Agreement';
@@ -23,7 +20,7 @@ const Home = () => {
                 Not sure when your friends are available for a meeting?
                 Let Time Agreement help you find the best time to get together.
             </p>
-            <Link to='/event' className='btn hero-btn' onClick={getUserStatus}>
+            <Link to='/event' className='btn hero-btn'>
                 host event
             </Link>
         </article>
