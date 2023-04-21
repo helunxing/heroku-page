@@ -40,12 +40,16 @@ export const UserProvider = ({children}) => {
         dispatch({type: GET_LOGIN_BEGIN})
         try {
             const res = await axios.get(status_url)
-            if (!state.logged && res.data.logged) {
-                notifyInfo('login success')
-            }
-            if (state.logged && !res.data.logged) {
-                notifyInfo('logout success')
-            }
+
+            console.log(`state: ${state.logged}`)
+            console.log(`data: ${res.data.logged}`)
+
+            // if (!state.logged && res.data.logged) {
+            //     notifyInfo('login success')
+            // }
+            // if (state.logged && !res.data.logged) {
+            //     notifyInfo('logout success')
+            // }
             dispatch({type: GET_LOGIN_SUCCESS, payload: res.data})
         } catch (error) {
 

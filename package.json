@@ -8,6 +8,7 @@
   "scripts": {
     "build": "npm --prefix server run build",
     "start": "node server/server.js",
+    "build_start": "npm run build && npm run start",
     "dev_start": "node server/server.js"
   },
   "license": "MIT"
