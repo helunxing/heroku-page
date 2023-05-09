@@ -10,7 +10,7 @@ Other parts introduction for this project:
 
 [Frontend](./client/README.md)
 
-[Microservices Backend](https://github.com/helunxing/microservices-backend)
+[Microservices Backend](../microservices-backend)
 
 ## Overall Structure
 
