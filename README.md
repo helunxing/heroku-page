@@ -8,7 +8,7 @@ This project is deployed at: <https://hlx.codes>
 
 Other parts introduction for this project:
 
-[Frontend](https://github.com/helunxing/heroku-page/client)
+[Frontend](https://github.com/helunxing/heroku-page/tree/release/client)
 
 [Microservices Backend](https://github.com/helunxing/microservices-backend)
 
