@@ -1,5 +1,16 @@
 # Time Agreement: Frontend
 
+This introduction is for the Time Agreement web app project,
+specifically its Frontend part.
+
+This project is deployed at: <https://hlx.codes>
+
+Other parts introduction for this project:
+
+[Backend](https://github.com/helunxing/microservices-backend)
+
+[Backend for Frontend part & overall introduction](../)
+
 ## page explanation
 
 ### /

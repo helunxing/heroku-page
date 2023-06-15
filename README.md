@@ -1,6 +1,6 @@
 # Time Agreement: Backend for Frontend
 
-This page is for the Time Agreement web app project, 
+This introduction is for the Time Agreement web app project, 
 specifically its Backend for Frontend (or called BFF) part 
 and project overall structure.
 
@@ -8,7 +8,7 @@ This project is deployed at: <https://hlx.codes>
 
 Other parts introduction for this project:
 
-[Frontend](./client/README.md)
+[Frontend](./client)
 
 [Microservices Backend](https://github.com/helunxing/microservices-backend)
 
