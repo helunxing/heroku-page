@@ -22,16 +22,23 @@ links for host and join events.
 
 ### /me
 
-dashboard page, list events that host by the user
+Dashboard page, list events that host by the user.
+
+depend on api: `api/user/{userSub}`
 
 ### /event
 
-host new events
+Host new events.
+
+depend on api: `/api/postcode/{queryCode}`
 
 ### /event/{id}
 
-event detail page. and join it.
+For all user, they can see event detail, and join it.
+For the creator of the event, can see all user join it, edit and delete it.
+
+
 
 ### /join
 
-input the id of event and join it, list all public events
+Input the id of event and join it, list all public events.

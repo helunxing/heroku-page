@@ -16,15 +16,15 @@ Other parts introduction for this project:
 
 架构图片
 
-The Frontend directly accesses the restful API provided by the Backend for Frontend (BFF), 
+The Frontend accesses the restful API provided by the Backend for Frontend (BFF), 
 which in turn interacts with Microservices and returns the required data to the Frontend.
 
 I chose this structure for several reasons. 
 First, changes made to the Frontend often require corresponding changes to the API. 
 For example, if function A on the Frontend relies on the API of microservice X, 
 and function B on the Frontend relies on the API of microservice Y, 
-a chang to A, require data from Y 
-If there is no BFF layer, then the Frontend API would have to be changed, 
+a chang to A, need require data from Y, 
+If there is no BFF layer, then the relation of API would have to be changed, 
 either by Y providing a new interface to A 
 or by X accessing data from Y and changing its own API.
 With the BFF layer in place, X and Y can simply provide a fixed interface, 
