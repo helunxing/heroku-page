@@ -24,20 +24,18 @@ links for host and join events.
 
 Dashboard page, list events that host by the user.
 
-depend on api: `api/user/{userSub}`
+depend on api: `api/user/{userSub}`, `/api/event/{eventId}`,
 
 ### /event
 
 Host new events.
 
-depend on api: `/api/postcode/{queryCode}`
+depend on api: POST `/api/event`, GET `/api/postcode/{queryCode}`
 
 ### /event/{id}
 
 For all user, they can see event detail, and join it.
 For the creator of the event, can see all user join it, edit and delete it.
-
-
 
 ### /join
 
