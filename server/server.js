@@ -34,14 +34,22 @@ app.get('/api/status', (req, res) => {
 
 app.get("/dontwantshow", (req, res) => {
     res.redirect('/notfound')
-    // return
 });
 
-app.get("/api/events", (req, res) => {
-    const data = [
-        {id: 1, date: 'today'},
-        {id: 2, date: 'tomorrow'}]
-    res.json(data);
+app.get("/api/events", express.json(), async (req, res) => {
+    await request.get({
+        url: 'http://localhost:8000/events',
+    }, (err, backendRes, data) => {
+        if (err) {
+            res.statusCode(500)
+            res.body('BFF Error:', err);
+        } else if (backendRes.statusCode !== 200) {
+            res.statusCode(backendRes.statusCode)
+            res.body('Status:', backendRes.body);
+        } else {
+            res.json(JSON.parse(data));
+        }
+    })
 });
 
 app.post("/api/event", express.json(), async (req, res) => {
