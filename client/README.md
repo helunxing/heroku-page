@@ -22,7 +22,7 @@ links for host and join events.
 
 ### /me
 
-Dashboard page, list events that host by the user.
+Dashboard page, list events that host by the user and user joined events.
 
 depend on api: `api/user/{userSub}`, `/api/event/{eventId}`,
 
