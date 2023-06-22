@@ -6,9 +6,10 @@ const PORT = process.env.PORT || 5001;
 const SECRET_KEY = process.env.SECRET_KEY || 'default_key';
 const BASE_URL = process.env.BASE_URL || 'http://localhost';
 const AUTH_BASE_URL = process.env.BASE_URL || (BASE_URL + ':5001');
-const POSTCODE_URL = process.env.POSTCODE_URL || (BASE_URL + ':8002');
+const POSTCODE_URL = process.env.POSTCODE_URL || (BASE_URL + ':8020');
 
 const {auth} = require('express-openid-connect');
+const {json} = require("express");
 
 const config = {
     authRequired: false,
@@ -61,17 +62,21 @@ app.post("/api/event", express.json(), async (req, res) => {
     // console.log(Object.keys(req.body))
 
     await request.post({
-        url: 'http://localhost:8000/rows',
+        url: 'http://localhost:8000/event',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify(req.body)
     }, (err, backendRes, data) => {
         if (err) {
-            console.log('Error:', err);
-        } else if (backendRes.statusCode !== 200) {
-            console.log('Status:', backendRes.statusCode);
+            res.statusCode = 500
+            console.log(err)
+            res.body = err
         } else {
-            console.log(backendRes);
+            res.statusCode = backendRes.statusCode
+            res.headers = backendRes.headers
+            const id = backendRes.headers.location.split('event/').pop()
+            res.location('/api/event/' + id)
         }
+        res.send()
     })
 });
 
@@ -91,18 +96,20 @@ app.get("/api/postcode/:queryCode", async (req, res) => {
 
     await request.get({
         url: POSTCODE_URL + '/' + req.params.queryCode,
-        json: true,
+        // json: true,
         // headers: {'User-Agent': 'request'}
     }, (err, backendRes, data) => {
         if (err) {
-            console.log('Error:', err);
-        } else if (backendRes.statusCode !== 200) {
-            console.log('Status:', backendRes.statusCode);
+            res.statusCode = 500
+            console.log(err)
+            res.body = err
         } else {
-            res.json(data);
+            res.statusCode = backendRes.statusCode
+            res.headers = backendRes.headers
+            res.json(JSON.parse(data))
         }
+        res.send()
     });
-
 });
 
 app.use(express.static(path.resolve(__dirname, '../client/build')));
