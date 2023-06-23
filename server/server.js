@@ -55,10 +55,6 @@ app.get("/api/events", express.json(), async (req, res) => {
 
 app.post("/api/event", express.json(), async (req, res) => {
 
-    req.body['timeOptions'] = req.body['timeOptions'].map((option) => {
-        return option['startTime'] + '_' + option['endTime']
-    }).join(',')
-
     // console.log(Object.keys(req.body))
 
     await request.post({

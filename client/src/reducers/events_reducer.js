@@ -8,12 +8,12 @@ import {
     GET_EVENTS_BEGIN,
     GET_EVENTS_ERROR,
     GET_EVENTS_SUCCESS,
-    GET_LOGIN_BEGIN,
-    GET_LOGIN_ERROR,
-    GET_LOGIN_SUCCESS,
     GET_POST_DATA_BEGIN,
     GET_POST_DATA_ERROR,
     GET_POST_DATA_SUCCESS,
+    POST_NEW_EVENT_BEGIN,
+    POST_NEW_EVENT_ERROR,
+    POST_NEW_EVENT_SUCCESS,
 } from '../utils/actions'
 import moment from "moment"
 
@@ -138,6 +138,15 @@ const events_reducer = (state, action) => {
 
                 }
             }
+
+        case POST_NEW_EVENT_BEGIN:
+            return {...state, new_event_loading: true}
+
+        case POST_NEW_EVENT_SUCCESS:
+            return {...state, new_event_loading: false}
+
+        case POST_NEW_EVENT_ERROR:
+            return {...state, new_event_loading: false, new_event_error: true}
 
         default:
             throw new Error(`no matching "${action.type}" action type`)

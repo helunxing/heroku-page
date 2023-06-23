@@ -13,12 +13,12 @@ import {
     GET_EVENTS_BEGIN,
     GET_EVENTS_ERROR,
     GET_EVENTS_SUCCESS,
-    GET_LOGIN_BEGIN,
-    GET_LOGIN_ERROR,
-    GET_LOGIN_SUCCESS,
     GET_POST_DATA_BEGIN,
     GET_POST_DATA_ERROR,
     GET_POST_DATA_SUCCESS,
+    POST_NEW_EVENT_BEGIN,
+    POST_NEW_EVENT_SUCCESS,
+    POST_NEW_EVENT_ERROR
 } from '../utils/actions'
 import moment from "moment/moment";
 
@@ -29,6 +29,8 @@ const initialState = {
 
     new_event_loading: false,
     new_event_error: false,
+    post_new_event_loading: false,
+    post_new_event_error: false,
     new_event: {
         title: '',
         postcode: '',
@@ -58,9 +60,29 @@ export const EventsProvider = ({children}) => {
         }
     }
 
-    const postEventInfo= async () => {
-        const response = await axios.post('/api/event', state.new_event)
-        console.log(response)
+    const postEventInfo = async () => {
+        dispatch({type: POST_NEW_EVENT_BEGIN})
+        try {
+
+            const filteredBody = {
+                'title': state.new_event['title'],
+                'date': state.new_event['chosenDate'].format('YYYY-MM-DD'),
+                'creatorId': 1,
+                'timeOptions': state.new_event['timeOptions'].map((option) => {
+                    return option['startTime'] + '_' + option['endTime']
+                }).join(','),
+            }
+            const response = await axios.post('/api/event', filteredBody)
+            if (response.status === 201) {
+                dispatch({type: POST_NEW_EVENT_SUCCESS})
+            } else {
+                dispatch({type: POST_NEW_EVENT_ERROR})
+                alert('create failed')
+            }
+        } catch (error) {
+            dispatch({type: POST_NEW_EVENT_ERROR})
+            alert('connecting error')
+        }
     }
 
     const resetEvent = () => {
