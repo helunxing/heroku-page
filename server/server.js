@@ -103,12 +103,12 @@ app.get("/api/postcode/:queryCode", async (req, res) => {
             res.statusCode = 500
             console.log(err)
             res.body = err
+            res.send()
         } else {
             res.statusCode = backendRes.statusCode
             res.headers = backendRes.headers
             res.json(JSON.parse(data))
         }
-        res.send()
     });
 });
 
