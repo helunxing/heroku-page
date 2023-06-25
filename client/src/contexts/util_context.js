@@ -4,6 +4,7 @@ import axios from "axios";
 import util_reducer from "../reducers/util_reducer";
 import {status_url} from "../utils/constants"
 import {notifyInfo} from "../utils/functions";
+
 import {
     GET_LOGIN_BEGIN,
     GET_LOGIN_ERROR,
@@ -21,6 +22,8 @@ const initialState = {
     login_error: false,
     logged: false,
     name: '',
+    sub: null,
+    id: null,
 }
 
 const UtilContext = React.createContext()
@@ -42,7 +45,6 @@ export const UserProvider = ({children}) => {
             const res = await axios.get(status_url)
             dispatch({type: GET_LOGIN_SUCCESS, payload: res.data})
         } catch (error) {
-
             dispatch({type: GET_LOGIN_ERROR})
         }
     }

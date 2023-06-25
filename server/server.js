@@ -6,8 +6,9 @@ const PORT = process.env.PORT || 5001;
 const SECRET_KEY = process.env.SECRET_KEY || 'default_key';
 const BASE_URL = process.env.BASE_URL || 'http://localhost';
 const AUTH_BASE_URL = process.env.BASE_URL || (BASE_URL + ':5001');
-const POSTCODE_URL = process.env.POSTCODE_URL || (BASE_URL + ':8020');
 const EVENT_URL = process.env.EVENT_URL || (BASE_URL + ':8000');
+const POSTCODE_URL = process.env.POSTCODE_URL || (BASE_URL + ':8020');
+const USER_URL = process.env.USER_URL || (BASE_URL + ':8100');
 
 const {auth} = require('express-openid-connect');
 const {json} = require("express");
@@ -25,14 +26,6 @@ app = express()
 
 // auth router attaches /login, /logout, and /callback routes to the baseURL
 app.use(auth(config));
-
-app.get('/api/status', (req, res) => {
-    res.send(JSON.stringify({
-        'logged': req.oidc.isAuthenticated(),
-        'name': `${req.oidc.isAuthenticated() ? req.oidc.user['nickname'] : ''}`,
-        'sub': `${req.oidc.isAuthenticated() ? req.oidc.user['sub'] : ''}`
-    }));
-});
 
 app.get("/dontwantshow", (req, res) => {
     res.redirect('/notfound')
@@ -84,6 +77,32 @@ app.put("/api/events/:eventsId", async (req, res) => {
 
 app.delete("/api/events/:eventsId", async (req, res) => {
     res.redirect('/notfound')
+});
+
+
+app.get('/api/status', async (req, res) => {
+    if (!req.oidc.isAuthenticated()) {
+        res.send(JSON.stringify({
+            'logged': req.oidc.isAuthenticated(),
+        }))
+        return
+    }
+
+    await request.get({
+        url: USER_URL + '/user/sub/' + req.params.sub,
+    }, (err, backendRes, data) => {
+        if (err) {
+            console.log(`BFF Error ${err}`)
+        } else {
+            res.send(JSON.stringify({
+                'logged': req.oidc.isAuthenticated(),
+                'name': req.oidc.user['nickname'],
+                'sub': req.oidc.user['sub'].replace('|', '_'),
+                'id': Number(backendRes.headers.location.split('/').pop()),
+            }))
+
+        }
+    })
 });
 
 app.get("/api/postcode/:queryCode", async (req, res) => {
