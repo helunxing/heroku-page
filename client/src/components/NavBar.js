@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import {Link} from "react-router-dom";
 import {FaBars} from 'react-icons/fa';
 import {links} from "../utils/constants";
-// import UserButton from "./UserButton";
 import {useUtilContext} from "../contexts/util_context";
 import Logo from "./Logo";
 import UserButton from "./UserButton";
@@ -11,19 +10,6 @@ import UserButton from "./UserButton";
 const NavBar = () => {
 
     const {openSidebar} = useUtilContext();
-
-    // const [logged, setLogged] = useState(false);
-    // useEffect(() => {
-    //     fetch('/status')
-    //         .then((res) => res.json())
-    //         .then((status_json) => {
-    //             if (status_json['logged'] === 'out') {
-    //                 setLogged(true);
-    //             } else {
-    //                 setLogged(false);
-    //             }
-    //         });
-    // }, []);
 
     return <NavContainer>
         <div>
@@ -45,7 +31,6 @@ const NavBar = () => {
                             <Link to={url}>{text}</Link>
                         </li>);
                     })}
-                    {/*{true && (<UserButton/>)}*/}
                 </ul>
 
                 <UserButton/>

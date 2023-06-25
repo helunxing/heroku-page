@@ -1,5 +1,7 @@
-import React, {useState, useEffect} from "react";
-import {BrowserRouter as Router, Routes, Route} from 'react-router-dom';
+import React from "react";
+import "react-toastify/dist/ReactToastify.css";
+import {ToastContainer} from "react-toastify";
+import {BrowserRouter as Router, Route, Routes} from 'react-router-dom';
 
 import NavBar from "./components/NavBar";
 import SideBar from "./components/SideBar";
@@ -7,11 +9,18 @@ import Footer from "./components/Footer";
 
 import Home from "./pages/home"
 import Notfound from "./pages/notfound";
+import Event from "./pages/event";
+import Join from "./pages/join";
+import PageHero from "./components/PageHero";
+import Me from "./pages/me";
 
 function App() {
 
+
     return (
         <Router>
+
+            <ToastContainer/>
 
             <NavBar/>
 
@@ -20,21 +29,31 @@ function App() {
             <Routes>
 
                 <Route path={'/'} element={
-                    <Home/>}/>
+                    <Home/>
+                }/>
 
                 <Route path={'/me'} element={
-                    <h2>Dashboard page</h2>}/>))}
+                    <Me/>
+                }/>
 
-                <Route path={'/e'} element={
-                    <h2>events page</h2>}/>))}
-                <Route path={'/events'} element={
-                    <h2>events page</h2>}/>))}
+                <Route path={'/event'} element={
+                    <Event/>
+                }/>
 
                 <Route path={'/join'} element={
-                    <h2>join page</h2>}/>
+                    <Join/>
+                }/>
+
+                <Route path={'/join/:id'} element={
+                    <>
+                        <PageHero title={'pore'} isEvent/>
+                        <h2>detail page</h2>
+                    </>
+                }/>
 
                 <Route path="*" element={
-                    <Notfound/>}/>
+                    <Notfound/>
+                }/>
 
             </Routes>
 

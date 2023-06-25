@@ -1,40 +1,66 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
+import {FormControl, InputLabel, MenuItem, Select} from "@mui/material";
+import styled from "styled-components";
+import {useEventsContext} from "../contexts/events_context";
+import userButton from "./UserButton";
 
-const PostcodeChoice = ({dataList}) => {
+const PostcodeChoice = ({dataList, level}) => {
 
-    // fetch('/postcode/gxpoigeeg')
-    //     .then((res) => res.json())
-    //     .then((data) => setDate(data));
+    const [choice, setChoice] = useState("");
 
-    // const res = await fetch('/status');
-    // const status_json = await res.json();
+    const {
+        setPostcodeData,
+    } = useEventsContext()
 
-    const [choice, setChoice] = useState('');
+    useEffect(() => {
+        setChoice("");
+    }, [dataList])
 
-    if (dataList === null) {
-        return <>
-            <h2>Loading</h2>
-        </>
-    }
-
-    if (dataList === '') {
+    if (dataList === undefined || dataList === null) {
         return
     }
 
-    const choiceList = Object.keys(dataList).sort()
+    if (dataList === "loading...") {
+        return <div className={"eventInfo"}>
+            <h3>Loading</h3>
+        </div>
+    }
 
-    return (<>
-        {/*<label>address select</label>*/}
-        <select onChange={(e) => {
-            setChoice(e.target.value)
-        }}>
-            {choiceList.length < 2 || <option value={''}>[empty]</option>}
-            {choiceList.map((choice, index) => {
-                return <option value={choice}>{choice}</option>
-            })}
-        </select>
-        {!choice || <PostcodeChoice dataList={dataList[choice]}/>}
-    </>);
+    const choiceList = Object.keys(dataList).sort()
+    const nextLevel = level + 1
+
+    return <Wrapper>
+        <div className={"eventInfo"}>
+            <FormControl>
+                {/*sx={{m: 1, minWidth: 120}}*/}
+                <Select
+                    displayEmpty
+                    inputProps={{'aria-label': 'Without label'}}
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    value={choice}
+                    onChange={(e) => {
+                        setPostcodeData(level, e.target.value)
+                        setChoice(e.target.value)
+                    }}
+                >
+                    {choiceList.length < 1 || <MenuItem key={-1} value="">[empty]</MenuItem>}
+                    {choiceList.map((choice, index) => {
+                        return <MenuItem key={index} value={choice}>{choice}</MenuItem>
+                    })}
+                </Select>
+            </FormControl>
+        </div>
+        {choice === '' || <PostcodeChoice dataList={dataList[choice]} key={nextLevel} level={nextLevel}/>}
+    </Wrapper>
 };
+
+const Wrapper = styled.section`
+  .eventInfo {
+    padding-top: 1rem;
+    justify-content: center;
+    display: flex;
+  }
+`
 
 export default PostcodeChoice;

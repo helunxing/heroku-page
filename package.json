@@ -6,8 +6,10 @@
     "node": "16.x"
   },
   "scripts": {
-    "start": "cd server && node server.js",
-    "build": "cd server && npm run build"
+    "build": "npm --prefix server run build",
+    "start": "node server/server.js",
+    "build_start": "npm run build && npm run start",
+    "dev_start": "node server/server.js"
   },
   "license": "MIT"
 }

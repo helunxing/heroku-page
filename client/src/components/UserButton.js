@@ -3,25 +3,36 @@ import styled from "styled-components";
 import {Link} from "react-router-dom";
 import {useUtilContext} from "../contexts/util_context";
 
-// import { useNavigate } from "react-router-dom";
-
 function UserButton() {
 
-    const {isLogged, closeSidebar, getUserStatus} = useUtilContext()
+    const {logged, closeSidebar, getLoginStatus} = useUtilContext()
 
     useEffect(() => {
-        getUserStatus();
+        getLoginStatus();
     }, [])
 
+    const jumpToLogin = () => {
+        closeSidebar()
+        window.location.href = '/login';
+    }
+
+    const jumpToLogout = () => {
+        closeSidebar()
+        window.location.href = '/logout';
+    }
+
     return (<Wrapper className='user-btn-wrapper'>
-        {isLogged ? (
+        {logged ? (
             <>
                 <Link to='/me' className='btn user-btn' onClick={closeSidebar}>
-                    DashBoard</Link>
-                <Link to='/logout' className='btn logout-btn' onClick={closeSidebar}>
-                    Log out </Link></>) : (
-            <Link to='/login' className='btn log-btn' onClick={closeSidebar}>
-                Login</Link>
+                    DashBoard
+                </Link>
+                <button className='btn logout-btn' onClick={jumpToLogout}>
+                    Log out
+                </button>
+            </>) : (
+            <button className='btn log-btn' onClick={jumpToLogin}>
+                Login</button>
         )}
 
     </Wrapper>);

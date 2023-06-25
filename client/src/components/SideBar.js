@@ -9,7 +9,9 @@ import Logo from "./Logo";
 import UserButton from "./UserButton";
 
 const SideBar = () => {
+
     const {isSideBarOpen, closeSidebar} = useUtilContext();
+    
     return (<SidebarContainer>
         <aside
             className={`${isSideBarOpen ? 'sidebar show-sidebar' : 'sidebar'}`}>

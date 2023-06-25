@@ -6,9 +6,10 @@ const PORT = process.env.PORT || 5001;
 const SECRET_KEY = process.env.SECRET_KEY || 'default_key';
 const BASE_URL = process.env.BASE_URL || 'http://localhost';
 const AUTH_BASE_URL = process.env.BASE_URL || (BASE_URL + ':5001');
-const POSTCODE_URL = process.env.POSTCODE_URL || (BASE_URL + ':8002');
+const POSTCODE_URL = process.env.POSTCODE_URL || (BASE_URL + ':8020');
 
 const {auth} = require('express-openid-connect');
+const {json} = require("express");
 
 const config = {
     authRequired: false,
@@ -24,34 +25,55 @@ app = express()
 // auth router attaches /login, /logout, and /callback routes to the baseURL
 app.use(auth(config));
 
-// req.isAuthenticated is provided from the auth router
-app.get('/status', (req, res) => {
+app.get('/api/status', (req, res) => {
     // res.send(req.oidc.isAuthenticated() ? 'Logged in' : 'Logged out');
-    res.send(JSON.stringify({'logged': `${req.oidc.isAuthenticated() ? 'in' : 'out'}`}));
-});
-
-const {requiresAuth} = require('express-openid-connect');
-// const {response} = require("express");
-app.get('/profile', requiresAuth(), (req, res) => {
-    res.send(JSON.stringify(req.oidc.user));
+    res.send(JSON.stringify({
+        'logged': req.oidc.isAuthenticated(),
+        'name': `${req.oidc.isAuthenticated() ? req.oidc.user['nickname'] : ''}`
+    }));
 });
 
 app.get("/dontwantshow", (req, res) => {
     res.redirect('/notfound')
-    // return
 });
 
-app.get("/api/events", (req, res) => {
-    const data = [
-        {id: 1, date: 'today'},
-        {id: 2, date: 'tomorrow'}]
-
-    res.json(data);
-
+app.get("/api/events", express.json(), async (req, res) => {
+    await request.get({
+        url: 'http://localhost:8000/events',
+    }, (err, backendRes, data) => {
+        if (err) {
+            res.statusCode(500)
+            res.body('BFF Error:', err);
+        } else if (backendRes.statusCode !== 200) {
+            res.statusCode(backendRes.statusCode)
+            res.body('Status:', backendRes.body);
+        } else {
+            res.json(JSON.parse(data));
+        }
+    })
 });
 
-app.post("/api/event", (req, res) => {
-    res.redirect('/notfound')
+app.post("/api/event", express.json(), async (req, res) => {
+
+    // console.log(Object.keys(req.body))
+
+    await request.post({
+        url: 'http://localhost:8000/event',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(req.body)
+    }, (err, backendRes, data) => {
+        if (err) {
+            res.statusCode = 500
+            console.log(err)
+            res.body = err
+        } else {
+            res.statusCode = backendRes.statusCode
+            res.headers = backendRes.headers
+            const id = backendRes.headers.location.split('event/').pop()
+            res.location('/api/event/' + id)
+        }
+        res.send()
+    })
 });
 
 app.get("/api/events/:eventsId", async (req, res) => {
@@ -68,21 +90,22 @@ app.delete("/api/events/:eventsId", async (req, res) => {
 
 app.get("/api/postcode/:queryCode", async (req, res) => {
 
-    // console.log(POSTCODE_URL + req.params.queryCode)
     await request.get({
-        url: POSTCODE_URL + req.params.queryCode,
-        json: true,
+        url: POSTCODE_URL + '/' + req.params.queryCode,
+        // json: true,
         // headers: {'User-Agent': 'request'}
-    }, (err, res, data) => {
+    }, (err, backendRes, data) => {
         if (err) {
-            console.log('Error:', err);
-        } else if (res.statusCode !== 200) {
-            console.log('Status:', res.statusCode);
+            res.statusCode = 500
+            console.log(err)
+            res.body = err
+            res.send()
         } else {
-            res.json(data);
+            res.statusCode = backendRes.statusCode
+            res.headers = backendRes.headers
+            res.json(JSON.parse(data))
         }
     });
-
 });
 
 app.use(express.static(path.resolve(__dirname, '../client/build')));

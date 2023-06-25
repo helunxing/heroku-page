@@ -1,45 +1,153 @@
-import React, {useContext, useEffect, useReducer, useState} from 'react';
+import React, {useContext, useReducer} from 'react';
 import axios from 'axios';
 
 import events_reducer from '../reducers/events_reducer';
-import {events_url as url} from '../utils/constants';
+import {events_url, postcode_url, status_url} from '../utils/constants';
 import {
+    ADDRESS_LIST_CHANGE,
+    EVENT_DETAIL_CHANGE,
+    EVENT_OPTION_ADD,
+    EVENT_OPTION_DELETE,
+    EVENT_RESET,
+    EVENT_TIME_CHANGE,
     GET_EVENTS_BEGIN,
-    GET_EVENTS_SUCCESS,
     GET_EVENTS_ERROR,
+    GET_EVENTS_SUCCESS,
+    GET_POST_DATA_BEGIN,
+    GET_POST_DATA_ERROR,
+    GET_POST_DATA_SUCCESS,
+    POST_NEW_EVENT_BEGIN,
+    POST_NEW_EVENT_SUCCESS,
+    POST_NEW_EVENT_ERROR
 } from '../utils/actions'
+import moment from "moment/moment";
 
 const initialState = {
     events_loading: false,
     events_error: false,
     events: [],
-    featured_events: [],
-    single_product_loading: false,
-    single_product_error: false,
-    single_product: {}
+
+    new_event_loading: false,
+    new_event_error: false,
+    post_new_event_loading: false,
+    post_new_event_error: false,
+    new_event: {
+        title: '',
+        postcode: '',
+        postcodeData: null,
+        addressList: [''],
+        chosenDate: moment(new Date()),
+        timeOptions: []
+    },
+
+    single_event_loading: false,
+    single_event_error: false,
+    single_event: {}
 }
 
 const EventsContext = React.createContext()
 export const EventsProvider = ({children}) => {
     const [state, dispatch] = useReducer(events_reducer, initialState)
 
-    const fetchEvents = async (url) => {
+    const fetchEvents = async () => {
         dispatch({type: GET_EVENTS_BEGIN})
         try {
-            const response = await axios.get(url)
-            const events = response.data
+            const response = await axios.get(events_url)
+            const events = Array.from(response.data)
             dispatch({type: GET_EVENTS_SUCCESS, payload: events})
         } catch (error) {
             dispatch({type: GET_EVENTS_ERROR})
         }
     }
 
-    useEffect(() => {
-        fetchEvents(url)
-    }, [])
+    const postEventInfo = async () => {
+        dispatch({type: POST_NEW_EVENT_BEGIN})
+        try {
+
+            const filteredBody = {
+                'title': state.new_event['title'],
+                'date': state.new_event['chosenDate'].format('YYYY-MM-DD'),
+                'creatorId': 1,
+                'timeOptions': state.new_event['timeOptions'].map((option) => {
+                    return option['startTime'] + '_' + option['endTime']
+                }).join(','),
+            }
+            const response = await axios.post('/api/event', filteredBody)
+            if (response.status === 201) {
+                dispatch({type: POST_NEW_EVENT_SUCCESS})
+            } else {
+                dispatch({type: POST_NEW_EVENT_ERROR})
+                alert('create failed')
+            }
+        } catch (error) {
+            dispatch({type: POST_NEW_EVENT_ERROR})
+            alert('connecting error')
+        }
+    }
+
+    const resetEvent = () => {
+        dispatch({type: EVENT_RESET})
+    }
+
+    const handleEventDetailChange = (e) => {
+        if (e._isAMomentObject) {
+            dispatch({type: EVENT_DETAIL_CHANGE, payload: {target: {id: 'chosenDate', value: e}}})
+            return
+        }
+        dispatch({type: EVENT_DETAIL_CHANGE, payload: e})
+    }
+
+    const handleEventTimeChange = (e, idx, timeKind) => {
+        e['idx'] = idx
+        e['timeKind'] = timeKind
+        if (timeKind === 'delete') {
+            dispatch({type: EVENT_OPTION_DELETE, payload: e})
+        } else if (timeKind === 'add') {
+            dispatch({type: EVENT_OPTION_ADD, payload: e})
+        } else {
+            dispatch({type: EVENT_TIME_CHANGE, payload: e})
+        }
+    }
+
+    const fetchPostcodeData = async () => {
+        dispatch({type: GET_POST_DATA_BEGIN})
+        try {
+            const res = await axios.get(`${postcode_url}/${state.new_event.postcode}`)
+            dispatch({type: GET_POST_DATA_SUCCESS, payload: res.data})
+        } catch (error) {
+            dispatch({type: GET_POST_DATA_ERROR})
+        }
+    }
+
+    const setPostcodeData = (level, data) => {
+        let newAddressList = state.new_event.addressList
+
+        if (level < newAddressList.length) {
+            newAddressList = newAddressList.slice(0, level)
+        }
+
+        while (level >= newAddressList.length) {
+            newAddressList.push('')
+        }
+
+        newAddressList[level] = data
+
+        dispatch({type: ADDRESS_LIST_CHANGE, payload: newAddressList})
+    }
+
+    // TODO: full fill log_info object and write a reducer for it
 
     return (<EventsContext.Provider value={{
         ...state,
+        fetchEvents,
+
+        resetEvent,
+        handleDetailChange: handleEventDetailChange,
+        handleTimeChange: handleEventTimeChange,
+
+        fetchPostcodeData,
+        setPostcodeData,
+        postEventInfo
     }}>
         {children}
     </EventsContext.Provider>);

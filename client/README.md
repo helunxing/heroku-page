@@ -1,5 +1,16 @@
 # Time Agreement: Frontend
 
+This introduction is for the Time Agreement web app project,
+specifically its Frontend part.
+
+This project is deployed at: <https://hlx.codes>
+
+Other parts introduction for this project:
+
+[Backend](https://github.com/helunxing/microservices-backend)
+
+[Backend for Frontend part & overall introduction](../)
+
 ## page explanation
 
 ### /
@@ -11,16 +22,21 @@ links for host and join events.
 
 ### /me
 
-dashboard page, list events that host by the user
+Dashboard page, list events that host by the user and user joined events.
+
+depend on api: `api/user/{userSub}`, `/api/event/{eventId}`,
 
 ### /event
 
-host new events
+Host new events.
+
+depend on api: POST `/api/event`, GET `/api/postcode/{queryCode}`
 
 ### /event/{id}
 
-event detail page. and join it.
+For all user, they can see event detail, and join it.
+For the creator of the event, can see all user join it, edit and delete it.
 
 ### /join
 
-input the id of event and join it, list all public events
+Input the id of event and join it, list all public events.

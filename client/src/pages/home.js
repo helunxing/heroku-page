@@ -10,47 +10,43 @@ const Home = () => {
         document.title = 'Time Agreement';
     }, []);
 
-    return <main>
-        <Wrapper className='section-center'>
+    return <Wrapper className='section-center'>
+        <article className='content'>
+            <h1>
+                invite <br/>
+                friends
+            </h1>
+            <p>
+                Not sure when your friends are available for a meeting?
+                Let Time Agreement help you find the best time to get together.
+            </p>
+            <Link to='/event' className='btn hero-btn'>
+                host event
+            </Link>
+        </article>
 
-            <article className='content'>
-                <h1>
-                    invite <br/>
-                    friends
-                </h1>
-                <p>
-                    Not sure when your friends are available for a meeting?
-                    Let Time Agreement help you find the best time to get together.
-                </p>
-                <Link to='/events' className='btn hero-btn'>
-                    host event
-                </Link>
-            </article>
+        <article className='img-container'>
+            <img src={pic2} alt='meeting2' className='main-img'/>
+        </article>
 
-            <article className='img-container'>
-                <img src={pic2} alt='meeting2' className='main-img'/>
-            </article>
+        <article className='img-container'>
+            <img src={pic1} alt='meeting1' className='main-img'/>
+        </article>
 
-            <article className='img-container'>
-                <img src={pic1} alt='meeting1' className='main-img'/>
-            </article>
-
-            <article className='content'>
-                <h1>
-                    choose time <br/>
-                    you like
-                </h1>
-                <p>
-                    Want to keep track of all your events and never miss one again?
-                    Time Agreement can help you manage them all.
-                </p>
-                <Link to='/join' className='btn hero-btn'>
-                    join event
-                </Link>
-            </article>
-
-        </Wrapper>
-    </main>;
+        <article className='content'>
+            <h1>
+                choose time <br/>
+                you like
+            </h1>
+            <p>
+                Want to keep track of all your events and never miss one again?
+                Time Agreement can help you manage them all.
+            </p>
+            <Link to='/join' className='btn hero-btn'>
+                join event
+            </Link>
+        </article>
+    </Wrapper>;
 
 }
 
@@ -74,7 +70,6 @@ const Wrapper = styled.section`
   }
 
   @media (min-width: 992px) {
-
 
     height: calc(100vh - 5rem);
     grid-template-columns: 1fr 1fr;
