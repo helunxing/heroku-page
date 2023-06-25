@@ -7,6 +7,7 @@ const SECRET_KEY = process.env.SECRET_KEY || 'default_key';
 const BASE_URL = process.env.BASE_URL || 'http://localhost';
 const AUTH_BASE_URL = process.env.BASE_URL || (BASE_URL + ':5001');
 const POSTCODE_URL = process.env.POSTCODE_URL || (BASE_URL + ':8020');
+const EVENT_URL = process.env.EVENT_URL || (BASE_URL + ':8000');
 
 const {auth} = require('express-openid-connect');
 const {json} = require("express");
@@ -26,10 +27,10 @@ app = express()
 app.use(auth(config));
 
 app.get('/api/status', (req, res) => {
-    // res.send(req.oidc.isAuthenticated() ? 'Logged in' : 'Logged out');
     res.send(JSON.stringify({
         'logged': req.oidc.isAuthenticated(),
-        'name': `${req.oidc.isAuthenticated() ? req.oidc.user['nickname'] : ''}`
+        'name': `${req.oidc.isAuthenticated() ? req.oidc.user['nickname'] : ''}`,
+        'sub': `${req.oidc.isAuthenticated() ? req.oidc.user['sub'] : ''}`
     }));
 });
 
@@ -54,11 +55,8 @@ app.get("/api/events", express.json(), async (req, res) => {
 });
 
 app.post("/api/event", express.json(), async (req, res) => {
-
-    // console.log(Object.keys(req.body))
-
     await request.post({
-        url: 'http://localhost:8000/event',
+        url: EVENT_URL + '/event',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify(req.body)
     }, (err, backendRes, data) => {
@@ -92,8 +90,6 @@ app.get("/api/postcode/:queryCode", async (req, res) => {
 
     await request.get({
         url: POSTCODE_URL + '/' + req.params.queryCode,
-        // json: true,
-        // headers: {'User-Agent': 'request'}
     }, (err, backendRes, data) => {
         if (err) {
             res.statusCode = 500
