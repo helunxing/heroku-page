@@ -21,6 +21,7 @@ import {
     POST_NEW_EVENT_ERROR
 } from '../utils/actions'
 import moment from "moment/moment";
+import {notifyInfo} from "../utils/functions";
 
 const initialState = {
     events_loading: false,
@@ -31,6 +32,7 @@ const initialState = {
     new_event_error: false,
     post_new_event_loading: false,
     post_new_event_error: false,
+
     new_event: {
         title: '',
         postcode: '',
@@ -68,6 +70,7 @@ export const EventsProvider = ({children}) => {
                 'title': state.new_event['title'],
                 'date': state.new_event['chosenDate'].format('YYYY-MM-DD'),
                 'creatorId': 1,
+                //TODO: 使用真实的creatorId
                 'timeOptions': state.new_event['timeOptions'].map((option) => {
                     return option['startTime'] + '_' + option['endTime']
                 }).join(','),
@@ -75,6 +78,7 @@ export const EventsProvider = ({children}) => {
             const response = await axios.post('/api/event', filteredBody)
             if (response.status === 201) {
                 dispatch({type: POST_NEW_EVENT_SUCCESS})
+                notifyInfo('Create Event success')
             } else {
                 dispatch({type: POST_NEW_EVENT_ERROR})
                 alert('create failed')
@@ -134,8 +138,6 @@ export const EventsProvider = ({children}) => {
 
         dispatch({type: ADDRESS_LIST_CHANGE, payload: newAddressList})
     }
-
-    // TODO: full fill log_info object and write a reducer for it
 
     return (<EventsContext.Provider value={{
         ...state,
