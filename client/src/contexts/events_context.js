@@ -22,6 +22,7 @@ import {
 } from '../utils/actions'
 import moment from "moment/moment";
 import {notifyInfo} from "../utils/functions";
+import {useUtilContext} from "./util_context";
 
 const initialState = {
     events_loading: false,
@@ -51,6 +52,8 @@ const EventsContext = React.createContext()
 export const EventsProvider = ({children}) => {
     const [state, dispatch] = useReducer(events_reducer, initialState)
 
+    const {logged, id} = useUtilContext()
+
     const fetchEvents = async () => {
         dispatch({type: GET_EVENTS_BEGIN})
         try {
@@ -65,12 +68,10 @@ export const EventsProvider = ({children}) => {
     const postEventInfo = async () => {
         dispatch({type: POST_NEW_EVENT_BEGIN})
         try {
-
             const filteredBody = {
                 'title': state.new_event['title'],
                 'date': state.new_event['chosenDate'].format('YYYY-MM-DD'),
-                'creatorId': 1,
-                //TODO: 使用真实的creatorId
+                'creatorId': logged ? id : 1,
                 'timeOptions': state.new_event['timeOptions'].map((option) => {
                     return option['startTime'] + '_' + option['endTime']
                 }).join(','),
