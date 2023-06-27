@@ -71,7 +71,11 @@ export const EventsProvider = ({children}) => {
             const filteredBody = {
                 'title': state.new_event['title'],
                 'date': state.new_event['chosenDate'].format('YYYY-MM-DD'),
-                'creatorId': logged ? id : 1,
+                'address':
+                    state.new_event["addressList"].slice().reverse()
+                        .concat([state.new_event["postcode"]])
+                        .join('\n'),
+                'creatorId': logged ? id : 1, // TODO: this information security is unsafe
                 'timeOptions': state.new_event['timeOptions'].map((option) => {
                     return option['startTime'] + '_' + option['endTime']
                 }).join(','),
