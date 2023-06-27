@@ -72,7 +72,9 @@ export const EventsProvider = ({children}) => {
                 'title': state.new_event['title'],
                 'date': state.new_event['chosenDate'].format('YYYY-MM-DD'),
                 'address':
-                    state.new_event["addressList"].slice().reverse()
+                    state.new_event["addressList"]
+                        .filter((addr_line) => addr_line !== "")
+                        .reverse()
                         .concat([state.new_event["postcode"]])
                         .join('\n'),
                 'creatorId': logged ? id : 1, // TODO: this information security is unsafe
@@ -83,7 +85,10 @@ export const EventsProvider = ({children}) => {
             const response = await axios.post('/api/event', filteredBody)
             if (response.status === 201) {
                 dispatch({type: POST_NEW_EVENT_SUCCESS})
-                notifyInfo('Create Event success')
+                notifyInfo('Create success, jumping to detail page...')
+                setTimeout(() => {
+                    window.location.href = response.headers['location']
+                }, 5000)
             } else {
                 dispatch({type: POST_NEW_EVENT_ERROR})
                 alert('create failed')

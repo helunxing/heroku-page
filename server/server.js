@@ -61,7 +61,7 @@ app.post("/api/event", express.json(), async (req, res) => {
             res.statusCode = backendRes.statusCode
             res.headers = backendRes.headers
             const id = backendRes.headers.location.split('event/').pop()
-            res.location('/api/event/' + id)
+            res.location('/event/' + id)
         }
         res.send()
     })
