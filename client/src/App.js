@@ -13,6 +13,7 @@ import Event from "./pages/event";
 import Join from "./pages/join";
 import PageHero from "./components/PageHero";
 import Me from "./pages/me";
+import JoinDetail from "./pages/join_detail";
 
 function App() {
 
@@ -45,10 +46,7 @@ function App() {
                 }/>
 
                 <Route path={'/join/:id'} element={
-                    <>
-                        <PageHero title={'pore'} isEvent/>
-                        <h2>detail page</h2>
-                    </>
+                    <JoinDetail/>
                 }/>
 
                 <Route path="*" element={

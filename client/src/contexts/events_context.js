@@ -2,7 +2,7 @@ import React, {useContext, useReducer} from 'react';
 import axios from 'axios';
 
 import events_reducer from '../reducers/events_reducer';
-import {events_url, postcode_url, status_url} from '../utils/constants';
+import {events_url, postcode_url, single_events_url} from '../utils/constants';
 import {
     ADDRESS_LIST_CHANGE,
     EVENT_DETAIL_CHANGE,
@@ -13,6 +13,7 @@ import {
     GET_EVENTS_BEGIN,
     GET_EVENTS_ERROR,
     GET_EVENTS_SUCCESS,
+    GET_SINGLE_EVENT_SUCCESS,
     GET_POST_DATA_BEGIN,
     GET_POST_DATA_ERROR,
     GET_POST_DATA_SUCCESS,
@@ -43,8 +44,6 @@ const initialState = {
         timeOptions: []
     },
 
-    single_event_loading: false,
-    single_event_error: false,
     single_event: {}
 }
 
@@ -53,6 +52,17 @@ export const EventsProvider = ({children}) => {
     const [state, dispatch] = useReducer(events_reducer, initialState)
 
     const {logged, id} = useUtilContext()
+
+    const fetchSingleEvent = async (eventId) => {
+        dispatch({type: GET_EVENTS_BEGIN})
+        try {
+            const response = await axios.get(single_events_url + '/' + eventId)
+            const event = response.data
+            dispatch({type: GET_SINGLE_EVENT_SUCCESS, payload: event})
+        } catch (error) {
+            dispatch({type: GET_EVENTS_ERROR})
+        }
+    }
 
     const fetchEvents = async () => {
         dispatch({type: GET_EVENTS_BEGIN})
@@ -156,6 +166,7 @@ export const EventsProvider = ({children}) => {
         resetEvent,
         handleDetailChange: handleEventDetailChange,
         handleTimeChange: handleEventTimeChange,
+        fetchSingleEvent,
 
         fetchPostcodeData,
         setPostcodeData,

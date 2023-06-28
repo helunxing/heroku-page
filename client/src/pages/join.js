@@ -27,8 +27,6 @@ const Join = () => {
     return <main>
         <PageHero title={'join'}/>
 
-        <h2>enter code</h2>
-
         <EventsList/>
 
     </main>;

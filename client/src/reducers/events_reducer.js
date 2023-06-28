@@ -11,6 +11,7 @@ import {
     GET_POST_DATA_BEGIN,
     GET_POST_DATA_ERROR,
     GET_POST_DATA_SUCCESS,
+    GET_SINGLE_EVENT_SUCCESS,
     POST_NEW_EVENT_BEGIN,
     POST_NEW_EVENT_ERROR,
     POST_NEW_EVENT_SUCCESS,
@@ -147,6 +148,9 @@ const events_reducer = (state, action) => {
 
         case POST_NEW_EVENT_ERROR:
             return {...state, new_event_loading: false, new_event_error: true}
+
+        case GET_SINGLE_EVENT_SUCCESS:
+            return {...state, new_event_loading: false, single_event: action.payload}
 
         default:
             throw new Error(`no matching "${action.type}" action type`)
