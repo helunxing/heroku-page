@@ -31,7 +31,7 @@ app.get("/dontwantshow", (req, res) => {
     res.redirect('/notfound')
 });
 
-app.get("/api/events", express.json(), async (req, res) => {
+app.get("/api/event", express.json(), async (req, res) => {
     await request.get({
         url: 'http://localhost:8000/events',
     }, (err, backendRes, data) => {
@@ -61,21 +61,33 @@ app.post("/api/event", express.json(), async (req, res) => {
             res.statusCode = backendRes.statusCode
             res.headers = backendRes.headers
             const id = backendRes.headers.location.split('event/').pop()
-            res.location('/event/' + id)
+            res.location('/join/' + id)
         }
         res.send()
     })
 });
 
-app.get("/api/events/:eventsId", async (req, res) => {
+app.get("/api/event/:eventsId", async (req, res) => {
+    await request.get({
+        url: EVENT_URL + '/event/' + req.params.eventsId,
+    }, (err, backendRes, data) => {
+        if (err) {
+            res.statusCode = 500
+            console.log(err)
+            res.body = err
+        } else {
+            res.statusCode = backendRes.statusCode
+            res.headers = backendRes.headers
+            res.json(JSON.parse(data))
+        }
+    })
+});
+
+app.put("/api/event/:eventsId", async (req, res) => {
     res.redirect('/notfound')
 });
 
-app.put("/api/events/:eventsId", async (req, res) => {
-    res.redirect('/notfound')
-});
-
-app.delete("/api/events/:eventsId", async (req, res) => {
+app.delete("/api/event/:eventsId", async (req, res) => {
     res.redirect('/notfound')
 });
 
