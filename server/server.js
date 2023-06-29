@@ -83,14 +83,26 @@ app.get("/api/event/:eventsId", async (req, res) => {
     })
 });
 
-app.put("/api/event/:eventsId", async (req, res) => {
-    res.redirect('/notfound')
+app.put("/api/event/:eventsId", express.json(), async (req, res) => {
+    await request.put({
+        url: EVENT_URL + '/event/' + req.params.eventsId,
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(req.body)
+    }, (err, backendRes, data) => {
+        if (err) {
+            res.statusCode = 500
+            res.body = err
+        } else {
+            res.statusCode = backendRes.statusCode
+            res.headers = backendRes.headers
+        }
+        res.send()
+    })
 });
 
 app.delete("/api/event/:eventsId", async (req, res) => {
     res.redirect('/notfound')
 });
-
 
 app.get('/api/status', async (req, res) => {
     if (!req.oidc.isAuthenticated()) {
