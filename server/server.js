@@ -27,8 +27,11 @@ app = express()
 // auth router attaches /login, /logout, and /callback routes to the baseURL
 app.use(auth(config));
 
-app.get("/dontwantshow", (req, res) => {
-    res.redirect('/notfound')
+// running in different ports
+app.use(function (req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
 });
 
 app.get("/api/event", express.json(), async (req, res) => {
@@ -78,6 +81,9 @@ app.get("/api/event/:eventsId", async (req, res) => {
         } else {
             res.statusCode = backendRes.statusCode
             res.headers = backendRes.headers
+            if (backendRes.statusCode === 404) {
+                data = {"error": "Event not found"}
+            }
             res.json(JSON.parse(data))
         }
     })
@@ -101,7 +107,18 @@ app.put("/api/event/:eventsId", express.json(), async (req, res) => {
 });
 
 app.delete("/api/event/:eventsId", async (req, res) => {
-    res.redirect('/notfound')
+    await request.delete({
+        url: EVENT_URL + '/event/' + req.params.eventsId,
+    }, (err, backendRes, data) => {
+        if (err) {
+            res.statusCode = 500
+            res.body = err
+        } else {
+            res.statusCode = backendRes.statusCode
+            res.headers = backendRes.headers
+        }
+        res.send()
+    })
 });
 
 app.get('/api/status', async (req, res) => {
