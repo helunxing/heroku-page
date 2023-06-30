@@ -203,3 +203,8 @@ p {
 .page {
     min-height: calc(100vh - (20vh + 10rem));
 }
+
+.notice {
+    padding: 200px;
+    height: 500px
+}
