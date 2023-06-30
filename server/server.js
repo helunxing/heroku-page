@@ -84,7 +84,7 @@ app.get("/api/event/:eventsId", async (req, res) => {
             if (backendRes.statusCode === 404) {
                 data = {"error": "Event not found"}
             }
-            res.json(JSON.parse(data))
+            res.json(data)
         }
     })
 });
