@@ -5,12 +5,18 @@ import {Link} from "react-router-dom";
 import {useEventsContext} from "../contexts/events_context";
 import EventsList from "../components/EventsList";
 import PageHero from "../components/PageHero";
+import {useUtilContext} from "../contexts/util_context";
 
 const Join = () => {
+
+    const {logged} = useUtilContext()
 
     const {events, fetchEvents} = useEventsContext();
 
     useEffect(() => {
+        if(!logged){
+            window.location.href = '/login'
+        }
         document.title = 'Join';
         fetchEvents();
     }, []);

@@ -4,17 +4,23 @@ import EventsList from "../components/EventsList";
 import {useEventsContext} from "../contexts/events_context";
 import {useParams} from "react-router-dom";
 import styled from "styled-components";
+import {useUtilContext} from "../contexts/util_context";
 
 const JoinDetail = () => {
 
     const {id} = useParams()
+
+    const {logged} = useUtilContext()
 
     const {fetchSingleEvent, single_event} = useEventsContext()
 
     const {id: event_id, title, description, image, date, time, postcode, address, status} = single_event
 
     useEffect(() => {
-        document.title = 'Events';
+        if (!logged) {
+            window.location.href = '/login'
+        }
+        document.title = 'Join Event';
         fetchSingleEvent(id);
     }, [])
 

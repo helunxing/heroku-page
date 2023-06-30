@@ -141,7 +141,6 @@ app.get('/api/status', async (req, res) => {
                 'sub': req.oidc.user['sub'].replace('|', '_'),
                 'id': Number(backendRes.headers.location.split('/').pop()),
             }))
-
         }
     })
 });

@@ -12,8 +12,11 @@ import CreateTimeChoice from "../components/CreateTimeChoice";
 import PostcodeChoice from "../components/PostcodeChoice";
 import axios from "axios";
 import {type} from "@testing-library/user-event/dist/type";
+import {useUtilContext} from "../contexts/util_context";
 
 const Event = () => {
+
+    const {logged} = useUtilContext()
 
     const {
         handleDetailChange,
@@ -33,6 +36,9 @@ const Event = () => {
     } = new_event;
 
     useEffect(() => {
+        if(!logged){
+            window.location.href = '/login'
+        }
         document.title = 'Events';
         resetEvent();
     }, []);
