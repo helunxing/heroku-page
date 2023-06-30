@@ -15,7 +15,7 @@ import PageHero from "./components/PageHero";
 import Me from "./pages/me";
 import JoinDetail from "./pages/join_detail";
 
-function App() {
+export default function App() {
 
     return (
         <Router>
@@ -47,5 +47,3 @@ function App() {
         </Router>
     );
 }
-
-export default App
