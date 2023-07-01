@@ -6,7 +6,7 @@ import {useParams} from "react-router-dom";
 import styled from "styled-components";
 import {useUtilContext} from "../contexts/util_context";
 
-const JoinDetail = () => {
+export default function JoinDetail() {
 
     const {id} = useParams()
 
@@ -26,25 +26,32 @@ const JoinDetail = () => {
 
     return <Wrapper>
         <main>
-            {(single_event === {} || Number(id) !== single_event.id) ?
-                <div className={'notice'}><h2>loading...</h2></div> :
-                <>
-                    <PageHero title={event_id} isEvent/>
-                    <div>
-                        <h2>event title: {title}</h2>
-                        <h2>{event_id}</h2>
-                    </div>
-                </>
-            }
+            <table className={'eventTable'}>
+                <tbody>
+                {['title', 'address'].map(
+                    (key) => (<tr>
+                        <td>{key}</td>
+                        <td>{single_event[key]}</td>
+                    </tr>))}
+                </tbody>
+            </table>
+            <div className={'eventTable'}>
+                {
+
+                }
+            </div>
         </main>
     </Wrapper>
 }
 
 const Wrapper = styled.section`
-  .notice {
-    padding: 200px;
-    height: 500px
+  .eventTable {
+    border-collapse: collapse;
+    margin: auto auto 20px;
+    width: 50%;
+    font-size: 2em;
+  }
+  td {
+    padding: 10px;
   }
 `
-
-export default JoinDetail;
