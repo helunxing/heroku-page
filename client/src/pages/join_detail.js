@@ -5,6 +5,7 @@ import {useEventsContext} from "../contexts/events_context";
 import {useParams} from "react-router-dom";
 import styled from "styled-components";
 import {useUtilContext} from "../contexts/util_context";
+import moment from "moment";
 
 export default function JoinDetail() {
 
@@ -13,8 +14,6 @@ export default function JoinDetail() {
     const {logged} = useUtilContext()
 
     const {fetchSingleEvent, single_event} = useEventsContext()
-
-    const {id: event_id, title, description, image, date, time, postcode, address, status} = single_event
 
     useEffect(() => {
         if (!logged) {
