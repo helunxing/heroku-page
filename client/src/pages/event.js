@@ -1,7 +1,8 @@
 import React, {useEffect, useState} from 'react';
+import axios from "axios";
+import {AiOutlinePlus, AiOutlineDelete} from 'react-icons/ai';
 import moment from "moment/moment";
 import styled from "styled-components";
-import {AiOutlinePlus, AiOutlineDelete} from 'react-icons/ai';
 import {MobileDatePicker} from '@mui/x-date-pickers';
 import TextField from "@mui/material/TextField";
 import {Button} from "@mui/material";
@@ -10,8 +11,6 @@ import PageHero from "../components/PageHero";
 import {useEventsContext} from "../contexts/events_context";
 import CreateTimeChoice from "../components/CreateTimeChoice";
 import PostcodeChoice from "../components/PostcodeChoice";
-import axios from "axios";
-import {type} from "@testing-library/user-event/dist/type";
 import {useUtilContext} from "../contexts/util_context";
 
 const Event = () => {
@@ -36,9 +35,9 @@ const Event = () => {
     } = new_event;
 
     useEffect(() => {
-        if(!logged){
-            window.location.href = '/login'
-        }
+        // if(!logged){
+        //     window.location.href = '/login'
+        // }
         document.title = 'Events';
         resetEvent();
     }, []);
@@ -122,11 +121,6 @@ const Wrapper = styled.section`
     margin-left: 5.3rem;
   }
 
-  .eventInfo {
-    padding-top: 1rem;
-    justify-content: center;
-    display: flex;
-  }
 `
 
 export default Event;

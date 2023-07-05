@@ -208,3 +208,9 @@ p {
     padding: 200px;
     height: 500px
 }
+
+.eventInfo {
+    padding-top: 1rem;
+    justify-content: center;
+    display: flex;
+}
