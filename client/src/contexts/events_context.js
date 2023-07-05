@@ -88,9 +88,13 @@ export const EventsProvider = ({children}) => {
                         .concat([state.new_event["postcode"]])
                         .join('\n'),
                 'creatorId': logged ? id : 1, // TODO: this information security is unsafe
-                'timeOptions': state.new_event['timeOptions'].map((option) => {
-                    return option['startTime'] + '_' + option['endTime']
-                }).join(','),
+                'timeOptions':
+                    Array.from(new Set(state.new_event['timeOptions']))
+                        .sort()
+                        .map((option) => {
+                            return option['startTime'] + '_' + option['endTime']
+                        })
+                        .join(','),
             }
             const response = await axios.post('/api/event', filteredBody)
             if (response.status === 201) {
