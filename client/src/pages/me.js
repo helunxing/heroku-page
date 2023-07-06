@@ -5,9 +5,9 @@ import {useUtilContext} from "../contexts/util_context";
 const Me = () => {
     const {name,logged} = useUtilContext()
     useEffect(() => {
-        if(!logged){
-            window.location.href = '/login'
-        }
+        // if(!logged){
+        //     window.location.href = '/login'
+        // }
         document.title = 'Me';
     }, [])
     return (<>
