@@ -6,6 +6,7 @@ import {useEventsContext} from "../contexts/events_context";
 import EventsList from "../components/EventsList";
 import PageHero from "../components/PageHero";
 import {useUtilContext} from "../contexts/util_context";
+import {base_url} from "../utils/constants";
 
 const Join = () => {
 
@@ -14,9 +15,9 @@ const Join = () => {
     const {events, fetchEvents} = useEventsContext();
 
     useEffect(() => {
-        if(!logged){
-            window.location.href = '/login'
-        }
+        // if(!logged){
+        //     window.location.href = base_url + '/login'
+        // }
         document.title = 'Join';
         fetchEvents();
     }, []);
