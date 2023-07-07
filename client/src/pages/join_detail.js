@@ -6,7 +6,7 @@ import {useParams} from "react-router-dom";
 import styled from "styled-components";
 import {useUtilContext} from "../contexts/util_context";
 import moment from "moment";
-import {Checkbox, FormControl, InputLabel, ListItemText, MenuItem, OutlinedInput, Select} from "@mui/material";
+import {Button, Checkbox, FormControl, InputLabel, ListItemText, MenuItem, OutlinedInput, Select} from "@mui/material";
 import {useJoinContext} from "../contexts/join_context";
 
 export default function JoinDetail() {
@@ -85,37 +85,57 @@ export default function JoinDetail() {
                                         if (selected.length === 0) {
                                             return 'Select all time choices you like'
                                         }
-                                        return selected.join(', ')
+                                        return `Selected ${selected.length} choice(s)`
+
                                     }}
                                     MenuProps={MenuProps}
                                 >
-                                    {single_event['timeOptions'].split(',').map(
-                                        (index, value) =>
-                                            (<MenuItem key={value} value={value}>
-                                                <Checkbox checked={chosenTime.indexOf(value) >= 0}/>
-                                                <ListItemText primary={value}/>
-                                            </MenuItem>)
-                                    )}
+                                    {single_event['timeOptions']
+                                        .replaceAll('_', ' to ')
+                                        .split(',').map(
+                                            (optionStr, index) =>
+                                                (<MenuItem key={index} value={optionStr}>
+                                                    <Checkbox checked={chosenTime.indexOf(optionStr) >= 0}/>
+                                                    <ListItemText primary={optionStr}/>
+                                                </MenuItem>)
+                                        )}
                                 </Select>
                             </FormControl>
                         </div>
                     </td>
                 </tr>
+
                 </tbody>
             </table>
-
+            <div className={"buttons"}>
+                <Button variant="contained" >Submit</Button>
+                <Button variant="outlined" >Reset</Button>
+            </div>
         </main>
     </Wrapper>
 }
 
 const Wrapper = styled.section`
+  button {
+    margin-left: 0.5rem;
+  }
+
   .eventTable {
+    justify-content: center;
     border-collapse: collapse;
-    margin: auto auto 20px;
+    margin: auto auto;
     width: 50%;
     font-size: 2em;
   }
 
+  .buttons {
+    padding-right: 0.6rem;
+    padding-top: 1rem;
+    justify-content: center;
+    display: flex;
+    padding-bottom: 1.5rem;
+  }
+  
   .checkBox {
     padding: 0;
   }
