@@ -18,10 +18,14 @@ export const links = [
     },
 ]
 
-export const events_url = '/api/events'
+export const base_url = ''
 
-export const postcode_url = '/api/postcode'
+export const events_url = base_url + '/api/event'
 
-export const status_url = '/api/status'
+export const postcode_url = base_url + '/api/postcode'
 
-export const profile_url = '/profile'
+export const status_url = base_url + '/api/status'
+
+export const single_events_url = base_url + '/api/event'
+
+export const join_url = base_url + '/api/join'
