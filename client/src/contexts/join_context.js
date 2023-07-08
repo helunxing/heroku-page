@@ -1,15 +1,15 @@
 import React, {useContext, useReducer} from 'react'
-import axios from "axios";
+import axios from "axios"
 
-import join_reducer from "../reducers/join_reducer";
-import {notifyInfo} from "../utils/functions";
+import join_reducer from "../reducers/join_reducer"
+import {notifyInfo} from "../utils/functions"
 import {status_url} from "../utils/constants"
 
 import {
     JOIN_RESET,
     JOIN_CHANGE,
-    JOIN_DETAIL_POST
-} from "../utils/actions";
+    JOIN_DETAIL_POST,
+} from "../utils/actions"
 
 const initialState = {
     chosenTime: [],
@@ -31,8 +31,7 @@ export const JoinProvider = ({children}) => {
         dispatch({type: JOIN_CHANGE, payload: e['target']['value']})
     }
 
-    const postJoinDetail = (eventID, joinerID) => {
-        console.log(eventID, joinerID)
+    const postJoinDetail = async (eventID, joinerID) => {
         dispatch({
             type: JOIN_DETAIL_POST, payload: {
                 eventID,
