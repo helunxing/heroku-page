@@ -17,17 +17,7 @@ export default function JoinDetail() {
 
     const {fetchSingleEvent, single_event} = useEventsContext()
 
-    const [chosenTime, setChosenTime] = useState([]);
-
-    const handleChange = (event) => {
-        const {
-            target: {value},
-        } = event;
-        setChosenTime(
-            typeof value === 'string' ? value.split(",") : value
-        )
-    }
-    // const {} = useJoinContext()
+    const {chosenTime, handleJoinDetailChange} = useJoinContext();
 
     useEffect(() => {
         // if (!logged) {
@@ -36,7 +26,6 @@ export default function JoinDetail() {
         document.title = 'Join Event';
         fetchSingleEvent(id);
     }, [])
-
 
     if (Object.keys(single_event).length === 0) {
         return <main>
@@ -79,7 +68,7 @@ export default function JoinDetail() {
                                     multiple
                                     displayEmpty
                                     value={chosenTime}
-                                    onChange={handleChange}
+                                    onChange={handleJoinDetailChange}
                                     input={<OutlinedInput/>}
                                     renderValue={(selected) => {
                                         if (selected.length === 0) {
@@ -92,10 +81,10 @@ export default function JoinDetail() {
                                 >
                                     {single_event['timeOptions']
                                         .replaceAll('_', ' to ')
-                                        .split(',').map(
+                                        .split(',').sort().map(
                                             (optionStr, index) =>
                                                 (<MenuItem key={index} value={optionStr}>
-                                                    <Checkbox checked={chosenTime.indexOf(optionStr) >= 0}/>
+                                                    <Checkbox checked={chosenTime.includes(optionStr)}/>
                                                     <ListItemText primary={optionStr}/>
                                                 </MenuItem>)
                                         )}
@@ -108,8 +97,8 @@ export default function JoinDetail() {
                 </tbody>
             </table>
             <div className={"buttons"}>
-                <Button variant="contained" >Submit</Button>
-                <Button variant="outlined" >Reset</Button>
+                <Button variant="contained">Submit</Button>
+                <Button variant="outlined">Reset</Button>
             </div>
         </main>
     </Wrapper>
