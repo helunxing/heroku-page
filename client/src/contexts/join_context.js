@@ -7,14 +7,15 @@ import {status_url} from "../utils/constants"
 
 import {
     JOIN_RESET,
-    JOIN_CHANGE
+    JOIN_CHANGE,
+    JOIN_DETAIL_POST
 } from "../utils/actions";
 
 const initialState = {
     chosenTime: [],
-    eventId: null,
-    joinerId: null,
-    selected: null
+    eventID: null,
+    joinerID: null,
+    selectedStr: null
 }
 
 const JoinContext = React.createContext()
@@ -30,12 +31,23 @@ export const JoinProvider = ({children}) => {
         dispatch({type: JOIN_CHANGE, payload: e['target']['value']})
     }
 
+    const postJoinDetail = (eventID, joinerID) => {
+        console.log(eventID, joinerID)
+        dispatch({
+            type: JOIN_DETAIL_POST, payload: {
+                eventID,
+                joinerID
+            }
+        })
+    }
+
     return (
         <JoinContext.Provider
             value={{
                 ...state,
                 resetJoinDetail,
-                handleJoinDetailChange
+                handleJoinDetailChange,
+                postJoinDetail
             }}
         >
             {children}

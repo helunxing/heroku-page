@@ -28,3 +28,4 @@ export const POST_NEW_EVENT_ERROR = 'POST_NEW_EVENT_ERROR';
 
 export const JOIN_RESET = 'JOIN_RESET'
 export const JOIN_CHANGE = 'JOIN_CHANGE'
+export const JOIN_DETAIL_POST = 'JOIN_DETAIL_POST'

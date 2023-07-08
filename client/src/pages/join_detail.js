@@ -13,11 +13,16 @@ export default function JoinDetail() {
 
     const {id} = useParams()
 
-    const {logged} = useUtilContext()
+    const {logged, id: joinerID} = useUtilContext()
 
     const {fetchSingleEvent, single_event} = useEventsContext()
 
-    const {chosenTime, handleJoinDetailChange} = useJoinContext();
+    const {
+        chosenTime,
+        resetJoinDetail,
+        handleJoinDetailChange,
+        postJoinDetail
+    } = useJoinContext();
 
     useEffect(() => {
         // if (!logged) {
@@ -50,7 +55,7 @@ export default function JoinDetail() {
         <main>
             <table className={'eventTable'}>
                 <tbody>
-                {['title', 'date', 'address'].map(
+                {['title', 'address', 'date'].map(
                     (key) =>
                         (<tr key={key}>
                             <td>{key}</td>
@@ -97,8 +102,10 @@ export default function JoinDetail() {
                 </tbody>
             </table>
             <div className={"buttons"}>
-                <Button variant="contained">Submit</Button>
-                <Button variant="outlined">Reset</Button>
+                <Button variant="contained" onClick={() => postJoinDetail(single_event.id, joinerID)}>
+                    Submit</Button>
+                <Button variant="outlined" onClick={resetJoinDetail}>
+                    Reset</Button>
             </div>
         </main>
     </Wrapper>
@@ -124,7 +131,7 @@ const Wrapper = styled.section`
     display: flex;
     padding-bottom: 1.5rem;
   }
-  
+
   .checkBox {
     padding: 0;
   }
