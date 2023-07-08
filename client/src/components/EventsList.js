@@ -23,19 +23,22 @@ const EventsList = () => {
     }
 
     return <Wrapper>
-        {events.map((event) => {
-            const {id, title, date} = event
-            return <article key={id}>
-                <div>
-                    <h4>{title}</h4>
-                    <h5>{date}</h5>
-                    <h5>your choice: 15</h5>
-                    <Link to={`/join/${id}`} className='btn'>
-                        join
-                    </Link>
-                </div>
-            </article>;
-        })}
+        {events
+            .sort((a, b) => a.id - b.id)
+            .map((event) => {
+                const {id, title, date} = event
+                return <article key={id}>
+                    <div>
+                        <h4>{title}</h4>
+                        <h5>{date}</h5>
+                        <h5>you haven't join this</h5>
+                        {/*TODO: change to alternative.*/}
+                        <Link to={`/join/${id}`} className='btn'>
+                            join
+                        </Link>
+                    </div>
+                </article>;
+            })}
     </Wrapper>
 
 }
