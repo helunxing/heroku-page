@@ -168,8 +168,8 @@ export const EventsProvider = ({children}) => {
         fetchEvents,
 
         resetEvent,
-        handleDetailChange: handleEventDetailChange,
-        handleTimeChange: handleEventTimeChange,
+        handleEventDetailChange,
+        handleEventTimeChange,
         fetchSingleEvent,
 
         fetchPostcodeData,

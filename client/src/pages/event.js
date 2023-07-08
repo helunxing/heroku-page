@@ -18,7 +18,7 @@ const Event = () => {
     const {logged} = useUtilContext()
 
     const {
-        handleDetailChange,
+        handleEventDetailChange,
         resetEvent,
         new_event,
         fetchPostcodeData,
@@ -49,7 +49,7 @@ const Event = () => {
             <div className={"eventInfo"}>
                 <TextField id="title" label="Event title" variant="outlined"
                            value={title}
-                           onChange={handleDetailChange}
+                           onChange={handleEventDetailChange}
                            error={false}
                     // helperText={title ? '' : {/*"please enter the title"*/}}
                 />
@@ -58,7 +58,7 @@ const Event = () => {
             <div className={"eventInfo"}>
                 <MobileDatePicker
                     value={chosenDate}
-                    onChange={handleDetailChange}
+                    onChange={handleEventDetailChange}
                     label="Date"
                     inputFormat="DD/MM/YYYY"
                     renderInput={(params) => <TextField {...params} />}
@@ -71,7 +71,7 @@ const Event = () => {
                            className={"postcode"}
                            label="Postcode"
                            variant="outlined"
-                           onChange={handleDetailChange}
+                           onChange={handleEventDetailChange}
                            onKeyDown={(event) => {
                                if (event.key === 'Enter')
                                    fetchPostcodeData();
