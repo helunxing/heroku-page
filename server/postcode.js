@@ -1,6 +1,7 @@
-import request from "request";
+const express = require('express')
+const {POSTCODE_URL} = require('./util')
 
-export const getPostcode = async (req, res) => {
+exports.getPostcode = async (req, res) => {
 
     await request.get({
         url: POSTCODE_URL + '/' + req.params.queryCode,

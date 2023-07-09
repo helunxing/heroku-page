@@ -1,19 +1,12 @@
 const express = require('express')
-const request = require("request")
+const cors = require('cors');
 const path = require('path')
-
-const PORT = process.env.PORT || 5001
-const SECRET_KEY = process.env.SECRET_KEY || 'default_key'
-const BASE_URL = process.env.BASE_URL || 'http://localhost'
-const AUTH_BASE_URL = process.env.BASE_URL || (BASE_URL + ':5001')
-const EVENT_URL = process.env.EVENT_URL || (BASE_URL + ':8000')
-const POSTCODE_URL = process.env.POSTCODE_URL || (BASE_URL + ':8020')
-const USER_URL = process.env.USER_URL || (BASE_URL + ':8100')
+const {StatusCodes} = require('http-status-codes')
 
 const {auth} = require('express-openid-connect')
-const {json} = require("express")
-const {getAllEvent, postEvent, getSingleEvent, putEvent, deleteEvent, getStatus} = require("./event")
+const {getAllEvent, postEvent, getSingleEvent, putEvent, deleteEvent} = require("./event")
 const {getPostcode} = require("./postcode")
+const {getStatus, AUTH_BASE_URL, PORT, SECRET_KEY} = require("./util");
 
 app = express()
 
@@ -28,21 +21,21 @@ app.use(auth({
 }))
 
 // running in different ports
-app.use((req, res, next) => {
-    res.header("Access-Control-Allow-Origin", "*")
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
-    next()
-})
+app.use(cors());
 
+// Event API
 app.get("/api/event", express.json(), getAllEvent)
-
 app.post("/api/event", express.json(), postEvent)
-
 app.get("/api/event/:eventsId", getSingleEvent)
-
 app.put("/api/event/:eventsId", express.json(), putEvent)
-
 app.delete("/api/event/:eventsId", deleteEvent)
+
+// Join API
+app.put("/api/join", express.json(), (req, res) => {
+    console.log(req.body)
+    res.statusCode = StatusCodes.OK
+    res.send()
+})
 
 app.get('/api/status', getStatus)
 

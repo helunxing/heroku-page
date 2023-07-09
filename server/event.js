@@ -1,6 +1,7 @@
-import request from "request";
+const request = require("request")
+const {EVENT_URL} = require("./util")
 
-export const postEvent = async (req, res) => {
+exports.postEvent = async (req, res) => {
     await request.post({
         url: EVENT_URL + '/event',
         headers: {'Content-Type': 'application/json'},
@@ -20,7 +21,7 @@ export const postEvent = async (req, res) => {
     })
 }
 
-export const getAllEvent = async (req, res) => {
+exports.getAllEvent = async (req, res) => {
     await request.get({
         url: 'http://localhost:8000/events',
     }, (err, backendRes, data) => {
@@ -36,7 +37,7 @@ export const getAllEvent = async (req, res) => {
     })
 }
 
-export const getSingleEvent = async (req, res) => {
+exports.getSingleEvent = async (req, res) => {
     await request.get({
         url: EVENT_URL + '/event/' + req.params.eventsId,
     }, (err, backendRes, data) => {
@@ -56,7 +57,7 @@ export const getSingleEvent = async (req, res) => {
     })
 }
 
-export const putEvent = async (req, res) => {
+exports.putEvent = async (req, res) => {
     await request.put({
         url: EVENT_URL + '/event/' + req.params.eventsId,
         headers: {'Content-Type': 'application/json'},
@@ -73,7 +74,7 @@ export const putEvent = async (req, res) => {
     })
 }
 
-export const deleteEvent = async (req, res) => {
+exports.deleteEvent = async (req, res) => {
     await request.delete({
         url: EVENT_URL + '/event/' + req.params.eventsId,
     }, (err, backendRes, data) => {

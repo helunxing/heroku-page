@@ -11,5 +11,8 @@
     "build_start": "npm run build && npm run start",
     "dev_start": "node server/server.js"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "http-status-codes": "^2.2.0"
+  }
 }

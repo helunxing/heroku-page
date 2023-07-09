@@ -1,6 +1,14 @@
-import request from "request";
+const request = require("request");
 
-export const getStatus = async (req, res) => {
+exports.PORT = process.env.PORT || 5001
+exports.SECRET_KEY = process.env.SECRET_KEY || 'default_key'
+exports.BASE_URL = process.env.BASE_URL || 'http://localhost'
+exports.AUTH_BASE_URL = process.env.BASE_URL || (exports.BASE_URL + ':5001')
+exports.EVENT_URL = process.env.EVENT_URL || (exports.BASE_URL + ':8000')
+exports.USER_URL = process.env.USER_URL || (exports.BASE_URL + ':8100')
+exports.POSTCODE_URL = process.env.POSTCODE_URL || (exports.BASE_URL + ':8020')
+
+exports.getStatus = async (req, res) => {
     if (!req.oidc.isAuthenticated()) {
         res.send(JSON.stringify({
             'logged': req.oidc.isAuthenticated(),
