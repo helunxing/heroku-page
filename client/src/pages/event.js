@@ -37,7 +37,7 @@ const Event = () => {
     useEffect(() => {
         // if(!logged){
         //     window.location.href = '/login'
-        // }
+        // } TODO: uncomment this
         document.title = 'Events';
         resetEvent();
     }, []);

@@ -3,7 +3,8 @@ import axios from "axios"
 
 import join_reducer from "../reducers/join_reducer"
 import {notifyInfo} from "../utils/functions"
-import {status_url} from "../utils/constants"
+import {join_url} from "../utils/constants"
+import {StatusCodes} from 'http-status-codes'
 
 import {
     JOIN_RESET,
@@ -32,12 +33,27 @@ export const JoinProvider = ({children}) => {
     }
 
     const postJoinDetail = async (eventID, joinerID) => {
-        dispatch({
-            type: JOIN_DETAIL_POST, payload: {
-                eventID,
-                joinerID
+        const detailBody = {
+            eventID,
+            joinerID: 1,//TODO: change to real joinerID
+            selectedStr: state.chosenTime
+                .join(',')
+                .replaceAll(' to ', '_')
+        }
+        try {
+            const response = await axios.put(
+                join_url,
+                detailBody,
+                {headers: {'Content-Type': 'application/json'}})
+            if (response.status === StatusCodes.OK) {
+                notifyInfo('Submit success')
+            } else {
+                alert('Submit failed')
             }
-        })
+        } catch (error) {
+            console.log(error)
+            alert('connecting error')
+        }
     }
 
     return (

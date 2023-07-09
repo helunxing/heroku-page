@@ -24,6 +24,7 @@ import {
 import moment from "moment/moment";
 import {notifyInfo} from "../utils/functions";
 import {useUtilContext} from "./util_context";
+import StatusCodes from "http-status-codes";
 
 const initialState = {
     events_loading: false,
@@ -97,7 +98,7 @@ export const EventsProvider = ({children}) => {
                         .join(','),
             }
             const response = await axios.post('/api/event', filteredBody)
-            if (response.status === 201) {
+            if (response.status === StatusCodes.CREATED) {
                 dispatch({type: POST_NEW_EVENT_SUCCESS})
                 notifyInfo('Create success, jumping to detail page...')
                 setTimeout(() => {

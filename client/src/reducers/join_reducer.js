@@ -20,16 +20,6 @@ const join_reducer = (state, action) => {
                 chosenTime: action.payload
             }
 
-        case JOIN_DETAIL_POST:
-            return {
-                ...state,
-                selectedStr: state.chosenTime
-                    .join(',')
-                    .replaceAll(' to ', '_'),
-                eventID: action.payload.eventID,
-                joinerID: action.payload.joinerID,
-            }
-
         default:
             throw new Error(`no matching "${action.type}" action type`)
     }
