@@ -45,7 +45,7 @@ export const JoinProvider = ({children}) => {
                 join_url,
                 detailBody,
                 {headers: {'Content-Type': 'application/json'}})
-            if (response.status === StatusCodes.OK) {
+            if (response.status === StatusCodes.CREATED) {
                 notifyInfo('Submit success')
             } else {
                 alert('Submit failed')

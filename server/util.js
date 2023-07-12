@@ -7,6 +7,7 @@ exports.AUTH_BASE_URL = process.env.BASE_URL || (exports.BASE_URL + ':5001')
 exports.EVENT_URL = process.env.EVENT_URL || (exports.BASE_URL + ':8000')
 exports.USER_URL = process.env.USER_URL || (exports.BASE_URL + ':8100')
 exports.POSTCODE_URL = process.env.POSTCODE_URL || (exports.BASE_URL + ':8020')
+exports.JOIN_INFO_URL= process.env.JOIN_INFO_URL || (exports.BASE_URL + ':8200')
 
 exports.getStatus = async (req, res) => {
     if (!req.oidc.isAuthenticated()) {
