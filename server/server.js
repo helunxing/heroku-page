@@ -7,6 +7,7 @@ const {auth} = require('express-openid-connect')
 const {getAllEvent, postEvent, getSingleEvent, putEvent, deleteEvent} = require("./event")
 const {getPostcode} = require("./postcode")
 const {getStatus, AUTH_BASE_URL, PORT, SECRET_KEY} = require("./util");
+const {putJoinInfo} = require("./join_info");
 
 app = express()
 
@@ -31,11 +32,7 @@ app.put("/api/event/:eventsId", express.json(), putEvent)
 app.delete("/api/event/:eventsId", deleteEvent)
 
 // Join API
-app.put("/api/join", express.json(), (req, res) => {
-    console.log(req.body)
-    res.statusCode = StatusCodes.OK
-    res.send()
-})
+app.put("/api/join", express.json(), putJoinInfo)
 
 app.get('/api/status', getStatus)
 
