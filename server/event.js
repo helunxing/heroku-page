@@ -1,5 +1,6 @@
 const request = require("request")
 const {EVENT_URL} = require("./util")
+const {StatusCodes} = require('http-status-codes')
 
 exports.postEvent = async (req, res) => {
     await request.post({
@@ -8,7 +9,7 @@ exports.postEvent = async (req, res) => {
         body: JSON.stringify(req.body)
     }, (err, backendRes, data) => {
         if (err) {
-            res.statusCode = 500
+            res.statusCode = StatusCodes.INTERNAL_SERVER_ERROR
             console.log(err)
             res.body = err
         } else {
@@ -23,12 +24,12 @@ exports.postEvent = async (req, res) => {
 
 exports.getAllEvent = async (req, res) => {
     await request.get({
-        url: 'http://localhost:8000/events',
+        url: EVENT_URL + '/events',
     }, (err, backendRes, data) => {
         if (err) {
-            res.statusCode(500)
+            res.statusCode(StatusCodes.INTERNAL_SERVER_ERROR)
             res.body('BFF Error:', err);
-        } else if (backendRes.statusCode !== 200) {
+        } else if (backendRes.statusCode !== StatusCodes.OK) {
             res.statusCode(backendRes.statusCode)
             res.body('Status:', backendRes.body);
         } else {
@@ -42,14 +43,14 @@ exports.getSingleEvent = async (req, res) => {
         url: EVENT_URL + '/event/' + req.params.eventsId,
     }, (err, backendRes, data) => {
         if (err) {
-            res.statusCode = 500
+            res.statusCode = StatusCodes.INTERNAL_SERVER_ERROR
             console.log(err)
             res.body = err
         } else {
             res.statusCode = backendRes.statusCode
             res.headers = backendRes.headers
-            if (backendRes.statusCode === 404) {
-                res.statusCode = 200
+            if (backendRes.statusCode === StatusCodes.NOT_FOUND) {
+                res.statusCode = StatusCodes.OK
                 data = '{}'
             }
             res.json(JSON.parse(data))
@@ -64,7 +65,7 @@ exports.putEvent = async (req, res) => {
         body: JSON.stringify(req.body)
     }, (err, backendRes, data) => {
         if (err) {
-            res.statusCode = 500
+            res.statusCode = statusCode.INTERNAL_SERVER_ERROR
             res.body = err
         } else {
             res.statusCode = backendRes.statusCode
@@ -79,7 +80,7 @@ exports.deleteEvent = async (req, res) => {
         url: EVENT_URL + '/event/' + req.params.eventsId,
     }, (err, backendRes, data) => {
         if (err) {
-            res.statusCode = 500
+            res.statusCode = statusCode.INTERNAL_SERVER_ERROR
             res.body = err
         } else {
             res.statusCode = backendRes.statusCode
