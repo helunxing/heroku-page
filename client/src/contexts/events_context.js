@@ -97,7 +97,7 @@ export const EventsProvider = ({children}) => {
                         })
                         .join(','),
             }
-            const response = await axios.post('/api/event', filteredBody)
+            const response = await axios.post(events_url, filteredBody)
             if (response.status === StatusCodes.CREATED) {
                 dispatch({type: POST_NEW_EVENT_SUCCESS})
                 notifyInfo('Create success, jumping to detail page...')
