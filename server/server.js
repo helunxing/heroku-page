@@ -34,8 +34,10 @@ app.delete("/api/event/:eventsId", deleteEvent)
 // Join API
 app.put("/api/join", express.json(), putJoinInfo)
 
+// Login API
 app.get('/api/status', getStatus)
 
+// Postcode API
 app.get("/api/postcode/:queryCode", getPostcode)
 
 app.use(express.static(path.resolve(__dirname, '../client/build')))

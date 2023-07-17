@@ -34,17 +34,14 @@ export const JoinProvider = ({children}) => {
 
     const postJoinDetail = async (eventID, joinerID) => {
         const detailBody = {
-            eventID,
-            joinerID: 1,//TODO: change to real joinerID
+            eventId: eventID,
+            userId: 1,//TODO: change to real joinerID
             selectedStr: state.chosenTime
                 .join(',')
                 .replaceAll(' to ', '_')
         }
         try {
-            const response = await axios.put(
-                join_url,
-                detailBody,
-                {headers: {'Content-Type': 'application/json'}})
+            const response = await axios.put(join_url, detailBody)
             if (response.status === StatusCodes.CREATED) {
                 notifyInfo('Submit success')
             } else {
