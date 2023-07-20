@@ -12,9 +12,7 @@ export default function JoinDetail() {
 
     const {id} = useParams()
 
-    const {logged, id: joinerID} = useUtilContext()
-
-    const {fetchSingleEvent, single_event} = useEventsContext()
+    const {fetchSingleEvent, single_event, events_loading} = useEventsContext()
 
     const {
         chosenTime,
@@ -23,13 +21,23 @@ export default function JoinDetail() {
         postJoinDetail
     } = useJoinContext();
 
+    const {logged, id: joinerID} = useUtilContext()
+
     useEffect(() => {
         // if (!logged) {
         //     window.location.href = '/login'
-        // }
+        // } TODO uncomment this before deploy
         document.title = 'Join Event';
         fetchSingleEvent(id);
     }, [])
+
+    if (!events_loading) {
+        return <main>
+            <div className={'notice'}>
+                <h2>loading...</h2>
+            </div>
+        </main>
+    }
 
     if (Object.keys(single_event).length === 0) {
         return <main>
