@@ -2,6 +2,10 @@ const {JOIN_INFO_URL} = require("./util")
 const {StatusCodes} = require("http-status-codes")
 const request = require("request")
 
+exports.getJoinInfo = async (req, res) => {
+    //     TODO: get join info from backend
+}
+
 exports.putJoinInfo = async (req, res) => {
     // TODO: block user change invalid join info (other event id and creator id) for security
     await request.put({

@@ -7,7 +7,7 @@ const {auth} = require('express-openid-connect')
 const {getAllEvent, postEvent, getSingleEvent, putEvent, deleteEvent} = require("./event")
 const {getPostcode} = require("./postcode")
 const {getStatus, AUTH_BASE_URL, PORT, SECRET_KEY} = require("./util");
-const {putJoinInfo} = require("./join_info");
+const {getJoinInfo, putJoinInfo} = require("./join_info");
 
 app = express()
 
@@ -21,6 +21,9 @@ app.use(auth({
     issuerBaseURL: 'https://hlx.uk.auth0.com'
 }))
 
+// Login API
+app.get('/api/status', getStatus)
+
 // running in different ports
 app.use(cors());
 
@@ -32,10 +35,8 @@ app.put("/api/event/:eventsId", express.json(), putEvent)
 app.delete("/api/event/:eventsId", deleteEvent)
 
 // Join API
+app.get("/api/join", express.json(), getJoinInfo)
 app.put("/api/join", express.json(), putJoinInfo)
-
-// Login API
-app.get('/api/status', getStatus)
 
 // Postcode API
 app.get("/api/postcode/:queryCode", getPostcode)
