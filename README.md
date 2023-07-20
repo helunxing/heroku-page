@@ -49,6 +49,10 @@ and to make changes to the Frontend functionality without affecting the API.
 
 user third part logging function provide by <https://auth0.com/>
 
+### GET `/api/status`
+
+return the login status of the user
+
 ### GET `/api/event`
 
 return all public events
