@@ -9,7 +9,8 @@ import {StatusCodes} from 'http-status-codes'
 import {
     JOIN_RESET,
     JOIN_CHANGE,
-    JOIN_DETAIL_POST,
+    INFO_POSTED,
+    INFO_POSTED_COUNT_DOWN,
 } from "../utils/actions"
 import {useUtilContext} from "./util_context";
 
@@ -17,7 +18,8 @@ const initialState = {
     chosenTime: [],
     eventID: null,
     joinerID: null,
-    selectedStr: null
+    selectedStr: null,
+    infoUploading: false,
 }
 
 const JoinContext = React.createContext()
@@ -36,6 +38,11 @@ export const JoinProvider = ({children}) => {
     }
 
     const postJoinDetail = async (eventID, joinerID) => {
+        if (state.infoUploading) return
+        dispatch({type: INFO_POSTED})
+        setTimeout(() => {
+            dispatch({type: INFO_POSTED_COUNT_DOWN})
+        }, 4500)
         const detailBody = {
             eventId: eventID,
             userId: logged ? id : 1,// TODO: this information security is unsafe

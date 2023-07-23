@@ -114,7 +114,7 @@ export const EventsProvider = ({children}) => {
                 // TODO: console.log(response.headers['location'])
                 setTimeout(() => {
                     window.location.href = response.headers['location']
-                }, 5000)
+                }, 4500)
             } else {
                 dispatch({type: POST_NEW_EVENT_ERROR})
                 alert('create failed')

@@ -1,4 +1,6 @@
 import {
+    INFO_POSTED,
+    INFO_POSTED_COUNT_DOWN,
     JOIN_CHANGE,
     JOIN_DETAIL_POST,
     JOIN_RESET
@@ -11,13 +13,26 @@ const join_reducer = (state, action) => {
                 chosenTime: [],
                 eventID: null,
                 joinerID: null,
-                selectedStr: null
+                selectedStr: null,
+                infoUploading: false,
             }
 
         case JOIN_CHANGE:
             return {
                 ...state,
                 chosenTime: action.payload
+            }
+
+        case INFO_POSTED:
+            return {
+                ...state,
+                infoUploading: true
+            }
+            
+        case INFO_POSTED_COUNT_DOWN:
+            return {
+                ...state,
+                infoUploading: false
             }
 
         default:
