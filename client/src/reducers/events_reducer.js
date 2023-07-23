@@ -17,11 +17,17 @@ import {
     POST_NEW_EVENT_BEGIN,
     POST_NEW_EVENT_ERROR,
     POST_NEW_EVENT_SUCCESS,
+    UPLOAD_EVENT_COUNT_DOWN,
+    UPLOAD_EVENT,
 } from '../utils/actions'
 import moment from "moment"
 
 const events_reducer = (state, action) => {
     switch (action.type) {
+        case UPLOAD_EVENT:
+            return {...state, new_event_uploading: true}
+        case UPLOAD_EVENT_COUNT_DOWN:
+            return {...state, new_event_uploading: false}
         case GET_EVENTS_BEGIN:
             return {...state, events_loading: true}
 

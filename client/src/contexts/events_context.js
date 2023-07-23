@@ -21,7 +21,8 @@ import {
     GET_POST_DATA_SUCCESS,
     POST_NEW_EVENT_BEGIN,
     POST_NEW_EVENT_SUCCESS,
-    POST_NEW_EVENT_ERROR
+    POST_NEW_EVENT_ERROR,
+    UPLOAD_EVENT_COUNT_DOWN, UPLOAD_EVENT
 } from '../utils/actions'
 import moment from "moment/moment";
 import {notifyInfo} from "../utils/functions";
@@ -35,6 +36,8 @@ const initialState = {
 
     new_event_loading: false,
     new_event_error: false,
+    new_event_uploading: false,
+
     post_new_event_loading: false,
     post_new_event_error: false,
 
@@ -79,6 +82,11 @@ export const EventsProvider = ({children}) => {
     }
 
     const postEventInfo = async () => {
+        if (state.new_event_uploading) return
+        dispatch({type: UPLOAD_EVENT})
+        setTimeout(() => {
+            dispatch({type: UPLOAD_EVENT_COUNT_DOWN})
+        }, 5000)
         dispatch({type: POST_NEW_EVENT_BEGIN})
         try {
             const filteredBody = {
@@ -103,6 +111,7 @@ export const EventsProvider = ({children}) => {
             if (response.status === StatusCodes.CREATED) {
                 dispatch({type: POST_NEW_EVENT_SUCCESS})
                 notifyInfo('Create success, jumping to detail page...')
+                // TODO: console.log(response.headers['location'])
                 setTimeout(() => {
                     window.location.href = response.headers['location']
                 }, 5000)
