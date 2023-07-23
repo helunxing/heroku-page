@@ -11,6 +11,7 @@ import {
     JOIN_CHANGE,
     JOIN_DETAIL_POST,
 } from "../utils/actions"
+import {useUtilContext} from "./util_context";
 
 const initialState = {
     chosenTime: [],
@@ -24,6 +25,8 @@ export const JoinProvider = ({children}) => {
 
     const [state, dispatch] = useReducer(join_reducer, initialState)
 
+    const {logged, id} = useUtilContext()
+
     const resetJoinDetail = () => {
         dispatch({type: JOIN_RESET})
     }
@@ -35,7 +38,7 @@ export const JoinProvider = ({children}) => {
     const postJoinDetail = async (eventID, joinerID) => {
         const detailBody = {
             eventId: eventID,
-            userId: 1,//TODO: change to real joinerID
+            userId: logged ? id : 1,// TODO: this information security is unsafe
             selectedStr: state.chosenTime
                 .join(',')
                 .replaceAll(' to ', '_')
