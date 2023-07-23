@@ -12,7 +12,7 @@ export default function JoinDetail() {
 
     const {id} = useParams()
 
-    const {fetchSingleEvent, single_event, events_loading} = useEventsContext()
+    const {fetchSingleEvent, single_event, new_event_loading} = useEventsContext()
 
     const {
         chosenTime,
@@ -31,7 +31,7 @@ export default function JoinDetail() {
         fetchSingleEvent(id);
     }, [])
 
-    if (!events_loading) {
+    if (new_event_loading) {
         return <main>
             <div className={'notice'}>
                 <h2>loading...</h2>

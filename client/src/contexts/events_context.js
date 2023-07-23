@@ -13,6 +13,8 @@ import {
     GET_EVENTS_BEGIN,
     GET_EVENTS_ERROR,
     GET_EVENTS_SUCCESS,
+    GET_SINGLE_EVENT_BEGIN,
+    GET_SINGLE_EVENT_ERROR,
     GET_SINGLE_EVENT_SUCCESS,
     GET_POST_DATA_BEGIN,
     GET_POST_DATA_ERROR,
@@ -55,13 +57,13 @@ export const EventsProvider = ({children}) => {
     const {logged, id} = useUtilContext()
 
     const fetchSingleEvent = async (eventId) => {
-        dispatch({type: GET_EVENTS_BEGIN})
+        dispatch({type: GET_SINGLE_EVENT_BEGIN})
         try {
             const response = await axios.get(single_events_url + '/' + eventId)
             const event = response.data
             dispatch({type: GET_SINGLE_EVENT_SUCCESS, payload: event})
         } catch (error) {
-            dispatch({type: GET_EVENTS_ERROR})
+            dispatch({type: GET_SINGLE_EVENT_ERROR})
         }
     }
 
