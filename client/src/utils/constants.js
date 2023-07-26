@@ -18,7 +18,7 @@ export const links = [
     },
 ]
 
-export const base_url = ''
+export const base_url = process.env.BASE_URL || 'http://localhost:5001'
 
 export const events_url = base_url + '/api/event'
 

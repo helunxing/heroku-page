@@ -23,18 +23,23 @@ exports.postEvent = async (req, res) => {
 }
 
 exports.getAllEvent = async (req, res) => {
+    console.log(EVENT_URL + '/events')
     await request.get({
         url: EVENT_URL + '/events',
     }, (err, backendRes, data) => {
         if (err) {
-            res.statusCode(StatusCodes.INTERNAL_SERVER_ERROR)
-            res.body('BFF Error:', err);
+            res.statusCode = StatusCodes.INTERNAL_SERVER_ERROR
+            res.body = 'Error:' + err;
+            console.log(err)
         } else if (backendRes.statusCode !== StatusCodes.OK) {
-            res.statusCode(backendRes.statusCode)
-            res.body('Status:', backendRes.body);
+            res.statusCode = backendRes.statusCode
+            res.body = 'Status:' + backendRes.body
+            console.log(backendRes.statusCode)
+            console.log(backendRes.body)
         } else {
             res.json(JSON.parse(data));
         }
+        res.send()
     })
 }
 
