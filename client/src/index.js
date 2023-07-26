@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './index.css';
+import './utils/utils.css';
 import App from './App';
 
 import {EventsProvider} from './contexts/events_context';
@@ -8,18 +8,21 @@ import {UserProvider} from './contexts/util_context';
 
 import {AdapterMoment} from '@mui/x-date-pickers/AdapterMoment';
 import {LocalizationProvider} from "@mui/x-date-pickers";
+import {JoinProvider} from "./contexts/join_context";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
 root.render(
     <React.StrictMode>
-        <EventsProvider>
-            <UserProvider>
-                <LocalizationProvider dateAdapter={AdapterMoment}>
-                    <App/>
-                </LocalizationProvider>
-            </UserProvider>
-        </EventsProvider>
+        <UserProvider>
+            <EventsProvider>
+                <JoinProvider>
+                    <LocalizationProvider dateAdapter={AdapterMoment}>
+                        <App/>
+                    </LocalizationProvider>
+                </JoinProvider>
+            </EventsProvider>
+        </UserProvider>
     </React.StrictMode>
 );
 

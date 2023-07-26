@@ -1,7 +1,8 @@
 import React, {useEffect, useState} from 'react';
+import axios from "axios";
+import {AiOutlinePlus, AiOutlineDelete} from 'react-icons/ai';
 import moment from "moment/moment";
 import styled from "styled-components";
-import {AiOutlinePlus, AiOutlineDelete} from 'react-icons/ai';
 import {MobileDatePicker} from '@mui/x-date-pickers';
 import TextField from "@mui/material/TextField";
 import {Button} from "@mui/material";
@@ -10,13 +11,14 @@ import PageHero from "../components/PageHero";
 import {useEventsContext} from "../contexts/events_context";
 import CreateTimeChoice from "../components/CreateTimeChoice";
 import PostcodeChoice from "../components/PostcodeChoice";
-import axios from "axios";
-import {type} from "@testing-library/user-event/dist/type";
+import {useUtilContext} from "../contexts/util_context";
 
 const Event = () => {
 
+    const {logged} = useUtilContext()
+
     const {
-        handleDetailChange,
+        handleEventDetailChange,
         resetEvent,
         new_event,
         fetchPostcodeData,
@@ -33,6 +35,9 @@ const Event = () => {
     } = new_event;
 
     useEffect(() => {
+        // if(!logged){
+        //     window.location.href = '/login'
+        // } TODO: uncomment this before deploy
         document.title = 'Events';
         resetEvent();
     }, []);
@@ -44,7 +49,7 @@ const Event = () => {
             <div className={"eventInfo"}>
                 <TextField id="title" label="Event title" variant="outlined"
                            value={title}
-                           onChange={handleDetailChange}
+                           onChange={handleEventDetailChange}
                            error={false}
                     // helperText={title ? '' : {/*"please enter the title"*/}}
                 />
@@ -53,7 +58,7 @@ const Event = () => {
             <div className={"eventInfo"}>
                 <MobileDatePicker
                     value={chosenDate}
-                    onChange={handleDetailChange}
+                    onChange={handleEventDetailChange}
                     label="Date"
                     inputFormat="DD/MM/YYYY"
                     renderInput={(params) => <TextField {...params} />}
@@ -66,7 +71,7 @@ const Event = () => {
                            className={"postcode"}
                            label="Postcode"
                            variant="outlined"
-                           onChange={handleDetailChange}
+                           onChange={handleEventDetailChange}
                            onKeyDown={(event) => {
                                if (event.key === 'Enter')
                                    fetchPostcodeData();
@@ -116,11 +121,6 @@ const Wrapper = styled.section`
     margin-left: 5.3rem;
   }
 
-  .eventInfo {
-    padding-top: 1rem;
-    justify-content: center;
-    display: flex;
-  }
 `
 
 export default Event;

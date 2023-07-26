@@ -45,11 +45,15 @@ and to make changes to the Frontend functionality without affecting the API.
 
 ## API provide by BFF introduce
 
-### GET `/status`, `/profile`, `/login`, `/logout`
+### GET `/login`, `/logout`, `/callback`
 
 user third part logging function provide by <https://auth0.com/>
 
-### GET `/api/events`
+### GET `/api/status`
+
+return the login status of the user
+
+### GET `/api/event`
 
 return all public events
 
@@ -61,9 +65,9 @@ create new event, return the redirect of its page.
 
 return, update, delete event by id.
 
-### GET, POST, PUT, DELETE `/api/join/{eventId}`
+### GET, PUT `/api/join/{eventId}`
 
-return, create, update, delete time selection.
+return, create or update time selection.
 
 ### GET `/api/user/{userSub}`
 

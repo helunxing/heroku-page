@@ -8,7 +8,7 @@ import styled from "styled-components";
 
 const CreateTimeChoice = ({idx, option, createNew}) => {
 
-    const {handleTimeChange} = useEventsContext();
+    const {handleEventTimeChange} = useEventsContext();
 
     return (
         <Wrapper>
@@ -22,7 +22,7 @@ const CreateTimeChoice = ({idx, option, createNew}) => {
                         shrink: true,
                     }}
                     onChange={(e) => {
-                        handleTimeChange(e, idx, "startTime")
+                        handleEventTimeChange(e, idx, "startTime")
                     }}
                     inputProps={{
                         step: 300, // 5 min
@@ -40,7 +40,7 @@ const CreateTimeChoice = ({idx, option, createNew}) => {
                         shrink: true,
                     }}
                     onChange={(e) => {
-                        handleTimeChange(e, idx, "endTime")
+                        handleEventTimeChange(e, idx, "endTime")
                     }}
                     inputProps={{
                         step: 300,
@@ -51,14 +51,14 @@ const CreateTimeChoice = ({idx, option, createNew}) => {
                 {createNew ?
                     <button type={'button'}
                             onClick={(e) => {
-                                handleTimeChange(e, idx, "delete")
+                                handleEventTimeChange(e, idx, "delete")
                             }
                             }>
                         <AiOutlineDelete size={50}/>
                     </button> :
                     <button type={'button'}
                             onClick={(e) => {
-                                handleTimeChange(e, idx, "add")
+                                handleEventTimeChange(e, idx, "add")
                             }}>
                         <AiOutlinePlus size={50}/>
                     </button>}

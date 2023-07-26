@@ -13,9 +13,9 @@ import Event from "./pages/event";
 import Join from "./pages/join";
 import PageHero from "./components/PageHero";
 import Me from "./pages/me";
+import JoinDetail from "./pages/join_detail";
 
-function App() {
-
+export default function App() {
 
     return (
         <Router>
@@ -28,32 +28,17 @@ function App() {
 
             <Routes>
 
-                <Route path={'/'} element={
-                    <Home/>
-                }/>
+                <Route path={'/'} element={<Home/>}/>
 
-                <Route path={'/me'} element={
-                    <Me/>
-                }/>
+                <Route path={'/me'} element={<Me/>}/>
 
-                <Route path={'/event'} element={
-                    <Event/>
-                }/>
+                <Route path={'/event'} element={<Event/>}/>
 
-                <Route path={'/join'} element={
-                    <Join/>
-                }/>
+                <Route path={'/join'} element={<Join/>}/>
 
-                <Route path={'/join/:id'} element={
-                    <>
-                        <PageHero title={'pore'} isEvent/>
-                        <h2>detail page</h2>
-                    </>
-                }/>
+                <Route path={'/join/:id'} element={<JoinDetail/>}/>
 
-                <Route path="*" element={
-                    <Notfound/>
-                }/>
+                <Route path={'*'} element={<Notfound/>}/>
 
             </Routes>
 
@@ -62,5 +47,3 @@ function App() {
         </Router>
     );
 }
-
-export default App

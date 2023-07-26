@@ -11,14 +11,23 @@ import {
     GET_POST_DATA_BEGIN,
     GET_POST_DATA_ERROR,
     GET_POST_DATA_SUCCESS,
+    GET_SINGLE_EVENT_BEGIN,
+    GET_SINGLE_EVENT_SUCCESS,
+    GET_SINGLE_EVENT_ERROR,
     POST_NEW_EVENT_BEGIN,
     POST_NEW_EVENT_ERROR,
     POST_NEW_EVENT_SUCCESS,
+    UPLOAD_EVENT_COUNT_DOWN,
+    UPLOAD_EVENT,
 } from '../utils/actions'
 import moment from "moment"
 
 const events_reducer = (state, action) => {
     switch (action.type) {
+        case UPLOAD_EVENT:
+            return {...state, new_event_uploading: true}
+        case UPLOAD_EVENT_COUNT_DOWN:
+            return {...state, new_event_uploading: false}
         case GET_EVENTS_BEGIN:
             return {...state, events_loading: true}
 
@@ -146,6 +155,15 @@ const events_reducer = (state, action) => {
             return {...state, new_event_loading: false}
 
         case POST_NEW_EVENT_ERROR:
+            return {...state, new_event_loading: false, new_event_error: true}
+
+        case GET_SINGLE_EVENT_BEGIN:
+            return {...state, new_event_loading: true}
+
+        case GET_SINGLE_EVENT_SUCCESS:
+            return {...state, new_event_loading: false, single_event: action.payload}
+
+        case GET_SINGLE_EVENT_ERROR:
             return {...state, new_event_loading: false, new_event_error: true}
 
         default:
