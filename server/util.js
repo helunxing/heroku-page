@@ -9,6 +9,8 @@ exports.USER_URL = process.env.USER_URL || (exports.BASE_URL + ':8100')
 exports.POSTCODE_URL = process.env.POSTCODE_URL || (exports.BASE_URL + ':8020')
 exports.JOIN_INFO_URL= process.env.JOIN_INFO_URL || (exports.BASE_URL + ':8200')
 
+const USER_URL = exports.USER_URL
+
 exports.getStatus = async (req, res) => {
     if (!req.oidc.isAuthenticated()) {
         res.send(JSON.stringify({
