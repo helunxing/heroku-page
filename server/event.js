@@ -31,15 +31,16 @@ exports.getAllEvent = async (req, res) => {
             res.statusCode = StatusCodes.INTERNAL_SERVER_ERROR
             res.body = 'Error:' + err;
             console.log(err)
+            res.send()
         } else if (backendRes.statusCode !== StatusCodes.OK) {
             res.statusCode = backendRes.statusCode
             res.body = 'Status:' + backendRes.body
             console.log(backendRes.statusCode)
             console.log(backendRes.body)
+            res.send()
         } else {
             res.json(JSON.parse(data));
         }
-        res.send()
     })
 }
 
